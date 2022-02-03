@@ -4,8 +4,6 @@ services:
     restart: always
     ports:
       - "27017:27017"
-    env_file:
-      - ./database/db.env
     environment:
       - MONGO_INITDB_DATABASE=testdb
       - MONGO_INITDB_ROOT_USERNAME=root

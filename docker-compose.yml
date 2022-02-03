@@ -1,0 +1,16 @@
+services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    env_file:
+      - ./database/db.env
+    environment:
+      - MONGO_INITDB_DATABASE=testdb
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root_password
+      - DB_USER
+      - DB_PWD
+    volumes:
+      - ./database/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro

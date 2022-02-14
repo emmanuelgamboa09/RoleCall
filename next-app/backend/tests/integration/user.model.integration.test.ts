@@ -13,6 +13,7 @@ afterEach(() => {
 test("User documents are inserted correctly", (done) => {
   const user = {
     _id: "123df3efb618f5141202a196",
+    authId: "auth0|6205adcf48929b007055fc4c",
     name: "Sebastian",
   };
 

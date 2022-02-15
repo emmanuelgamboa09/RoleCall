@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getConn } from "../../../backend/api/database/connection";
 import { UserModel } from "../../../backend/api/models/user";
 import { createUser } from "../../../backend/api/user";
-import { getAuthId } from "../../../backend/helpers/auth";
+import { getAuthId } from "../../../backend/helpers/getAuthId";
 import { User } from "../../../backend/types";
 
 export default withApiAuthRequired(function handler(

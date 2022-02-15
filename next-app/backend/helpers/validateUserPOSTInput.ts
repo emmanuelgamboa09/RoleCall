@@ -1,5 +1,5 @@
 import { RequestBody } from "../types";
-import { arraysEqual } from "../util/array";
+import { arraysEqual } from "../util/arraysEqual";
 
 export const validateUserPOSTInput = (body: RequestBody) => {
   // Request body has to match list of keys

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { validateUserPOSTInput } from "../helpers/user";
+import { validateUserPOSTInput } from "../helpers/validateUserPOSTInput";
 import { Document, User } from "../types";
 
 export const createUser = async (

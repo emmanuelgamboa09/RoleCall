@@ -36,6 +36,7 @@ export const createUser = async (
     const result = await save(user);
     res.status(200).json(result);
   } catch (err) {
+    console.log(err);
     res.status(500).end("Internal Error");
   }
 };

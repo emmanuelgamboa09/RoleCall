@@ -2,7 +2,7 @@ import { expect, test } from "@jest/globals";
 import { createUser } from "../../api/user";
 import { createMocks } from "node-mocks-http";
 import { User } from "../../types";
-import { validateUserPOSTInput } from "../../helpers/user";
+import { validateUserPOSTInput } from "../../helpers/validateUserPOSTInput";
 
 test("Insert user while authenticated, connected DB, and save operation successful", async () => {
   const body = {

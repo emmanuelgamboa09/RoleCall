@@ -1,13 +1,10 @@
-import { model, Schema, Types } from "mongoose";
-
-interface User {
-  _id?: Types.ObjectId;
-  name: string;
-}
+import mongoose, { model, Schema } from "mongoose";
+import { User } from "../../types";
 
 const schema = new Schema<User>({
-  _id: Schema.Types.ObjectId,
+  authId: { type: String, required: true, index: { unique: true } },
   name: { type: String, required: true },
 });
 
-export const UserModel = model<User>("User", schema);
+// Only builds the model once when compiling
+export const UserModel = mongoose.models.User || model<User>("User", schema);

@@ -6,11 +6,7 @@ import {
   DB_USER_LABEL,
   DB_URI_FORMAT,
 } from "../../constants";
-
-interface Substitution {
-  variable: string;
-  val: string;
-}
+import { Substitution } from "../../types";
 
 export const buildURI = (
   username: string | undefined,
@@ -59,6 +55,10 @@ export const disconnect = () => {
   mongoose.disconnect();
 };
 
-export const getConn = (): Promise<mongoose.Mongoose> | null => {
-  return conn;
+export const getConn = (): Promise<mongoose.Mongoose> => {
+  // Automatically create connection when called the first time
+  if (conn === null) {
+    connect(URI);
+  }
+  return conn!;
 };

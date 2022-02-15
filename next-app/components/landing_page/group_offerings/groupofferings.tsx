@@ -8,7 +8,7 @@ import { Offering } from "./groupofferings.types";
 const offeringsArray: Array<Offering> = [
   {
     title: "First Offering",
-    message: "This is the first offering we have",
+    message: "This is the first offering we have pr push issue",
     imageUrl: "/img/landing_page_img/landing_page_group.jpg",
   },
   {

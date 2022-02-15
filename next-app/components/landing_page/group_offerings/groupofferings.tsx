@@ -1,4 +1,4 @@
-import React, { ReactElement, FC } from "react";
+import React, { FC } from "react";
 import { Typography } from "@mui/material";
 import GroupOfferingBoxes from "./groupofferingboxes";
 import { Offering } from "./groupofferings.types";

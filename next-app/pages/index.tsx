@@ -3,16 +3,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import axios from "axios";
 
 const Home: NextPage = () => {
-  const { user, error, isLoading } = useUser();
-
-  console.log("Loading: " + isLoading);
-  if (!isLoading) {
-    console.log(user);
-  }
-
   return (
     <div className={styles.container}>
       <Head>
@@ -25,17 +17,6 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
-        <button
-          onClick={() => {
-            axios
-              .post("/api/users", { name: "Sebastian G" })
-              .then((res) => console.log(res))
-              .catch((err) => console.log(err));
-          }}
-        >
-          CREATE USER
-        </button>
 
         <p className={styles.description}>
           Get started by editing{" "}

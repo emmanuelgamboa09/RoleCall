@@ -1,7 +1,5 @@
-import "dotenv/config";
 import mongoose, { ConnectOptions } from "mongoose";
 import { DB_BASE_URI, DB_NAME } from "../../constants";
-require("dotenv").config();
 
 if (!process.env.DB_USER || !process.env.DB_PWD) {
   throw new Error(
@@ -45,3 +43,8 @@ async function dbConnect() {
 }
 
 export default dbConnect
+
+export const dbDisconnect = async () => {
+  await global.mongooseInst.conn?.disconnect()
+  console.log(":: MONGOOSE - Disconnected")
+}

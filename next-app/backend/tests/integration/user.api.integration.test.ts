@@ -4,6 +4,11 @@ import { createUser } from "../../api/user";
 import { createMocks } from "node-mocks-http";
 import { User } from "../../types";
 import { AUTH0_TEST_ID, AUTH0_TEST_USER_NAME } from "../../constants";
+import { dbDisconnect } from "../../api/database/dbConnect";
+
+afterAll(async () => {
+  await dbDisconnect()
+})
 
 test("Insert user while authenticated, connected DB, and save operation successful", (done) => {
   const body = {

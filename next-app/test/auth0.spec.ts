@@ -1,7 +1,6 @@
 import { expect, test } from "@jest/globals";
 import axios from "axios";
 import { AUTH0_TEST_USER_EMAIL, AUTH0_TEST_USER_PWD } from "../backend/constants";
-require("dotenv").config();
 
 test("Authenticate with auth0 server using app and test user credentials", async () => {
   if (

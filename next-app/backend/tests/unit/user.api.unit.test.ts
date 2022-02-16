@@ -1,10 +1,15 @@
 import { expect, test } from "@jest/globals";
 import { NextApiRequest, NextApiResponse } from "next";
 import { createMocks, createRequest, createResponse } from "node-mocks-http";
+import { dbDisconnect } from "../../api/database/dbConnect";
 import { createUser } from "../../api/user";
 import { AUTH0_TEST_ID, AUTH0_TEST_USER_NAME } from "../../constants";
 import { validateUserPOSTInput } from "../../helpers/validateUserPOSTInput";
 import { User } from "../../types";
+
+afterAll(async () => {
+  await dbDisconnect()
+})
 
 test("Insert user while authenticated and save operation successful", async () => {
   const body = {

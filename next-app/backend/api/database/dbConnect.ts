@@ -3,7 +3,7 @@ import { DB_BASE_URI, DB_NAME } from "../../constants";
 
 if (!process.env.DB_USER || !process.env.DB_PWD) {
   throw new Error(
-    'Please define the MONGODB_URI environment variable inside .env.local'
+    'Please define the DB_USER and/or DB_PWD environment variables'
   )
 }
 

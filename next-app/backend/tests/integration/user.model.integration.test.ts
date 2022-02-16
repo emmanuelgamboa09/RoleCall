@@ -1,20 +1,19 @@
+import { beforeEach, expect, test } from "@jest/globals";
+import dbConnect from "../../api/database/dbConnect";
 import { UserModel } from "../../api/models/user";
-import { connect, disconnect, URI } from "../../api/database/connection";
-import { expect, test, beforeEach, afterEach } from "@jest/globals";
+import { AUTH0_TEST_ID, AUTH0_TEST_USER_NAME } from "../../constants";
+
+const DOC_TEST_ID = "123df3efb618f5141202a196"
 
 beforeEach(() => {
-  return connect(URI);
-});
-
-afterEach(() => {
-  return disconnect();
+  return dbConnect()
 });
 
 test("User documents are inserted correctly", (done) => {
   const user = {
-    _id: "123df3efb618f5141202a196",
-    authId: "auth0|6205adcf48929b007055fc4c",
-    name: "Sebastian",
+    _id: DOC_TEST_ID,
+    authId: AUTH0_TEST_ID,
+    name: AUTH0_TEST_USER_NAME,
   };
 
   const doc = new UserModel(user);
@@ -27,7 +26,6 @@ test("User documents are inserted correctly", (done) => {
     insertedObj._id = insertedObj._id.toString();
 
     UserModel.deleteOne({ _id: insertedObj._id }).then(() => {
-      disconnect();
       done();
     });
   };

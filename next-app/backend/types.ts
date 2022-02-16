@@ -11,8 +11,6 @@ export interface User {
   name: string;
 }
 
-export type Document = mongoose.Document<unknown, any, any> | User;
-
 // HTTP Req Body
 export interface RequestBody {
   [key: string]: any;

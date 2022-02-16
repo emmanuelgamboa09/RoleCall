@@ -1,6 +1,7 @@
-export const DB_URI_FORMAT = "mongodb://DB_USER:DB_PWD@localhost:27017/DB_NAME";
-export const DB_USER_LABEL = "DB_USER";
-export const DB_PWD_LABEL = "DB_PWD";
-export const DB_NAME_LABEL = "DB_NAME";
-export const DB_CONNECTED = 1;
-export const DB_CONNECTING = 2;
+export const DB_BASE_URI = "mongodb://localhost:27017";
+export const DB_NAME = "rolecall";
+
+export const AUTH0_TEST_USER_NAME = "test"
+export const AUTH0_TEST_USER_EMAIL = "test@test.com"
+export const AUTH0_TEST_USER_PWD = "test123!"
+export const AUTH0_TEST_ID = "auth0|6205adcf48929b007055fc4c"

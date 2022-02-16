@@ -1,7 +1,10 @@
-import { RequestBody } from "../types";
 import { arraysEqual } from "../util/arraysEqual";
 
-export const validateUserPOSTInput = (body: RequestBody) => {
+export interface ValidateUserPostInputBody {
+  name: string
+}
+
+export const validateUserPOSTInput = (body: ValidateUserPostInputBody) => {
   // Request body has to match list of keys
   if (!arraysEqual(["name"], Object.keys(body))) {
     return false;

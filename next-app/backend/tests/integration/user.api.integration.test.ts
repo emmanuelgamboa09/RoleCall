@@ -1,13 +1,18 @@
 import { UserModel } from "../../api/models/user";
-import { disconnect, getConn } from "../../api/database/connection";
 import { expect, test } from "@jest/globals";
 import { createUser } from "../../api/user";
 import { createMocks } from "node-mocks-http";
 import { User } from "../../types";
+import { AUTH0_TEST_ID, AUTH0_TEST_USER_NAME } from "../../constants";
+import { dbDisconnect } from "../../api/database/dbConnect";
+
+afterAll(async () => {
+  await dbDisconnect()
+})
 
 test("Insert user while authenticated, connected DB, and save operation successful", (done) => {
   const body = {
-    name: "Sebastian G",
+    name: AUTH0_TEST_USER_NAME,
   };
 
   const { req, res } = createMocks({
@@ -18,8 +23,7 @@ test("Insert user while authenticated, connected DB, and save operation successf
   createUser(
     req,
     res,
-    "auth0|6205adcf48929b007055fc4c",
-    getConn(),
+    AUTH0_TEST_ID,
     (user: User) => {
       const doc = new UserModel(user);
       return doc.save();
@@ -28,11 +32,10 @@ test("Insert user while authenticated, connected DB, and save operation successf
     expect(res._getStatusCode()).toBe(200);
     const { _id, authId, name } = JSON.parse(res._getData());
     expect({ authId, name }).toEqual({
-      authId: "auth0|6205adcf48929b007055fc4c",
-      name: "Sebastian G",
+      authId: AUTH0_TEST_ID,
+      name: AUTH0_TEST_USER_NAME,
     });
     UserModel.deleteOne({ _id }).then(() => {
-      disconnect();
       done();
     });
   });

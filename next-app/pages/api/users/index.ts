@@ -1,6 +1,6 @@
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
+import { HydratedDocument } from "mongoose";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getConn } from "../../../backend/api/database/connection";
 import { UserModel } from "../../../backend/api/models/user";
 import { createUser } from "../../../backend/api/user";
 import { getAuthId } from "../../../backend/helpers/getAuthId";
@@ -19,10 +19,9 @@ export default withApiAuthRequired(function handler(
         request,
         response,
         getAuthId(request, response),
-        getConn(),
-        (user: User) => {
-          const doc = new UserModel(user);
-          return doc.save();
+        async (user: User) => {
+          const doc: HydratedDocument<User> = new UserModel(user);
+          await doc.save()
         }
       );
       break;

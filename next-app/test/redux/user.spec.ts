@@ -5,7 +5,7 @@ test("should return the initial empty user state", () => {
     userSlice.reducer(undefined, {
       type: undefined,
     })
-  ).toEqual({ user: {} });
+  ).toEqual({ user: null });
 });
 
 test("should handle user being updated in redux", () => {

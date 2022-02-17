@@ -1,38 +1,42 @@
 import { expect, test } from "@jest/globals";
+import { NextApiRequest, NextApiResponse } from "next";
+import { createMocks, createRequest, createResponse } from "node-mocks-http";
+import { dbDisconnect } from "../../api/database/dbConnect";
 import { createUser } from "../../api/user";
-import { createMocks } from "node-mocks-http";
+import { AUTH0_TEST_ID, AUTH0_TEST_USER_NAME } from "../../constants";
+import { validateUserPOSTInput } from "../../helpers/validateUserPOSTInput";
 import { User } from "../../types";
-import { validateUserPOSTInput } from "../../helpers/user";
 
-test("Insert user while authenticated, connected DB, and save operation successful", async () => {
+afterAll(async () => {
+  await dbDisconnect()
+})
+
+test("Insert user while authenticated and save operation successful", async () => {
   const body = {
-    name: "Sebastian G",
+    name: AUTH0_TEST_USER_NAME,
   };
 
-  const { req, res } = createMocks({
-    method: "POST",
-    body,
-  });
+  const req = createRequest<NextApiRequest>({ body });
+  const res = createResponse<NextApiResponse>();
 
   await createUser(
     req,
     res,
-    "auth0|6205adcf48929b007055fc4c",
-    Promise.resolve(true),
-    (user: User) => Promise.resolve(user)
+    AUTH0_TEST_ID,
+    () => Promise.resolve()
   );
 
   expect(res._getStatusCode()).toBe(200);
   const { authId, name } = JSON.parse(res._getData());
   expect({ authId, name }).toEqual({
-    authId: "auth0|6205adcf48929b007055fc4c",
-    name: "Sebastian G",
+    authId: AUTH0_TEST_ID,
+    name: AUTH0_TEST_USER_NAME,
   });
 });
 
 test("Insert user while not authenticated", async () => {
   const body = {
-    name: "Sebastian G",
+    name: AUTH0_TEST_USER_NAME,
   };
 
   const { req, res } = createMocks({
@@ -40,9 +44,7 @@ test("Insert user while not authenticated", async () => {
     body,
   });
 
-  await createUser(req, res, undefined, Promise.resolve(true), (user: User) =>
-    Promise.resolve(user)
-  );
+  await createUser(req, res, undefined, (user: User) => Promise.resolve());
 
   expect(res._getStatusCode()).toBe(401);
 });
@@ -60,9 +62,8 @@ test("Insert user with empty name", async () => {
   await createUser(
     req,
     res,
-    "auth0|6205adcf48929b007055fc4c",
-    Promise.resolve(true),
-    (user: User) => Promise.resolve(user)
+    AUTH0_TEST_ID,
+    () => Promise.resolve()
   );
 
   expect(res._getStatusCode()).toBe(400);
@@ -79,38 +80,16 @@ test("Insert user with missing name", async () => {
   await createUser(
     req,
     res,
-    "auth0|6205adcf48929b007055fc4c",
-    Promise.resolve(true),
-    (user: User) => Promise.resolve(user)
+    AUTH0_TEST_ID,
+    () => Promise.resolve()
   );
 
   expect(res._getStatusCode()).toBe(400);
 });
 
-test("Insert user without DB Connection", async () => {
-  const body = {
-    name: "Sebastian G",
-  };
-
-  const { req, res } = createMocks({
-    method: "POST",
-    body,
-  });
-
-  await createUser(
-    req,
-    res,
-    "auth0|6205adcf48929b007055fc4c",
-    Promise.reject(true),
-    (user: User) => Promise.resolve(user)
-  );
-
-  expect(res._getStatusCode()).toBe(500);
-});
-
 test("Insert user but save operation fails", async () => {
   const body = {
-    name: "Sebastian G",
+    name: AUTH0_TEST_USER_NAME,
   };
 
   const { req, res } = createMocks({
@@ -121,9 +100,8 @@ test("Insert user but save operation fails", async () => {
   await createUser(
     req,
     res,
-    "auth0|6205adcf48929b007055fc4c",
-    Promise.resolve(true),
-    (user: User) => Promise.reject(user)
+    AUTH0_TEST_ID,
+    () => Promise.reject()
   );
 
   expect(res._getStatusCode()).toBe(500);
@@ -131,7 +109,7 @@ test("Insert user but save operation fails", async () => {
 
 test("Validate correct User POST Input", () => {
   const inputs = [
-    { name: "Sebastian G" },
+    { name: AUTH0_TEST_USER_NAME },
     { name: "abc def" },
     { name: "123" },
   ];

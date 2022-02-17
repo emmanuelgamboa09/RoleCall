@@ -1,14 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { validateUserPOSTInput } from "../helpers/user";
-import { Document, User } from "../types";
+import { validateUserPOSTInput } from "../helpers/validateUserPOSTInput";
+import { User } from "../types";
+import dbConnect from "./database/dbConnect";
 
 export const createUser = async (
   req: NextApiRequest,
   res: NextApiResponse,
   authId: string | null | undefined,
-  conn: Promise<any>,
-  save: (user: User) => Promise<Document>
+  save: (user: User) => Promise<void>
 ) => {
+
   if (authId === null || authId === undefined) {
     res.status(401).end("Unauthorized");
     return;
@@ -17,13 +18,14 @@ export const createUser = async (
     res.status(400).end("Invalid Input");
     return;
   }
-  // Establish DB Connection
+
   try {
-    await conn;
+    await dbConnect()
   } catch (err) {
     res.status(500).end("Internal Error");
     return;
   }
+
   const {
     body: { name },
   } = req;
@@ -33,8 +35,8 @@ export const createUser = async (
   };
 
   try {
-    const result = await save(user);
-    res.status(200).json(result);
+    await save(user);
+    res.status(200).json(user);
   } catch (err) {
     console.log(err);
     res.status(500).end("Internal Error");

@@ -2,7 +2,9 @@ import React, { ReactElement, FC } from "react";
 import { Button, Typography } from "@mui/material";
 import theme from "../../src/theme";
 
-const Hero: FC<any> = (): ReactElement => {
+interface HeroProps {}
+
+const Hero: FC<HeroProps> = (): ReactElement => {
   return (
     <div
       style={{

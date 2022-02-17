@@ -23,7 +23,9 @@ const offeringsArray: Array<Offering> = [
   },
 ];
 
-const GroupOfferings: FC<any> = () => {
+interface GroupOfferingProps {}
+
+const GroupOfferings: FC<GroupOfferingProps> = () => {
   return (
     <div
       style={{

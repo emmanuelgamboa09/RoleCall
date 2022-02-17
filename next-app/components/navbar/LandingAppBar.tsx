@@ -21,7 +21,9 @@ const pages: Array<LandingPageNavOptions> = [
   { text: "Learn More", route: "" },
 ];
 
-const LandingAppBar: FC<any> = (): ReactElement => {
+interface LandingAppBarProps {}
+
+const LandingAppBar: FC<LandingAppBarProps> = (): ReactElement => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );

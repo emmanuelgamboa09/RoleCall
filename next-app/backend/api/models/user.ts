@@ -3,7 +3,7 @@ import { User } from "../../types";
 
 const schema = new Schema<User>({
   authId: { type: String, required: true, index: { unique: true } },
-  name: { type: String, required: true },
+  name: String,
 });
 
 // Only builds the model once when compiling

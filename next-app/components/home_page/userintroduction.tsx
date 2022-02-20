@@ -26,7 +26,7 @@ const UserIntroduction: FC<UserIntroductionProps> = () => {
       <ListItemText
         primary={
           <Typography id="userName" variant="h4">
-            Hello {user && user.name ? user.name : "User"}
+            Hello {user && user.name}
           </Typography>
         }
         secondary={

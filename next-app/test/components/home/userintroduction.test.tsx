@@ -10,7 +10,7 @@ import UserIntroduction from "../../../components/home_page/userintroduction";
 
 const mockStore = configureMockStore([]);
 
-test("User values set in userintroduction", () => {
+test("Displays users name in userintroduction component", () => {
   const store = mockStore({
     userReducer: {
       user: { name: "test name" },
@@ -27,5 +27,25 @@ test("User values set in userintroduction", () => {
   expect(testInstance.findByProps({ id: "userName" }).props.children).toEqual([
     "Hello ",
     "test name",
+  ]);
+});
+
+test("DOesn't display users name in userintroduction component", () => {
+  const store = mockStore({
+    userReducer: {
+      user: null,
+    },
+  });
+
+  const render = TestRenderer.create(
+    <Provider store={store}>
+      <UserIntroduction />
+    </Provider>
+  );
+
+  const testInstance = render.root;
+  expect(testInstance.findByProps({ id: "userName" }).props.children).toEqual([
+    "Hello ",
+    null,
   ]);
 });

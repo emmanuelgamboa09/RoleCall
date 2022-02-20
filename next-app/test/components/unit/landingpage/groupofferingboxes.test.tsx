@@ -19,13 +19,15 @@ test("Make sure text is loaded properly on GroupOfferingBoxes", () => {
   );
 
   const testInstance = render.root;
-  const cardHeader = testInstance.findByProps({ id: "cardHeader" }).props;
+  const cardHeader = testInstance.findByProps({
+    id: "offeringCardHeader",
+  }).props;
   expect([cardHeader.title, cardHeader.subheader]).toEqual([
     offering.title,
     offering.message,
   ]);
 
-  expect(testInstance.findByProps({ id: "cardMedia" }).props.image).toEqual(
-    offering.imageUrl
-  );
+  expect(
+    testInstance.findByProps({ id: "offeringCardMedia" }).props.image
+  ).toEqual(offering.imageUrl);
 });

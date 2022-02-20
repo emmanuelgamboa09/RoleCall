@@ -2,9 +2,9 @@ import React, { FC } from "react";
 import { Box, Button } from "@mui/material";
 import UserIntroduction from "./userintroduction";
 
-interface HomeUserJoinOrCreateGridProps {}
+interface UserJoinOrCreateGridProps {}
 
-const HomeUserJoinOrCreateGrid: FC<HomeUserJoinOrCreateGridProps> = () => {
+const UserJoinOrCreateGrid: FC<UserJoinOrCreateGridProps> = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <UserIntroduction />
@@ -35,4 +35,4 @@ const HomeUserJoinOrCreateGrid: FC<HomeUserJoinOrCreateGridProps> = () => {
   );
 };
 
-export default HomeUserJoinOrCreateGrid;
+export default UserJoinOrCreateGrid;

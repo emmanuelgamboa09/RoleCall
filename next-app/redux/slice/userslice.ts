@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserSliceState {
-  [key: string]: any;
+  user: any;
 }
 
 const initialState: UserSliceState = {

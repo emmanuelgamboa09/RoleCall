@@ -1,7 +1,7 @@
 import { arraysEqual } from "../util/arraysEqual";
 
 export interface ValidateUserPostInputBody {
-  name: string
+  [key: string]: unknown;
 }
 
 export const validateUserPOSTInput = (body: ValidateUserPostInputBody) => {

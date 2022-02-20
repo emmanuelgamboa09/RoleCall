@@ -7,8 +7,8 @@ import { AUTH0_TEST_ID, AUTH0_TEST_USER_NAME } from "../../constants";
 import { dbDisconnect } from "../../api/database/dbConnect";
 
 afterAll(async () => {
-  await dbDisconnect()
-})
+  await dbDisconnect();
+});
 
 test("Insert user while authenticated, connected DB, and save operation successful", (done) => {
   const body = {
@@ -20,22 +20,17 @@ test("Insert user while authenticated, connected DB, and save operation successf
     body,
   });
 
-  createUser(
-    req,
-    res,
-    AUTH0_TEST_ID,
-    (user: User) => {
-      const doc = new UserModel(user);
-      return doc.save();
-    }
-  ).then(() => {
+  createUser(req, res, AUTH0_TEST_ID, (user: User) => {
+    const doc = new UserModel(user);
+    return doc.save();
+  }).then(() => {
     expect(res._getStatusCode()).toBe(200);
-    const { _id, authId, name } = JSON.parse(res._getData());
+    const { authId, name } = JSON.parse(res._getData());
     expect({ authId, name }).toEqual({
       authId: AUTH0_TEST_ID,
       name: AUTH0_TEST_USER_NAME,
     });
-    UserModel.deleteOne({ _id }).then(() => {
+    UserModel.deleteOne({ authId }).then(() => {
       done();
     });
   });

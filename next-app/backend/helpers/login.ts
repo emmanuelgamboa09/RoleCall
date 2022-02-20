@@ -17,12 +17,13 @@ export async function login(
   getExistingDoc: (user: User) => Query<any, any, any, any> | Promise<null>,
   save: (user: User) => Promise<void>
 ) {
-  const authId = getAuthId(req, res);
-  if (!authId) {
-    throw new Error("Unauthorized");
-  }
   try {
     await handleLogin(req, res);
+
+    const authId = getAuthId(req, res);
+    if (!authId) {
+      throw new Error("Unauthorized");
+    }
 
     await dbConnect();
 

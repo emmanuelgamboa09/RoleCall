@@ -115,7 +115,7 @@ const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
         </List>
         <Divider />
       </Drawer>
-      <Box sx={{}}>
+      <Box>
         <DrawerHeader />
         {children}
       </Box>

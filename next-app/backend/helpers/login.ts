@@ -1,4 +1,4 @@
-import { handleLogin } from "@auth0/nextjs-auth0";
+import { handleCallback } from "@auth0/nextjs-auth0";
 import { HydratedDocument, Query } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../api/database/dbConnect";
@@ -42,7 +42,7 @@ export function injectedLogin(req: NextApiRequest, res: NextApiResponse) {
   return login(
     req,
     res,
-    handleLogin,
+    handleCallback,
     getAuthId,
     (user: User) => UserModel.findOne(user),
     async (user: User) => {

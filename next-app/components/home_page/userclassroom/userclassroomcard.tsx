@@ -14,6 +14,7 @@ interface UserClassroomCardProp {
 }
 
 const UserClassroomCard: FC<UserClassroomCardProp> = ({ classroom }) => {
+  const { className, classDetails, classroomImage } = classroom;
   return (
     <Card
       sx={{
@@ -33,7 +34,7 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({ classroom }) => {
             }}
             id="className"
           >
-            {classroom.className}
+            {className}
           </Typography>
           <div
             style={{
@@ -43,7 +44,7 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({ classroom }) => {
             }}
           >
             <Typography variant="subtitle2" id="classDetails">
-              {classroom.classDetails}
+              {classDetails}
             </Typography>
           </div>
         </CardContent>
@@ -61,7 +62,7 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({ classroom }) => {
           id="classroomImage"
           component="img"
           sx={{ borderRadius: 4, padding: 1, height: "100%" }}
-          image={classroom.classroomImage}
+          image={classroomImage}
           alt="Classroom Image"
         />
       </Box>

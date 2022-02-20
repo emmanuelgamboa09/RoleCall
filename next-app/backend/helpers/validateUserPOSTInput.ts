@@ -1,3 +1,4 @@
+import { MODIFIABLE_USER_FIELDS } from "../constants";
 import { arraysEqual } from "../util/arraysEqual";
 
 export interface ValidateUserPostInputBody {
@@ -6,7 +7,7 @@ export interface ValidateUserPostInputBody {
 
 export const validateUserPOSTInput = (body: ValidateUserPostInputBody) => {
   // Request body has to match list of keys
-  if (!arraysEqual(["name"], Object.keys(body))) {
+  if (!arraysEqual(MODIFIABLE_USER_FIELDS, Object.keys(body))) {
     return false;
   }
 

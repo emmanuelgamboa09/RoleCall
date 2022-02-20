@@ -13,5 +13,7 @@ export default async function handler(
     await getUser(req, res, getAuthId(req, res), (user: User) =>
       UserModel.findOne(user)
     );
+  } else {
+    res.status(405).end("Invalid HTTP Method: " + req.method);
   }
 }

@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { injectedLogin } from "../../../backend/helpers/login";
 
 export default handleAuth({
-  login: async (req: NextApiRequest, res: NextApiResponse) => {
+  callback: async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       await injectedLogin(req, res);
     } catch (error: any) {

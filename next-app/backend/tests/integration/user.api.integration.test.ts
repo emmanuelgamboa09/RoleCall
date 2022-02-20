@@ -1,10 +1,15 @@
 import { UserModel } from "../../api/models/user";
 import { expect, test } from "@jest/globals";
-import { createUser } from "../../api/user";
+import { createUser, updateUser } from "../../api/user";
 import { createMocks } from "node-mocks-http";
 import { User } from "../../types";
-import { AUTH0_TEST_ID, AUTH0_TEST_USER_NAME } from "../../constants";
-import { dbDisconnect } from "../../api/database/dbConnect";
+import {
+  AUTH0_TEST_ID,
+  AUTH0_TEST_USER_NAME,
+  AUTH0_UPDATED_TEST_USER_NAME,
+} from "../../constants";
+import dbConnect, { dbDisconnect } from "../../api/database/dbConnect";
+import { FilterQuery, UpdateQuery } from "mongoose";
 
 afterAll(async () => {
   await dbDisconnect();
@@ -34,4 +39,46 @@ test("Insert user while authenticated, connected DB, and save operation successf
       done();
     });
   });
+});
+
+test("Update user while authenticated, connected DB, and save operation successful", async () => {
+  await dbConnect();
+
+  const doc = new UserModel({
+    authId: AUTH0_TEST_ID,
+    name: AUTH0_TEST_USER_NAME,
+  });
+
+  await doc.save();
+
+  const body = {
+    name: AUTH0_UPDATED_TEST_USER_NAME,
+  };
+
+  const { req, res } = createMocks({
+    method: "PUT",
+    body,
+  });
+
+  await updateUser(
+    req,
+    res,
+    AUTH0_TEST_ID,
+    (
+      filter: FilterQuery<any> | undefined,
+      update: UpdateQuery<any> | undefined
+    ) =>
+      UserModel.findOneAndUpdate(filter, update, {
+        new: true,
+      })
+  );
+
+  expect(res._getStatusCode()).toBe(200);
+  const { authId, name } = JSON.parse(res._getData());
+  expect({ authId, name }).toEqual({
+    authId: AUTH0_TEST_ID,
+    name: AUTH0_UPDATED_TEST_USER_NAME,
+  });
+
+  await UserModel.deleteOne({ authId });
 });

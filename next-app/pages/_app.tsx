@@ -5,13 +5,25 @@ import { ThemeProvider } from "@emotion/react";
 import theme from "../src/theme";
 import { store } from "../redux/store";
 import { Provider } from "react-redux";
+import { ReactNode } from "react";
+import { NextPage } from "next";
 
-function MyApp({ Component, pageProps }: AppProps) {
+type Page<P = {}> = NextPage<P> & {
+  getLayout?: (page: ReactNode) => ReactNode;
+};
+
+type Props = AppProps & {
+  Component: Page;
+};
+
+function MyApp({ Component, pageProps }: Props) {
+  const getLayout = Component.getLayout || ((page) => page);
+
   return (
     <UserProvider>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-          <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
         </Provider>
       </ThemeProvider>
     </UserProvider>

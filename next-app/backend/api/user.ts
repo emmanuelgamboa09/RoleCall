@@ -1,7 +1,7 @@
 import { FilterQuery, Query, UpdateQuery } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import { validateUserPOSTInput } from "../helpers/validateUserPOSTInput";
-import { validateUserPUTInput } from "../helpers/validateUserPUTInput";
+import { userPOSTSchema, userPUTSchema } from "../helpers/validation";
+
 import { User } from "../types";
 import dbConnect from "./database/dbConnect";
 
@@ -15,8 +15,10 @@ export const createUser = async (
     res.status(401).end("Unauthorized");
     return;
   }
-  if (!validateUserPOSTInput(req.body)) {
-    res.status(400).end("Invalid Input");
+
+  const { error } = userPOSTSchema.validate(req.body);
+  if (error) {
+    res.status(400).end(error);
     return;
   }
 
@@ -39,7 +41,6 @@ export const createUser = async (
     await save(user);
     res.status(200).json(user);
   } catch (err) {
-    console.log(err);
     res.status(500).end("Internal Error");
   }
 };
@@ -57,8 +58,9 @@ export const updateUser = async (
     res.status(401).end("Unauthorized");
     return;
   }
-  if (!validateUserPUTInput(req.body)) {
-    res.status(400).end("Invalid Input");
+  const { error } = userPUTSchema.validate(req.body);
+  if (error) {
+    res.status(400).end(error);
     return;
   }
 
@@ -73,8 +75,6 @@ export const updateUser = async (
     const { body } = req;
 
     const updatedUser = await update({ authId }, body);
-
-    console.log(updatedUser);
 
     if (!updatedUser) {
       res.status(404).end("Specified user does not exist");

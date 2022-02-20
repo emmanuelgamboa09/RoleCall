@@ -8,8 +8,8 @@ import {
   AUTH0_TEST_USER_NAME,
   AUTH0_UPDATED_TEST_USER_NAME,
 } from "../../constants";
-import { validateUserPOSTInput } from "../../helpers/validateUserPOSTInput";
-import { validateUserPUTInput } from "../../helpers/validateUserPUTInput";
+
+import { userPOSTSchema, userPUTSchema } from "../../helpers/validation";
 import { User } from "../../types";
 
 afterAll(async () => {
@@ -99,7 +99,8 @@ test("Validate correct User POST Input", () => {
     { name: "123" },
   ];
   inputs.forEach((val) => {
-    expect(validateUserPOSTInput(val)).toBeTruthy();
+    const { error } = userPOSTSchema.validate(val);
+    expect(error).toBeFalsy();
   });
 });
 
@@ -113,7 +114,8 @@ test("Validate incorrect User POST Input", () => {
     { diffKey: "abc" },
   ];
   inputs.forEach((val) => {
-    expect(validateUserPOSTInput(val)).toBeFalsy();
+    const { error } = userPOSTSchema.validate(val);
+    expect(error).toBeTruthy();
   });
 });
 
@@ -221,7 +223,8 @@ test("Validate correct User PUT Input", () => {
     { name: "123" },
   ];
   inputs.forEach((val) => {
-    expect(validateUserPUTInput(val)).toBeTruthy();
+    const { error } = userPUTSchema.validate(val);
+    expect(error).toBeFalsy();
   });
 });
 
@@ -237,6 +240,7 @@ test("Validate incorrect User PUT Input", () => {
     { name: "" },
   ];
   inputs.forEach((val) => {
-    expect(validateUserPUTInput(val)).toBeFalsy();
+    const { error } = userPUTSchema.validate(val);
+    expect(error).toBeTruthy();
   });
 });

@@ -1,6 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
@@ -19,6 +19,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { SvgIconTypeMap } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { FC } from "react";
+import theme from "../src/theme";
 
 const drawerWidth = 240;
 
@@ -47,7 +48,6 @@ type HomeLayoutProps = {
 };
 
 const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -115,7 +115,11 @@ const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
         </List>
         <Divider />
       </Drawer>
-      <Box>
+      <Box
+        width={"100vw"}
+        px={2}
+        sx={{ backgroundColor: theme.palette.secondary.main }}
+      >
         <DrawerHeader />
         {children}
       </Box>

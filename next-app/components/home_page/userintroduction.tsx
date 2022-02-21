@@ -14,7 +14,7 @@ interface UserIntroductionProps {}
 const UserIntroduction: FC<UserIntroductionProps> = () => {
   const user = useSelector(selectUser);
   return (
-    <ListItem>
+    <ListItem sx={{ px: 0 }}>
       <ListItemAvatar>
         <Avatar
           id="userAvatar"

@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { CircularProgress, Grid, Typography } from "@mui/material";
+import { CircularProgress, Divider, Grid, Typography } from "@mui/material";
 import { Classroom } from "./userclassroom.types";
 import UserClassroomCard from "./userclassroomcard";
 
@@ -59,10 +59,11 @@ const UserCurrentClassrooms: FC<UserAvailableClassroomsProps> = () => {
   return (
     <>
       <div>
-        <Typography variant="h4" sx={{ ml: 1, fontWeight: "bold" }}>
+        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           Classrooms
         </Typography>
       </div>
+      <Divider sx={{ my: 3 }} />
       <div
         style={{
           minHeight: "25vh",
@@ -80,12 +81,22 @@ const UserCurrentClassrooms: FC<UserAvailableClassroomsProps> = () => {
             <CircularProgress />
           </div>
         ) : (
-          <Grid container spacing={1} padding={1}>
-            {usersClasses.map((classroom, i) => (
-              <Grid key={i} item xs={12} sm={6} md={4} lg={3} xl={2}>
-                <UserClassroomCard classroom={classroom} />
+          <Grid container spacing={1} py={1}>
+            {usersClasses.length > 0 ? (
+              usersClasses.map((classroom, i) => (
+                <Grid key={i} item xs={12} sm={6} md={4} lg={3} xl={2}>
+                  <UserClassroomCard classroom={classroom} />
+                </Grid>
+              ))
+            ) : (
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                <Typography variant="h6">
+                  Welcome to your list of classes. To join a classroom click the
+                  button "JOIN A CLASSROOM" or to create a classroom click
+                  "CREATE A CLASSROOM"
+                </Typography>
               </Grid>
-            ))}
+            )}
           </Grid>
         )}
       </div>

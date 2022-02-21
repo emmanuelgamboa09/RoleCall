@@ -14,20 +14,13 @@ const UserJoinOrCreateGrid: FC<UserJoinOrCreateGridProps> = () => {
           flexWrap: "wrap",
           justifyContent: "space-around",
           maxWidth: 350,
+          my: 1,
         }}
       >
-        <Button
-          sx={{ marginBlock: 1, width: 170 }}
-          size="small"
-          variant="contained"
-        >
+        <Button sx={{ mb: 1, minWidth: 170 }} size="small" variant="contained">
           Join a classroom
         </Button>
-        <Button
-          sx={{ marginBlock: 1, width: 170 }}
-          size="small"
-          variant="contained"
-        >
+        <Button sx={{ mb: 1, minWidth: 170 }} size="small" variant="contained">
           Create a classroom
         </Button>
       </Box>

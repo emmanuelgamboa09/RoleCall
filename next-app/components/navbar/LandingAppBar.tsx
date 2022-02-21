@@ -1,29 +1,36 @@
-import React, { ReactElement, FC } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import { useRouter } from "next/router";
+import React, { FC, ReactElement } from "react";
 import theme from "../../src/theme";
+import NavOptions, { NavOption } from "./NavOptions";
 
-interface LandingPageNavOptions {
-  text: string;
-  route: string;
-}
-
-const pages: Array<LandingPageNavOptions> = [
-  { text: "Login", route: "/api/auth/login" },
-  { text: "Sign up", route: "/api/auth/signup" },
-  { text: "Learn More", route: "" },
+const navOptions: Array<NavOption> = [
+  { text: "Login", route: "/api/auth/login", show: "logged-out-only" },
+  { text: "Sign up", route: "/api/auth/login", show: "logged-out-only" },
+  { text: "Sign out", route: "/api/auth/logout", show: "login-only" },
+  { text: "Learn More", route: "", show: "always" },
 ];
 
-interface LandingAppBarProps {}
+interface LandingAppBarProps { }
 
 const LandingAppBar: FC<LandingAppBarProps> = (): ReactElement => {
+  const router = useRouter()
+  const navigate = (route: string) => {
+    return () => {
+      router.push(route)
+      handleCloseNavMenu()
+    }
+  }
+
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -80,27 +87,31 @@ const LandingAppBar: FC<LandingAppBarProps> = (): ReactElement => {
               display: { xs: "block", md: "none" },
             }}
           >
-            {pages.map((page) => (
-              <MenuItem
-                style={{ color: theme.palette.text.secondary }}
-                key={page.text}
-                onClick={handleCloseNavMenu}
-              >
-                <Typography textAlign="center">{page.text}</Typography>
-              </MenuItem>
-            ))}
+            <NavOptions
+              options={navOptions}
+              render={({ text, route }) =>
+                <MenuItem
+                  style={{ color: theme.palette.text.secondary }}
+                  key={text}
+                  onClick={navigate(route)}
+                >
+                  <Typography textAlign="center">{text}</Typography>
+                </MenuItem>
+              } />
           </Menu>
         </Box>
         <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-          {pages.map((page) => (
-            <Button
-              key={page.text}
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              {page.text}
-            </Button>
-          ))}
+          <NavOptions
+            options={navOptions}
+            render={({ text, route }) =>
+              <Button
+                key={text}
+                onClick={navigate(route)}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                {text}
+              </Button>}
+          />
         </Box>
         <Box sx={{ flexGrow: 0 }}>
           <Typography

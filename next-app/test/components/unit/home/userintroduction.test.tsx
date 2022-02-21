@@ -6,7 +6,7 @@ import React from "react";
 import configureMockStore from "redux-mock-store";
 import { Provider } from "react-redux";
 import TestRenderer from "react-test-renderer";
-import UserIntroduction from "../../../components/home_page/userintroduction";
+import UserIntroduction from "../../../../components/home_page/userintroduction";
 
 const mockStore = configureMockStore([]);
 
@@ -24,6 +24,7 @@ test("Displays users name in userintroduction component", () => {
   );
 
   const testInstance = render.root;
+
   expect(testInstance.findByProps({ id: "userName" }).props.children).toEqual([
     "Hello ",
     "test name",

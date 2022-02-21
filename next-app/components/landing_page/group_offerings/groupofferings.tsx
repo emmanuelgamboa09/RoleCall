@@ -25,6 +25,9 @@ const offeringsArray: Array<Offering> = [
 
 interface GroupOfferingProps {}
 
+// Perform Testing once we get our offeringsArray situated. We may even want to
+// Store the offerings on the backend so if we want to update them we can just update
+// them in the database.
 const GroupOfferings: FC<GroupOfferingProps> = () => {
   return (
     <div

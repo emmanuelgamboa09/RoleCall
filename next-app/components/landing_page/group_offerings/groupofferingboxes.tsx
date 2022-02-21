@@ -7,16 +7,23 @@ interface GroupOfferingCardProps {
 }
 
 const GroupOfferingBoxes = ({ offering }: GroupOfferingCardProps) => {
+  const { title, message, imageUrl } = offering;
   return (
-    <Card sx={{ boxShadow: 3 }} style={{ margin: "1vh 1vw" }}>
+    <Card
+      id="groupOfferingBox"
+      sx={{ boxShadow: 3 }}
+      style={{ margin: "1vh 1vw" }}
+    >
       <CardHeader
+        id="offeringCardHeader"
         style={{ textAlign: "center" }}
-        title={offering.title}
-        subheader={offering.message}
+        title={title}
+        subheader={message}
       />
       <CardMedia
+        id="offeringCardMedia"
         component="img"
-        image={offering.imageUrl}
+        image={imageUrl}
         style={{ maxHeight: "35vh", textAlign: "center" }}
         alt="Paella dish"
       />

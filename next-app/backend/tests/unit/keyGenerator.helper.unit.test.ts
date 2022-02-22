@@ -1,8 +1,7 @@
 import { expect, test } from "@jest/globals";
 import KeyGenerator, { generatorOptions } from "../../helpers/keyGenerator";
 
-test("Generate random string with generator options", async () => {
-  generatorOptions;
+test("Generate random string with generator options", () => {
   KeyGenerator.get((error: any, code: any) => {
     expect(error).toBeNull;
 

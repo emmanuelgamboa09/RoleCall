@@ -1,5 +1,5 @@
 import mongoose, { model, Schema } from "mongoose";
-import { Classroom } from "../../../../interfaces/classroom.interface";
+import { Classroom } from "../../../interfaces/classroom.interface";
 
 const schema = new Schema<Classroom>({
   instructorId: { type: String, required: true, index: true },

@@ -1,5 +1,5 @@
 import { expect, test } from "@jest/globals";
-import { ClassroomModel } from "../../../api/models/classroom/classroom";
+import { ClassroomModel } from "../../../api/models/classroom";
 
 const TEST_INSTRUCTOR_ID = "123df3efb618f5141202a196";
 const TEST_TITLE = "TEST TITLE";

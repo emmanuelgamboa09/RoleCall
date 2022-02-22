@@ -3,3 +3,7 @@ export interface User {
   authId: string;
   name?: string;
 }
+
+export interface HTTPBody {
+  [key: string]: unknown;
+}

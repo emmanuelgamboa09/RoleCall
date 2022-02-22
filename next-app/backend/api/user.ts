@@ -1,9 +1,10 @@
 import { FilterQuery, Query, UpdateQuery } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import { userPOSTSchema, userPUTSchema } from "../helpers/validation";
 
 import { User } from "../types";
 import dbConnect from "./database/dbConnect";
+import validateUserPOST from "../helpers/validateUserPOST";
+import validateUserPUT from "../helpers/validateUserPUT";
 
 export const createUser = async (
   req: NextApiRequest,
@@ -16,7 +17,7 @@ export const createUser = async (
     return;
   }
 
-  const { error } = userPOSTSchema.validate(req.body);
+  const { error } = validateUserPOST(req.body);
   if (error) {
     res.status(400).end(error);
     return;
@@ -58,7 +59,7 @@ export const updateUser = async (
     res.status(401).end("Unauthorized");
     return;
   }
-  const { error } = userPUTSchema.validate(req.body);
+  const { error } = validateUserPUT(req.body);
   if (error) {
     res.status(400).end(error);
     return;

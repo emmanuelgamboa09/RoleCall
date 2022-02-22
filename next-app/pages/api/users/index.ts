@@ -31,7 +31,6 @@ export default withApiAuthRequired(function handler(
         request,
         response,
         getAuthId(request, response),
-        (user: User) => UserModel.findOne(user),
         (
           filter: FilterQuery<any> | undefined,
           update: UpdateQuery<any> | undefined

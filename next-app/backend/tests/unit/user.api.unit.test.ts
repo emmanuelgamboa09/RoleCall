@@ -12,10 +12,6 @@ import {
 import validateUserPOST from "../../helpers/validateUserPOST";
 import validateUserPUT from "../../helpers/validateUserPUT";
 
-afterAll(async () => {
-  await dbDisconnect();
-});
-
 test("Insert user while authenticated and save operation successful", async () => {
   const body = {
     name: AUTH0_TEST_USER_NAME,

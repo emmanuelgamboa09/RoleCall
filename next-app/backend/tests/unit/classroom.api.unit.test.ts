@@ -1,15 +1,9 @@
 import { expect, test } from "@jest/globals";
 import { createMocks } from "node-mocks-http";
-import { dbDisconnect } from "../../api/database/dbConnect";
 import { AUTH0_TEST_ID, CLASSROOM_TEST_TITLE } from "../../constants";
 
 import { createClassroom } from "../../api/classroom";
-import { Classroom } from "../../../interfaces/classroom.interface";
 import validateClassroomPOST from "../../helpers/validateClassroomPOST";
-
-afterAll(async () => {
-  await dbDisconnect();
-});
 
 test("Insert classroom while authenticated and save operation successful", async () => {
   const endDate = new Date().setHours(23, 59, 59);

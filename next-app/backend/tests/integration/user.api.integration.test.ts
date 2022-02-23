@@ -11,6 +11,10 @@ import {
 import dbConnect, { dbDisconnect } from "../../api/database/dbConnect";
 import { FilterQuery, UpdateQuery } from "mongoose";
 
+beforeAll(async () => {
+  await dbConnect();
+});
+
 afterAll(async () => {
   await dbDisconnect();
 });
@@ -42,8 +46,6 @@ test("Insert user while authenticated, connected DB, and save operation successf
 });
 
 test("Get user while authenticated, connected DB, and retrieve operation successful", async () => {
-  await dbConnect();
-
   const doc = new UserModel({
     authId: AUTH0_TEST_ID,
     name: AUTH0_TEST_USER_NAME,
@@ -70,8 +72,6 @@ test("Get user while authenticated, connected DB, and retrieve operation success
 });
 
 test("Update user while authenticated, connected DB, and save operation successful", async () => {
-  await dbConnect();
-
   const doc = new UserModel({
     authId: AUTH0_TEST_ID,
     name: AUTH0_TEST_USER_NAME,

@@ -4,43 +4,46 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { UserModel } from "../../../backend/api/models/user";
 import { createUser, updateUser } from "../../../backend/api/user";
 import { getAuthId } from "../../../backend/helpers/getAuthId";
+import withDb from "../../../backend/middleware/withDb";
 import { User } from "../../../backend/types";
 
-export default withApiAuthRequired(async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse
-) {
-  const { method } = request;
+export default withApiAuthRequired(
+  withDb(async function handler(
+    request: NextApiRequest,
+    response: NextApiResponse
+  ) {
+    const { method } = request;
 
-  switch (method) {
-    // Add user document to Users collection
-    case "POST": {
-      await createUser(
-        request,
-        response,
-        getAuthId(request, response)!,
-        async (user: User) => {
-          const doc: HydratedDocument<User> = new UserModel(user);
-          await doc.save();
-        }
-      );
-      break;
+    switch (method) {
+      // Add user document to Users collection
+      case "POST": {
+        await createUser(
+          request,
+          response,
+          getAuthId(request, response)!,
+          async (user: User) => {
+            const doc: HydratedDocument<User> = new UserModel(user);
+            await doc.save();
+          }
+        );
+        break;
+      }
+      case "PUT": {
+        await updateUser(
+          request,
+          response,
+          getAuthId(request, response)!,
+          (
+            filter: FilterQuery<any> | undefined,
+            update: UpdateQuery<any> | undefined
+          ) =>
+            UserModel.findOneAndUpdate(filter, update, {
+              new: true,
+            })
+        );
+        break;
+      }
+      default:
     }
-    case "PUT": {
-      await updateUser(
-        request,
-        response,
-        getAuthId(request, response)!,
-        (
-          filter: FilterQuery<any> | undefined,
-          update: UpdateQuery<any> | undefined
-        ) =>
-          UserModel.findOneAndUpdate(filter, update, {
-            new: true,
-          })
-      );
-      break;
-    }
-    default:
-  }
-});
+  })
+);

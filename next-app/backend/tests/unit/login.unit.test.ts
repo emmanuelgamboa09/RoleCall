@@ -1,13 +1,8 @@
 import { expect, test } from "@jest/globals";
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRequest, createResponse } from "node-mocks-http";
-import { dbDisconnect } from "../../api/database/dbConnect";
 import { AUTH0_TEST_ID } from "../../constants";
 import { login } from "../../helpers/login";
-
-afterAll(async () => {
-  await dbDisconnect();
-});
 
 test("Login for first time and successfully add user record", async () => {
   const req = createRequest<NextApiRequest>();

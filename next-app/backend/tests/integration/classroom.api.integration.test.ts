@@ -1,10 +1,14 @@
 import { expect, test } from "@jest/globals";
 import { createMocks } from "node-mocks-http";
 import { AUTH0_TEST_ID, CLASSROOM_TEST_TITLE } from "../../constants";
-import { dbDisconnect } from "../../api/database/dbConnect";
+import dbConnect, { dbDisconnect } from "../../api/database/dbConnect";
 import { createClassroom } from "../../api/classroom";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import { ClassroomModel } from "../../api/models/classroom";
+
+beforeAll(async () => {
+  await dbConnect();
+});
 
 afterAll(async () => {
   await dbDisconnect();

@@ -10,7 +10,6 @@ export default (
       return next(request, response);
     } catch (err) {
       await dbDisconnect();
-      dbConnect();
       response.status(500).send("Internal Server Error");
     }
   };

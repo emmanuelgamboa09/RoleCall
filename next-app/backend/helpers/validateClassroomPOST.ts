@@ -1,7 +1,7 @@
 import Joi from "joi";
-import { HTTPBody } from "../types";
+import { Classroom } from "../../interfaces/classroom.interface";
 
-export default (body: HTTPBody) => {
+export default (body: Classroom) => {
   const schema = {
     title: Joi.string()
       .min(2)

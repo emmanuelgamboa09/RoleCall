@@ -9,14 +9,9 @@ import validateUserPUT from "../helpers/validateUserPUT";
 export const createUser = async (
   req: NextApiRequest,
   res: NextApiResponse,
-  authId: string | null | undefined,
+  authId: string,
   save: (user: User) => Promise<void>
 ) => {
-  if (authId === null || authId === undefined) {
-    res.status(401).end("Unauthorized");
-    return;
-  }
-
   const { error } = validateUserPOST(req.body);
   if (error) {
     res.status(400).end(error);
@@ -49,16 +44,12 @@ export const createUser = async (
 export const updateUser = async (
   req: NextApiRequest,
   res: NextApiResponse,
-  authId: string | null | undefined,
+  authId: string,
   update: (
     filter: FilterQuery<any> | undefined,
     update: UpdateQuery<any> | undefined
   ) => Query<any, any, any, any> | Promise<any>
 ) => {
-  if (authId === null || authId === undefined) {
-    res.status(401).end("Unauthorized");
-    return;
-  }
   const { error } = validateUserPUT(req.body);
   if (error) {
     res.status(400).end(error);
@@ -91,14 +82,9 @@ export const updateUser = async (
 export const getUser = async (
   req: NextApiRequest,
   res: NextApiResponse,
-  authId: string | null | undefined,
+  authId: string,
   findUser: (user: User) => Query<any, any, any, any> | Promise<User | null>
 ) => {
-  if (authId === null || authId === undefined) {
-    res.status(401).end("Unauthorized");
-    return;
-  }
-
   try {
     await dbConnect();
 

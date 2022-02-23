@@ -9,7 +9,6 @@ import {
   AUTH0_UPDATED_TEST_USER_NAME,
 } from "../../constants";
 
-import { User } from "../../types";
 import validateUserPOST from "../../helpers/validateUserPOST";
 import validateUserPUT from "../../helpers/validateUserPUT";
 
@@ -33,21 +32,6 @@ test("Insert user while authenticated and save operation successful", async () =
     authId: AUTH0_TEST_ID,
     name: AUTH0_TEST_USER_NAME,
   });
-});
-
-test("Insert user while not authenticated", async () => {
-  const body = {
-    name: AUTH0_TEST_USER_NAME,
-  };
-
-  const { req, res } = createMocks({
-    method: "POST",
-    body,
-  });
-
-  await createUser(req, res, undefined, (user: User) => Promise.resolve());
-
-  expect(res._getStatusCode()).toBe(401);
 });
 
 test("Insert user with empty name", async () => {
@@ -127,21 +111,6 @@ test("Update user while authenticated and save operation successful", async () =
     authId: AUTH0_TEST_ID,
     name: AUTH0_UPDATED_TEST_USER_NAME,
   });
-});
-
-test("Update user while not authenticated", async () => {
-  const body = {
-    name: AUTH0_TEST_USER_NAME,
-  };
-
-  const { req, res } = createMocks({
-    method: "PUT",
-    body,
-  });
-
-  await updateUser(req, res, undefined, () => Promise.resolve({}));
-
-  expect(res._getStatusCode()).toBe(401);
 });
 
 test("Update user with empty name", async () => {
@@ -231,18 +200,6 @@ test("Get user while authenticated and retrieve operation successful", async () 
     authId: AUTH0_TEST_ID,
     name: AUTH0_TEST_USER_NAME,
   });
-});
-
-test("Get user while not authenticated", async () => {
-  const { req, res } = createMocks({
-    method: "GET",
-  });
-
-  await getUser(req, res, undefined, () =>
-    Promise.resolve({ authId: AUTH0_TEST_ID })
-  );
-
-  expect(res._getStatusCode()).toBe(401);
 });
 
 test("Get user but retrieve operation fails", async () => {

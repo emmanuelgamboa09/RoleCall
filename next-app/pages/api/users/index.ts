@@ -18,7 +18,7 @@ export default withApiAuthRequired(function handler(
       createUser(
         request,
         response,
-        getAuthId(request, response),
+        getAuthId(request, response)!,
         async (user: User) => {
           const doc: HydratedDocument<User> = new UserModel(user);
           await doc.save();
@@ -30,7 +30,7 @@ export default withApiAuthRequired(function handler(
       updateUser(
         request,
         response,
-        getAuthId(request, response),
+        getAuthId(request, response)!,
         (
           filter: FilterQuery<any> | undefined,
           update: UpdateQuery<any> | undefined

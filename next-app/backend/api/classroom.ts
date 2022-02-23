@@ -9,20 +9,24 @@ export const createClassroom = async (
   authId: string,
   save: (classroom: Classroom) => Promise<void>
 ) => {
-  const { error } = validateClassroomPOST(req.body);
+  if (authId === null || authId === undefined) {
+    res.status(401).end("Unauthorized");
+    return;
+  }
+
+  const body: Classroom = req.body
+  const { error } = validateClassroomPOST(body);
   if (error) {
     res.status(400).end(error);
     return;
   }
 
-  const {
-    body: { title, endDate },
-  } = req;
+  const { title, endDate, students = [] } = body
   const classroom = {
     instructorId: authId,
     title,
     endDate,
-    students: [],
+    students,
   };
 
   try {

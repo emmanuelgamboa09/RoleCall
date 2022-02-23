@@ -10,7 +10,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    await getUser(req, res, getAuthId(req, res), (user: User) =>
+    await getUser(req, res, getAuthId(req, res)!, (user: User) =>
       UserModel.findOne(user)
     );
   } else {

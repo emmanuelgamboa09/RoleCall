@@ -6,14 +6,9 @@ import dbConnect from "./database/dbConnect";
 export const createClassroom = async (
   req: NextApiRequest,
   res: NextApiResponse,
-  authId: string | null | undefined,
+  authId: string,
   save: (classroom: Classroom) => Promise<void>
 ) => {
-  if (authId === null || authId === undefined) {
-    res.status(401).end("Unauthorized");
-    return;
-  }
-
   const { error } = validateClassroomPOST(req.body);
   if (error) {
     res.status(400).end(error);

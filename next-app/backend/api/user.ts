@@ -2,7 +2,6 @@ import { FilterQuery, Query, UpdateQuery } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { User } from "../types";
-import dbConnect from "./database/dbConnect";
 import validateUserPOST from "../helpers/validateUserPOST";
 import validateUserPUT from "../helpers/validateUserPUT";
 
@@ -15,13 +14,6 @@ export const createUser = async (
   const { error } = validateUserPOST(req.body);
   if (error) {
     res.status(400).end(error);
-    return;
-  }
-
-  try {
-    await dbConnect();
-  } catch (err) {
-    res.status(500).end("Internal Error");
     return;
   }
 
@@ -57,13 +49,6 @@ export const updateUser = async (
   }
 
   try {
-    await dbConnect();
-  } catch (err) {
-    res.status(500).end("Internal Error");
-    return;
-  }
-
-  try {
     const { body } = req;
 
     const updatedUser = await update({ authId }, body);
@@ -86,8 +71,6 @@ export const getUser = async (
   findUser: (user: User) => Query<any, any, any, any> | Promise<User | null>
 ) => {
   try {
-    await dbConnect();
-
     const user = await findUser({ authId });
 
     if (!user) {

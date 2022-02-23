@@ -1,7 +1,6 @@
 import { handleCallback } from "@auth0/nextjs-auth0";
 import { HydratedDocument, Query } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "../api/database/dbConnect";
 import { UserModel } from "../api/models/user";
 import { User } from "../types";
 import { getAuthId } from "./getAuthId";
@@ -24,8 +23,6 @@ export async function login(
     if (!authId) {
       throw new Error("Unauthorized");
     }
-
-    await dbConnect();
 
     const userDoc = { authId };
     const existingDoc = await getExistingDoc(userDoc);

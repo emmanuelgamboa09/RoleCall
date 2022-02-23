@@ -2,11 +2,15 @@ import { expect, test } from "@jest/globals";
 import { HydratedDocument } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRequest, createResponse } from "node-mocks-http";
-import { dbDisconnect } from "../../api/database/dbConnect";
+import dbConnect, { dbDisconnect } from "../../api/database/dbConnect";
 import { UserModel } from "../../api/models/user";
 import { AUTH0_TEST_ID } from "../../constants";
 import { login } from "../../helpers/login";
 import { User } from "../../types";
+
+beforeAll(async () => {
+  await dbConnect();
+});
 
 afterAll(async () => {
   await dbDisconnect();

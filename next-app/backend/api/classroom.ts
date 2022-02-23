@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../interfaces/classroom.interface";
 import validateClassroomPOST from "../helpers/validateClassroomPOST";
-import dbConnect from "./database/dbConnect";
 
 export const createClassroom = async (
   req: NextApiRequest,
@@ -25,7 +24,6 @@ export const createClassroom = async (
   };
 
   try {
-    await dbConnect();
     await save(classroom);
     res.status(200).json(classroom);
   } catch (err) {

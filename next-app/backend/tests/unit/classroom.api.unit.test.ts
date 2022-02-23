@@ -36,26 +36,6 @@ test("Insert classroom while authenticated and save operation successful", async
   });
 });
 
-test("Insert classroom while not authenticated", async () => {
-  const endDate = new Date().setHours(23, 59, 59);
-
-  const body = {
-    title: CLASSROOM_TEST_TITLE,
-    endDate,
-  };
-
-  const { req, res } = createMocks({
-    method: "POST",
-    body,
-  });
-
-  await createClassroom(req, res, undefined, (classroom: Classroom) =>
-    Promise.resolve()
-  );
-
-  expect(res._getStatusCode()).toBe(401);
-});
-
 test("Insert classroom but save operation fails", async () => {
   const endDate = new Date().setHours(23, 59, 59);
 

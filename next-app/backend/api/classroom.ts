@@ -6,7 +6,7 @@ import dbConnect from "./database/dbConnect";
 export const createClassroom = async (
   req: NextApiRequest,
   res: NextApiResponse,
-  authId: string | null | undefined,
+  authId: string,
   save: (classroom: Classroom) => Promise<void>
 ) => {
   if (authId === null || authId === undefined) {

@@ -17,7 +17,7 @@ export default withApiAuthRequired(async function handler(
       await createClassroom(
         request,
         response,
-        getAuthId(request, response),
+        getAuthId(request, response)!,
         async (classroom: Classroom) => {
           const doc: HydratedDocument<Classroom> = new ClassroomModel(
             classroom

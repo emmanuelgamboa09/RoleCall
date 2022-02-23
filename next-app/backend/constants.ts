@@ -6,3 +6,5 @@ export const AUTH0_UPDATED_TEST_USER_NAME = "test2";
 export const AUTH0_TEST_USER_EMAIL = "test@test.com";
 export const AUTH0_TEST_USER_PWD = "test123!";
 export const AUTH0_TEST_ID = "auth0|6205adcf48929b007055fc4c";
+
+export const CLASSROOM_TEST_TITLE = "CS160";

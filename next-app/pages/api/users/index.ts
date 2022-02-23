@@ -6,7 +6,7 @@ import { createUser, updateUser } from "../../../backend/api/user";
 import { getAuthId } from "../../../backend/helpers/getAuthId";
 import { User } from "../../../backend/types";
 
-export default withApiAuthRequired(function handler(
+export default withApiAuthRequired(async function handler(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
@@ -15,7 +15,7 @@ export default withApiAuthRequired(function handler(
   switch (method) {
     // Add user document to Users collection
     case "POST": {
-      createUser(
+      await createUser(
         request,
         response,
         getAuthId(request, response)!,
@@ -27,7 +27,7 @@ export default withApiAuthRequired(function handler(
       break;
     }
     case "PUT": {
-      updateUser(
+      await updateUser(
         request,
         response,
         getAuthId(request, response)!,

@@ -1,10 +1,11 @@
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import type { ReactElement } from "react";
 import UserJoinOrCreateGrid from "../../components/home_page/joinorcreateclassroom";
 import UserCurrentClassrooms from "../../components/home_page/userclassroom/usercurrentclassroom";
-import theme from "../../src/theme";
 import BaseAppLayout from "../../layout/baseapplayout";
+import theme from "../../src/theme";
 
-export default function HomePage() {
+function HomePage() {
   return (
     <div
       style={{
@@ -17,6 +18,8 @@ export default function HomePage() {
     </div>
   );
 }
+
+export default withPageAuthRequired(HomePage)
 
 HomePage.getLayout = function getLayout(page: ReactElement) {
   return <BaseAppLayout title={"Home"}>{page}</BaseAppLayout>;

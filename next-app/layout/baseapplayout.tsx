@@ -21,7 +21,7 @@ import { SvgIconTypeMap } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { FC } from "react";
 import theme from "../src/theme";
-import OnboardingDialog from "../components/onboarding/basedialogbox";
+import OnboardingDialog from "../components/onboarding/onboardingdialog";
 import useOnboardUserChecker from "../hooks/useOnboardUserChecker";
 
 const drawerWidth = 240;

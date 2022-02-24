@@ -14,12 +14,9 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../../redux/slice/userslice";
 import useMe from "../../hooks/useMe";
 import { validateUpdateUserData } from "../../src/validate/onboarding";
+import { UpdateUserData } from "../../interfaces/user.interface";
 
 interface OnboardingDialogProps {}
-
-interface UpdateUserData {
-  name?: string;
-}
 
 const OnboardingDialog: FC<OnboardingDialogProps> = () => {
   const [open, setOpen] = useState(true);

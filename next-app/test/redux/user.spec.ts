@@ -1,4 +1,4 @@
-import userSlice, { updateUser } from "../../redux/slice/userslice";
+import userSlice, { updateMe } from "../../redux/slice/userslice";
 
 test("should return the initial empty user state", () => {
   expect(
@@ -10,7 +10,7 @@ test("should return the initial empty user state", () => {
 
 test("should handle user being updated in redux", () => {
   const updatedValues = { email: "test_email@email.com", name: "test name" };
-  expect(userSlice.reducer(undefined, updateUser(updatedValues))).toEqual({
+  expect(userSlice.reducer(undefined, updateMe(updatedValues))).toEqual({
     user: updatedValues,
   });
 });

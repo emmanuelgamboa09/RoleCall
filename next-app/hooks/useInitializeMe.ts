@@ -1,12 +1,12 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../redux/slice/userslice";
-import { selectUser } from "../redux/store";
+import { updateMe } from "../redux/slice/userslice";
+import { selectMe } from "../redux/store";
 
-export default function useMe() {
+export default function useInitializeMe() {
   const { user } = useUser();
-  const me = useSelector(selectUser);
+  const me = useSelector(selectMe);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,11 +19,10 @@ export default function useMe() {
           res
             .json()
             .then((user) => {
-              dispatch(updateUser(user));
+              dispatch(updateMe(user));
             })
             .catch((err) => {
               // Should setup a logger to logg errors in mongodb
-              // be stored in mongodb.
               console.log("ERROR");
             });
         })

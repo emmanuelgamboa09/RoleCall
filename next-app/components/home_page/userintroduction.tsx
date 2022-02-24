@@ -6,12 +6,13 @@ import {
   Avatar,
   Typography,
 } from "@mui/material";
-import useMe from "../../hooks/useMe";
+import { useSelector } from "react-redux";
+import { selectMe } from "../../redux/store";
 
 interface UserIntroductionProps {}
 
 const UserIntroduction: FC<UserIntroductionProps> = () => {
-  const me = useMe();
+  const me = useSelector(selectMe);
   return (
     <ListItem sx={{ px: 0 }}>
       <ListItemAvatar>

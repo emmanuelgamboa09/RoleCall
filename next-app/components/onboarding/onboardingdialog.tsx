@@ -10,11 +10,11 @@ import {
   Alert,
   Snackbar,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { updateUser } from "../../redux/slice/userslice";
-import useMe from "../../hooks/useMe";
+import { useDispatch, useSelector } from "react-redux";
+import { updateMe } from "../../redux/slice/userslice";
 import { validateUpdateUserData } from "../../src/validate/onboarding";
 import { UpdateUserData } from "../../interfaces/user.interface";
+import { selectMe } from "../../redux/store";
 
 interface OnboardingDialogProps {}
 
@@ -23,7 +23,7 @@ const OnboardingDialog: FC<OnboardingDialogProps> = () => {
   const [error, setError] = useState(false);
   const [errorText, setErrorText] = useState("");
   const [name, setName] = useState("");
-  const me = useMe();
+  const me = useSelector(selectMe);
   const dispatch = useDispatch();
 
   const createUpdateData = () => {
@@ -49,7 +49,7 @@ const OnboardingDialog: FC<OnboardingDialogProps> = () => {
       })
         .then(async (res) => {
           const resp = await res.json();
-          dispatch(updateUser(resp));
+          dispatch(updateMe(resp));
           setOpen(false);
         })
         .catch(() => {

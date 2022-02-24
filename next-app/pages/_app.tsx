@@ -7,6 +7,7 @@ import { store } from "../redux/store";
 import { Provider } from "react-redux";
 import { ReactNode } from "react";
 import { NextPage } from "next";
+import RoleCallProvider from "../components/providers/rolecallprovider";
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactNode) => ReactNode;
@@ -23,7 +24,9 @@ function MyApp({ Component, pageProps }: Props) {
     <UserProvider>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-          {getLayout(<Component {...pageProps} />)}
+          <RoleCallProvider>
+            {getLayout(<Component {...pageProps} />)}
+          </RoleCallProvider>
         </Provider>
       </ThemeProvider>
     </UserProvider>

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectMe } from "../redux/store";
 import { onboardingValidateMe } from "../src/validate/onboarding";
-import useMe from "./useMe";
 
 export default function useOnboardUserChecker() {
   const [validate, setValidate] = useState(false);
-  const me = useMe();
+  const me = useSelector(selectMe);
   useEffect(() => {
     if (me) {
       const { error } = onboardingValidateMe(me);

@@ -1,16 +1,34 @@
-describe("Landing Page", () => {
-    it("should load the landing page", () => {
-        const landingPagePath = "/"
+import Pages from '../../constants/Pages.enum'
 
-        cy.visit(landingPagePath)
+const landingPagePath = Pages.Landing
+const appPagePath = Pages.App
 
-        cy.location("pathname").should('equal', landingPagePath)
+describe("Navigation Between Landing & App Pages", () => {
+    context("Not logged in", () => {
+        before(() => { cy.clearAuth0Cookies() })
+
+        it("should load landing page", () => {
+            cy.visit(landingPagePath)
+            cy.location("pathname").should('equal', landingPagePath)
+        })
+
+        it("should redirect from app page to Auth0 sign in", () => {
+            cy.visit(appPagePath)
+            cy.location("pathname").should('not.equal', appPagePath)
+        })
     })
+    context("Logged in", () => {
+        before(() => { cy.clearAuth0Cookies().login() })
+        after(() => { cy.clearAuth0Cookies() })
 
-    it("should redirect from /app to Auth0 sign in when not authenticated", () => {
-        const appPagePath = "/app"
+        it("should load app page", () => {
+            cy.visit(appPagePath)
+            cy.location("pathname").should('equal', appPagePath)
+        })
 
-        cy.visit(appPagePath).wait(1000)
-        cy.location("pathname").should('not.equal', appPagePath)
+        it("should redirect from landing page to app page", () => {
+            cy.visit(landingPagePath)
+            cy.location("pathname").should('equal', appPagePath)
+        })
     })
 })

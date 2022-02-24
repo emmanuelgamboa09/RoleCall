@@ -17,7 +17,7 @@ afterEach(() => {
   fetchMock.resetMocks();
 });
 
-test("Displays users name in userintroduction component", () => {
+test("Displays users name in userintroduction component", async () => {
   fetchMock.mockResponse(JSON.stringify({ name: "test name" }));
 
   const store = mockStore({
@@ -26,20 +26,23 @@ test("Displays users name in userintroduction component", () => {
     },
   });
 
-  const render = TestRenderer.create(
-    <UserProvider>
-      <Provider store={store}>
-        <UserIntroduction />
-      </Provider>
-    </UserProvider>
-  );
+  let render: TestRenderer.ReactTestRenderer | null = null;
+  await TestRenderer.act(async () => {
+    render = TestRenderer.create(
+      <UserProvider>
+        <Provider store={store}>
+          <UserIntroduction />
+        </Provider>
+      </UserProvider>
+    );
+  });
 
-  const testInstance = render.root;
-
-  expect(testInstance.findByProps({ id: "userName" }).props.children).toEqual([
-    "Hello ",
-    "test name",
-  ]);
+  if (render) {
+    const testInstance = (render as TestRenderer.ReactTestRenderer).root;
+    expect(testInstance.findByProps({ id: "userName" }).props.children).toEqual(
+      ["Hello ", "test name"]
+    );
+  }
 });
 
 test("Doesn't display users name in userintroduction component", async () => {
@@ -63,8 +66,7 @@ test("Doesn't display users name in userintroduction component", async () => {
   });
 
   if (render) {
-    const test = render as TestRenderer.ReactTestRenderer;
-    const testInstance = test.root;
+    const testInstance = (render as TestRenderer.ReactTestRenderer).root;
     expect(testInstance.findByProps({ id: "userName" }).props.children).toEqual(
       ["Hello ", undefined]
     );

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { ReactNode, useState } from "react";
 import Link from "next/link";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -16,10 +16,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import AppBar from "../components/navbar/HomeAppBar";
 import HomeIcon from "@mui/icons-material/Home";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { SvgIconTypeMap } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { FC } from "react";
 import theme from "../src/theme";
+import OnboardingDialog from "../components/onboarding/basedialogbox";
+import useOnboardUserChecker from "../hooks/useOnboardUserChecker";
 
 const drawerWidth = 240;
 
@@ -29,8 +32,10 @@ interface homeDrawerOptionInterface {
   pathname: string;
 }
 
+// Will refactor how this is implementented in a later pr
 const drawerOptions: Array<homeDrawerOptionInterface> = [
   { text: "Home", Icon: HomeIcon, pathname: "/app" },
+  { text: "Logout", Icon: LogoutIcon, pathname: "/api/auth/logout" },
 ];
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -43,12 +48,13 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 type HomeLayoutProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   title?: string;
 };
 
 const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const onboardUser = useOnboardUserChecker();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -123,6 +129,7 @@ const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
         <DrawerHeader />
         {children}
       </Box>
+      {onboardUser && <OnboardingDialog />}
     </Box>
   );
 };

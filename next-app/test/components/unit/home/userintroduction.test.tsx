@@ -5,7 +5,7 @@
 import React from "react";
 import configureMockStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import TestRenderer from "react-test-renderer";
+import { ReactTestRenderer, create, act } from "react-test-renderer";
 import UserIntroduction from "../../../../components/home_page/userintroduction";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { enableFetchMocks } from "jest-fetch-mock";
@@ -26,9 +26,9 @@ test("Displays users name in userintroduction component", async () => {
     },
   });
 
-  let render: TestRenderer.ReactTestRenderer | null = null;
-  await TestRenderer.act(async () => {
-    render = TestRenderer.create(
+  let render: ReactTestRenderer | null = null;
+  await act(async () => {
+    render = create(
       <UserProvider>
         <Provider store={store}>
           <UserIntroduction />
@@ -38,7 +38,7 @@ test("Displays users name in userintroduction component", async () => {
   });
 
   if (render) {
-    const testInstance = (render as TestRenderer.ReactTestRenderer).root;
+    const testInstance = (render as ReactTestRenderer).root;
     expect(testInstance.findByProps({ id: "userName" }).props.children).toEqual(
       ["Hello ", "test name"]
     );
@@ -54,9 +54,9 @@ test("Doesn't display users name in userintroduction component", async () => {
     },
   });
 
-  let render: TestRenderer.ReactTestRenderer | null = null;
-  await TestRenderer.act(async () => {
-    render = TestRenderer.create(
+  let render: ReactTestRenderer | null = null;
+  await act(async () => {
+    render = create(
       <UserProvider>
         <Provider store={store}>
           <UserIntroduction />
@@ -66,7 +66,7 @@ test("Doesn't display users name in userintroduction component", async () => {
   });
 
   if (render) {
-    const testInstance = (render as TestRenderer.ReactTestRenderer).root;
+    const testInstance = (render as ReactTestRenderer).root;
     expect(testInstance.findByProps({ id: "userName" }).props.children).toEqual(
       ["Hello ", undefined]
     );

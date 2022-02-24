@@ -15,7 +15,7 @@ export default function useInitializeMe() {
         method: "GET",
         headers: { "Content-type": "application/json" },
       })
-        .then(async (res) => {
+        .then((res) => {
           res
             .json()
             .then((user) => {

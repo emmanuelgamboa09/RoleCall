@@ -13,7 +13,7 @@ export const createUser = async (
 ) => {
   const { error } = validateUserPOST(req.body);
   if (error) {
-    res.status(400).end(error);
+    res.status(400).end(error.message);
     return;
   }
 
@@ -44,7 +44,7 @@ export const updateUser = async (
 ) => {
   const { error } = validateUserPUT(req.body);
   if (error) {
-    res.status(400).end(error);
+    res.status(400).end(error.message);
     return;
   }
 

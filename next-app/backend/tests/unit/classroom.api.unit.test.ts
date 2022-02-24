@@ -2,7 +2,7 @@ import { expect, test } from "@jest/globals";
 import { createMocks } from "node-mocks-http";
 import { AUTH0_TEST_ID, CLASSROOM_TEST_TITLE } from "../../constants";
 
-import { createClassroom } from "../../api/classroom";
+import { createClassroom, getClassrooms } from "../../api/classroom";
 import validateClassroomPOST from "../../helpers/validateClassroomPOST";
 
 test("Insert classroom while authenticated and save operation successful", async () => {
@@ -91,4 +91,47 @@ test("Validate incorrect Classroom POST Input", () => {
     const { error } = validateClassroomPOST(val);
     expect(error).toBeTruthy();
   });
+});
+
+test("Get classrooms with retrieve operation successful", async () => {
+  const { req, res } = createMocks({
+    method: "GET",
+    query: { taughtBy: AUTH0_TEST_ID },
+  });
+
+  await getClassrooms(req, res, AUTH0_TEST_ID, () => Promise.resolve([]));
+
+  expect(res._getStatusCode()).toBe(200);
+});
+
+test("Get classrooms but retrieve operation fails", async () => {
+  const { req, res } = createMocks({
+    method: "GET",
+    query: { taughtBy: AUTH0_TEST_ID },
+  });
+
+  await getClassrooms(req, res, AUTH0_TEST_ID, () => Promise.reject());
+
+  expect(res._getStatusCode()).toBe(500);
+});
+
+test("Get classrooms but forbidden access", async () => {
+  const { req, res } = createMocks({
+    method: "GET",
+    query: { taughtBy: "abc" },
+  });
+
+  await getClassrooms(req, res, AUTH0_TEST_ID, () => Promise.resolve([]));
+
+  expect(res._getStatusCode()).toBe(403);
+});
+
+test("Get classrooms but missing query param", async () => {
+  const { req, res } = createMocks({
+    method: "GET",
+  });
+
+  await getClassrooms(req, res, AUTH0_TEST_ID, () => Promise.resolve([]));
+
+  expect(res._getStatusCode()).toBe(400);
 });

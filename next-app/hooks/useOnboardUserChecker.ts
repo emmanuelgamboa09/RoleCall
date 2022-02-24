@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { onboardingValidateMe } from "../src/validate/user";
+import { onboardingValidateMe } from "../src/validate/onboarding";
 import useMe from "./useMe";
 
 export default function useOnboardUserChecker() {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -13,32 +13,52 @@ import {
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../redux/slice/userslice";
 import useMe from "../../hooks/useMe";
+import { validateUpdateUserData } from "../../src/validate/onboarding";
 
-const OnboardingDialog = () => {
+interface OnboardingDialogProps {}
+
+interface UpdateUserData {
+  name?: string;
+}
+
+const OnboardingDialog: FC<OnboardingDialogProps> = () => {
   const [open, setOpen] = useState(true);
   const [error, setError] = useState(false);
+  const [errorText, setErrorText] = useState("");
   const [name, setName] = useState("");
   const me = useMe();
   const dispatch = useDispatch();
 
-  const handleFinish = () => {
-    if (name.trim().length < 2) {
-      return setError(true);
+  const createUpdateData = () => {
+    const data: UpdateUserData = {};
+    if (!me.name) {
+      data.name = name.trim();
     }
+    return data;
+  };
 
-    fetch("api/users", {
-      method: "PUT",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ name }),
-    })
-      .then(async (res) => {
-        const resp = await res.json();
-        dispatch(updateUser(resp));
-        setOpen(false);
+  const handleFinish = () => {
+    const updateData = createUpdateData();
+    const { error } = validateUpdateUserData(updateData);
+
+    if (error) {
+      setErrorText(error.message.toLocaleUpperCase());
+      setError(true);
+    } else {
+      fetch("api/users", {
+        method: "PUT",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(updateData),
       })
-      .catch(() => {
-        setOpen(false);
-      });
+        .then(async (res) => {
+          const resp = await res.json();
+          dispatch(updateUser(resp));
+          setOpen(false);
+        })
+        .catch(() => {
+          setOpen(false);
+        });
+    }
   };
 
   const handleErrorClose = (
@@ -88,7 +108,7 @@ const OnboardingDialog = () => {
           severity="error"
           sx={{ width: "100%" }}
         >
-          Not all fields were filled out correctly.
+          {errorText}
         </Alert>
       </Snackbar>
     </div>

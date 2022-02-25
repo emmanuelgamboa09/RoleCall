@@ -1,5 +1,6 @@
 {
     "port": 3001,
     "baseUrl": "http://localhost:3000",
-    "chromeWebSecurity": false
+    "chromeWebSecurity": false,
+    "defaultCommandTimeout": 10000
 }

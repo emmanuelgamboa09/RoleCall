@@ -1,7 +1,7 @@
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
-import { HydratedDocument } from "mongoose";
+import { FilterQuery, HydratedDocument } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import { createClassroom } from "../../../backend/api/classroom";
+import { createClassroom, getClassrooms } from "../../../backend/api/classroom";
 import { ClassroomModel } from "../../../backend/api/models/classroom";
 import { getAuthId } from "../../../backend/helpers/getAuthId";
 import withDb from "../../../backend/middleware/withDb";
@@ -30,7 +30,13 @@ export default withApiAuthRequired(
         break;
       }
       case "GET": {
-        response.status(200).send("Successful Classrooms GET");
+        await getClassrooms(
+          request,
+          response,
+          getAuthId(request, response)!,
+          (filter: FilterQuery<Classroom>) => ClassroomModel.find(filter)
+        );
+
         break;
       }
       default:

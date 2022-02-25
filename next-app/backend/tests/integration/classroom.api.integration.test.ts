@@ -2,9 +2,11 @@ import { expect, test } from "@jest/globals";
 import { createMocks } from "node-mocks-http";
 import { AUTH0_TEST_ID, CLASSROOM_TEST_TITLE } from "../../constants";
 import dbConnect, { dbDisconnect } from "../../api/database/dbConnect";
-import { createClassroom } from "../../api/classroom";
+import { createClassroom, getClassrooms } from "../../api/classroom";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import { ClassroomModel } from "../../api/models/classroom";
+import { FilterQuery } from "mongoose";
+import zip from "../../util/zip";
 
 beforeAll(async () => {
   await dbConnect();
@@ -41,4 +43,87 @@ test("Insert classroom while authenticated, connected DB, and save operation suc
     endDate,
   });
   await ClassroomModel.deleteOne({ instructorId: classroom.instructorId });
+});
+
+test("Get classrooms while authenticated, connected DB, and retrieve operation successful", async () => {
+  const classrooms = [
+    {
+      instructorId: "abc",
+      title: "CS",
+      students: [],
+      endDate: new Date(),
+    },
+
+    {
+      instructorId: AUTH0_TEST_ID,
+      title: "KIN",
+      students: [],
+      endDate: new Date("2022-07-10"),
+    },
+    {
+      instructorId: AUTH0_TEST_ID,
+      title: "MATH",
+      students: [],
+      endDate: new Date("2022-01-01"),
+    },
+    {
+      instructorId: AUTH0_TEST_ID,
+      title: "PHYS",
+      students: [],
+      endDate: new Date("2022-05-05"),
+    },
+  ];
+
+  for (const classroom of classrooms) {
+    const doc = new ClassroomModel(classroom);
+    await doc.save();
+  }
+
+  const { req, res } = createMocks({
+    method: "GET",
+    query: {
+      taughtBy: AUTH0_TEST_ID,
+    },
+  });
+
+  await getClassrooms(
+    req,
+    res,
+    AUTH0_TEST_ID,
+    (filter: FilterQuery<Classroom>) => ClassroomModel.find(filter)
+  );
+
+  expect(res._getStatusCode()).toBe(200);
+  const results = JSON.parse(res._getData()).classrooms;
+  const expected = [
+    {
+      instructorId: AUTH0_TEST_ID,
+      title: "KIN",
+      students: [],
+      endDate: new Date("2022-07-10").toISOString(),
+    },
+    {
+      instructorId: AUTH0_TEST_ID,
+      title: "PHYS",
+      students: [],
+      endDate: new Date("2022-05-05").toISOString(),
+    },
+  ];
+  const sortedZip = zip(
+    expected,
+    results.sort((a: { [key: string]: any }, b: { [key: string]: any }) =>
+      a.title.localeCompare(b.title)
+    )
+  );
+
+  for (const value of sortedZip) {
+    delete value[1]._id;
+    delete value[1].__v;
+    expect(value[0]).toEqual(value[1]);
+  }
+
+  for (const value of classrooms) {
+    const { instructorId } = value;
+    await ClassroomModel.deleteMany({ instructorId });
+  }
 });

@@ -19,7 +19,7 @@ function HomePage() {
   );
 }
 
-export default withPageAuthRequired(HomePage)
+export default withPageAuthRequired(HomePage);
 
 HomePage.getLayout = function getLayout(page: ReactElement) {
   return <BaseAppLayout title={"Home"}>{page}</BaseAppLayout>;

@@ -10,4 +10,4 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-export const selectUser = (state: RootState) => state.userReducer.user;
+export const selectMe = (state: RootState) => state.userReducer.user;

@@ -7,6 +7,7 @@ import { store } from "../redux/store";
 import { Provider } from "react-redux";
 import { ReactNode } from "react";
 import { NextPage } from "next";
+import RollCall from "../components/rolecall";
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactNode) => ReactNode;
@@ -23,7 +24,7 @@ function MyApp({ Component, pageProps }: Props) {
     <UserProvider>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-          {getLayout(<Component {...pageProps} />)}
+          <RollCall>{getLayout(<Component {...pageProps} />)}</RollCall>
         </Provider>
       </ThemeProvider>
     </UserProvider>

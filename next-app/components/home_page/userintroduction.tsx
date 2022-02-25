@@ -7,26 +7,26 @@ import {
   Typography,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../redux/store";
+import { selectMe } from "../../redux/store";
 
 interface UserIntroductionProps {}
 
 const UserIntroduction: FC<UserIntroductionProps> = () => {
-  const user = useSelector(selectUser);
+  const me = useSelector(selectMe);
   return (
     <ListItem sx={{ px: 0 }}>
       <ListItemAvatar>
         <Avatar
           id="userAvatar"
           alt="Users avatar"
-          src={user ? user.avatar : null}
+          src={me ? me.avatar : null}
           sx={{ width: 60, height: 60 }}
         />
       </ListItemAvatar>
       <ListItemText
         primary={
           <Typography id="userName" variant="h4">
-            Hello {user && user.name}
+            Hello {me && me.name}
           </Typography>
         }
         secondary={

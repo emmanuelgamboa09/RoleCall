@@ -11,10 +11,10 @@ export async function login(
   handleLogin: (req: NextApiRequest, res: NextApiResponse) => any,
   getAuthId: (
     req: NextApiRequest,
-    res: NextApiResponse
+    res: NextApiResponse,
   ) => string | null | undefined,
   getExistingDoc: (user: User) => Query<any, any, any, any> | Promise<null>,
-  save: (user: User) => Promise<void>
+  save: (user: User) => Promise<void>,
 ) {
   try {
     await handleLogin(req, res);
@@ -45,6 +45,6 @@ export function injectedLogin(req: NextApiRequest, res: NextApiResponse) {
     async (user: User) => {
       const doc: HydratedDocument<User> = new UserModel(user);
       await doc.save();
-    }
+    },
   );
 }

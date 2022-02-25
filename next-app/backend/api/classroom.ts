@@ -8,7 +8,7 @@ export const createClassroom = async (
   req: NextApiRequest,
   res: NextApiResponse,
   authId: string,
-  save: (classroom: Classroom) => Promise<void>
+  save: (classroom: Classroom) => Promise<void>,
 ) => {
   const body: Classroom = req.body;
   const { error } = validateClassroomPOST(body);
@@ -38,8 +38,8 @@ export const getClassrooms = async (
   res: NextApiResponse,
   authId: string,
   findClassrooms: (
-    filter: FilterQuery<Classroom>
-  ) => Query<any, any, any, any> | Promise<Classroom[]>
+    filter: FilterQuery<Classroom>,
+  ) => Query<any, any, any, any> | Promise<Classroom[]>,
 ) => {
   const { query } = req;
   const { taughtBy } = query;

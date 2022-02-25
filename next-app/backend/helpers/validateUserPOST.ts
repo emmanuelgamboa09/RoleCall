@@ -3,7 +3,7 @@ import { HTTPBody } from "../types";
 
 const schema = {
   name: Joi.string().pattern(
-    new RegExp("^[a-zA-Z0-9]{2,30}(\\s[a-zA-Z0-9]{2,30})?$")
+    new RegExp("^[a-zA-Z0-9]{2,30}(\\s[a-zA-Z0-9]{2,30})?$"),
   ),
 };
 

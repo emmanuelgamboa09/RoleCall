@@ -1,13 +1,15 @@
 import { expect, test } from "@jest/globals";
 import axios from "axios";
-import { AUTH0_TEST_USER_EMAIL, AUTH0_TEST_USER_PWD } from "../backend/constants";
+import {
+  AUTH0_TEST_USER_EMAIL,
+  AUTH0_TEST_USER_PWD,
+} from "../backend/constants";
 
 test("Authenticate with auth0 server using app and test user credentials", async () => {
   if (
-    [
-      process.env.AUTH0_CLIENT_ID,
-      process.env.AUTH0_CLIENT_SECRET,
-    ].some((val) => val === undefined)
+    [process.env.AUTH0_CLIENT_ID, process.env.AUTH0_CLIENT_SECRET].some(
+      (val) => val === undefined,
+    )
   ) {
     throw new Error("Undefined auth0 ENV vars");
   }

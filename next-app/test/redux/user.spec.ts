@@ -4,7 +4,7 @@ test("should return the initial empty user state", () => {
   expect(
     userSlice.reducer(undefined, {
       type: undefined,
-    })
+    }),
   ).toEqual({ user: null });
 });
 

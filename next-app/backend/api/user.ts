@@ -9,7 +9,7 @@ export const createUser = async (
   req: NextApiRequest,
   res: NextApiResponse,
   authId: string,
-  save: (user: User) => Promise<void>
+  save: (user: User) => Promise<void>,
 ) => {
   const { error } = validateUserPOST(req.body);
   if (error) {
@@ -39,8 +39,8 @@ export const updateUser = async (
   authId: string,
   update: (
     filter: FilterQuery<any> | undefined,
-    update: UpdateQuery<any> | undefined
-  ) => Query<any, any, any, any> | Promise<any>
+    update: UpdateQuery<any> | undefined,
+  ) => Query<any, any, any, any> | Promise<any>,
 ) => {
   const { error } = validateUserPUT(req.body);
   if (error) {
@@ -68,7 +68,7 @@ export const getUser = async (
   req: NextApiRequest,
   res: NextApiResponse,
   authId: string,
-  findUser: (user: User) => Query<any, any, any, any> | Promise<User | null>
+  findUser: (user: User) => Query<any, any, any, any> | Promise<User | null>,
 ) => {
   try {
     const user = await findUser({ authId });

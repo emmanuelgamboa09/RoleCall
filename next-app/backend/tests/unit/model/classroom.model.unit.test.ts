@@ -63,7 +63,7 @@ test("Classroom documents inserted incorrectly", async () => {
   };
 
   const classroomWithIncorrectTypes = new ClassroomModel(
-    objectWithIncorrectTypes
+    objectWithIncorrectTypes,
   );
   await expect(classroomWithIncorrectTypes.validate()).rejects.toThrow();
 });

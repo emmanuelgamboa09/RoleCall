@@ -1,14 +1,14 @@
 import React, { FC, useState } from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
 import {
   TextField,
   DialogContentText,
   DialogTitle,
   Alert,
   Snackbar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMe } from "../../redux/slice/userslice";
@@ -47,12 +47,20 @@ const OnboardingDialog: FC<OnboardingDialogProps> = () => {
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(updateData),
       })
-        .then(async (res) => {
-          const resp = await res.json();
-          dispatch(updateMe(resp));
-          setOpen(false);
+        .then((res) => {
+          res
+            .json()
+            .then((res) => {
+              dispatch(updateMe(res));
+              setOpen(false);
+            })
+            .catch((err) => {
+              console.log(err);
+              setOpen(false);
+            });
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           setOpen(false);
         });
     }

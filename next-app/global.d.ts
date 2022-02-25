@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { NextPage } from 'next'
 
 declare global {
     var mongooseInst: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null }
@@ -13,6 +14,12 @@ declare global {
             DB_PWD: string
         }
     }
+
+    type NextPageWithLayout = NextPage & {
+        getLayout?: (page: ReactElement) => ReactNode
+    }
 }
 
+
 export { }
+

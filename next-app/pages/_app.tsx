@@ -1,24 +1,18 @@
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { ThemeProvider } from "@emotion/react";
-import theme from "../src/theme";
-import { store } from "../redux/store";
+import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
-import { ReactNode } from "react";
-import { NextPage } from "next";
 import RollCall from "../components/rolecall";
+import { store } from "../redux/store";
+import theme from "../src/theme";
+import "../styles/globals.css";
 
-type Page<P = {}> = NextPage<P> & {
-  getLayout?: (page: ReactNode) => ReactNode;
-};
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
 
-type Props = AppProps & {
-  Component: Page;
-};
-
-function MyApp({ Component, pageProps }: Props) {
-  const getLayout = Component.getLayout || ((page) => page);
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <UserProvider>

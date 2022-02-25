@@ -19,8 +19,12 @@ function HomePage() {
   );
 }
 
-export default withPageAuthRequired(HomePage);
 
-HomePage.getLayout = function getLayout(page: ReactElement) {
+const AuthWrapper = withPageAuthRequired(HomePage) as NextPageWithLayout
+
+AuthWrapper.getLayout = function getLayout(page: ReactElement) {
   return <BaseAppLayout title={"Home"}>{page}</BaseAppLayout>;
 };
+
+export default AuthWrapper
+

@@ -94,11 +94,11 @@ test("Update user while authenticated, connected DB, and save operation successf
     AUTH0_TEST_ID,
     (
       filter: FilterQuery<any> | undefined,
-      update: UpdateQuery<any> | undefined
+      update: UpdateQuery<any> | undefined,
     ) =>
       UserModel.findOneAndUpdate(filter, update, {
         new: true,
-      })
+      }),
   );
 
   expect(res._getStatusCode()).toBe(200);

@@ -11,10 +11,10 @@ export default withApiAuthRequired(
   withDb(async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "GET") {
       await getUser(req, res, getAuthId(req, res)!, (user: User) =>
-        UserModel.findOne(user)
+        UserModel.findOne(user),
       );
     } else {
       res.status(405).end("Invalid HTTP Method: " + req.method);
     }
-  })
+  }),
 );

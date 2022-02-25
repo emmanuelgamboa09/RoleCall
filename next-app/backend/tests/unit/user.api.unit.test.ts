@@ -97,7 +97,7 @@ test("Update user while authenticated and save operation successful", async () =
     Promise.resolve({
       authId: AUTH0_TEST_ID,
       name: AUTH0_UPDATED_TEST_USER_NAME,
-    })
+    }),
   );
 
   expect(res._getStatusCode()).toBe(200);
@@ -187,7 +187,7 @@ test("Get user while authenticated and retrieve operation successful", async () 
   });
 
   await getUser(req, res, AUTH0_TEST_ID, () =>
-    Promise.resolve({ authId: AUTH0_TEST_ID, name: AUTH0_TEST_USER_NAME })
+    Promise.resolve({ authId: AUTH0_TEST_ID, name: AUTH0_TEST_USER_NAME }),
   );
 
   expect(res._getStatusCode()).toBe(200);

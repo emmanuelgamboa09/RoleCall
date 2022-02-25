@@ -1,4 +1,4 @@
-import { HTTPBody } from './../types';
+import { HTTPBody } from "./../types";
 import Joi from "joi";
 import { Classroom } from "../../interfaces/classroom.interface";
 

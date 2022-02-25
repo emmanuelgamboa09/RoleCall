@@ -16,18 +16,18 @@ test("String set properly on userclassroomcard", () => {
   };
 
   const render = TestRenderer.create(
-    <UserClassroomCard classroom={classroom} />
+    <UserClassroomCard classroom={classroom} />,
   );
 
   const testInstance = render.root;
 
   expect(testInstance.findByProps({ id: "className" }).props.children).toEqual(
-    classroom.className
+    classroom.className,
   );
   expect(
-    testInstance.findByProps({ id: "classDetails" }).props.children
+    testInstance.findByProps({ id: "classDetails" }).props.children,
   ).toEqual(classroom.classDetails);
   expect(
-    testInstance.findByProps({ id: "classroomImage" }).props.image
+    testInstance.findByProps({ id: "classroomImage" }).props.image,
   ).toEqual(classroom.classroomImage);
 });

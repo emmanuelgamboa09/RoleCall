@@ -33,14 +33,14 @@ test("Displays users name in userintroduction component", async () => {
         <Provider store={store}>
           <UserIntroduction />
         </Provider>
-      </UserProvider>
+      </UserProvider>,
     );
   });
 
   if (render) {
     const testInstance = (render as ReactTestRenderer).root;
     expect(testInstance.findByProps({ id: "userName" }).props.children).toEqual(
-      ["Hello ", "test name"]
+      ["Hello ", "test name"],
     );
   }
 });
@@ -61,14 +61,14 @@ test("Doesn't display users name in userintroduction component", async () => {
         <Provider store={store}>
           <UserIntroduction />
         </Provider>
-      </UserProvider>
+      </UserProvider>,
     );
   });
 
   if (render) {
     const testInstance = (render as ReactTestRenderer).root;
     expect(testInstance.findByProps({ id: "userName" }).props.children).toEqual(
-      ["Hello ", undefined]
+      ["Hello ", undefined],
     );
   }
 });

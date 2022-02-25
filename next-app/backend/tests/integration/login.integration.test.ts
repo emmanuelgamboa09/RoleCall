@@ -30,8 +30,8 @@ test("Login for first time and successfully add user record", async () => {
       async (user: User) => {
         const doc: HydratedDocument<User> = new UserModel(user);
         await doc.save();
-      }
-    )
+      },
+    ),
   ).resolves.not.toThrow(Error);
 
   const record = await UserModel.findOne({ authId: AUTH0_TEST_ID });

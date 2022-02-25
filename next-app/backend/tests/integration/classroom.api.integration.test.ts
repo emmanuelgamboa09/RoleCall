@@ -90,7 +90,7 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
     req,
     res,
     AUTH0_TEST_ID,
-    (filter: FilterQuery<Classroom>) => ClassroomModel.find(filter)
+    (filter: FilterQuery<Classroom>) => ClassroomModel.find(filter),
   );
 
   expect(res._getStatusCode()).toBe(200);
@@ -112,8 +112,8 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
   const sortedZip = zip(
     expected,
     results.sort((a: { [key: string]: any }, b: { [key: string]: any }) =>
-      a.title.localeCompare(b.title)
-    )
+      a.title.localeCompare(b.title),
+    ),
   );
 
   for (const value of sortedZip) {

@@ -66,7 +66,7 @@ const OnboardingDialog: FC<OnboardingDialogProps> = () => {
 
   const handleErrorClose = (
     event?: React.SyntheticEvent | Event,
-    reason?: string
+    reason?: string,
   ) => {
     if (reason === "clickaway") {
       return;

@@ -10,7 +10,7 @@ import { Classroom } from "../../../interfaces/classroom.interface";
 export default withApiAuthRequired(
   withDb(async function handler(
     request: NextApiRequest,
-    response: NextApiResponse
+    response: NextApiResponse,
   ) {
     const { method } = request;
 
@@ -22,10 +22,10 @@ export default withApiAuthRequired(
           getAuthId(request, response)!,
           async (classroom: Classroom) => {
             const doc: HydratedDocument<Classroom> = new ClassroomModel(
-              classroom
+              classroom,
             );
             await doc.save();
-          }
+          },
         );
         break;
       }
@@ -34,12 +34,12 @@ export default withApiAuthRequired(
           request,
           response,
           getAuthId(request, response)!,
-          (filter: FilterQuery<Classroom>) => ClassroomModel.find(filter)
+          (filter: FilterQuery<Classroom>) => ClassroomModel.find(filter),
         );
 
         break;
       }
       default:
     }
-  })
+  }),
 );

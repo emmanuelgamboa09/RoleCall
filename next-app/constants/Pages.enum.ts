@@ -1,6 +1,6 @@
 enum Pages {
-    Landing = '/',
-    App = "/app"
+  Landing = "/",
+  App = "/app",
 }
 
-export default Pages
+export default Pages;

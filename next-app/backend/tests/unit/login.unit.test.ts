@@ -15,8 +15,8 @@ test("Login for first time and successfully add user record", async () => {
       () => {},
       () => AUTH0_TEST_ID,
       () => Promise.resolve(null),
-      () => Promise.resolve()
-    )
+      () => Promise.resolve(),
+    ),
   ).resolves.not.toThrow(Error);
 });
 
@@ -31,8 +31,8 @@ test("Auth0 login fails", async () => {
       () => Promise.reject(),
       () => AUTH0_TEST_ID,
       () => Promise.resolve(null),
-      () => Promise.resolve()
-    )
+      () => Promise.resolve(),
+    ),
   ).rejects.toThrow(Error);
 });
 
@@ -47,8 +47,8 @@ test("Fail to fetch auth session", async () => {
       () => {},
       () => undefined,
       () => Promise.resolve(null),
-      () => Promise.resolve()
-    )
+      () => Promise.resolve(),
+    ),
   ).rejects.toThrow(Error);
 });
 
@@ -63,7 +63,7 @@ test("Fail to access db", async () => {
       () => {},
       () => AUTH0_TEST_ID,
       () => Promise.reject(null),
-      () => Promise.resolve()
-    )
+      () => Promise.resolve(),
+    ),
   ).rejects.toThrow(Error);
 });

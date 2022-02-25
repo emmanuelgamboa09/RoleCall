@@ -10,7 +10,7 @@ import { User } from "../../../backend/types";
 export default withApiAuthRequired(
   withDb(async function handler(
     request: NextApiRequest,
-    response: NextApiResponse
+    response: NextApiResponse,
   ) {
     const { method } = request;
 
@@ -24,7 +24,7 @@ export default withApiAuthRequired(
           async (user: User) => {
             const doc: HydratedDocument<User> = new UserModel(user);
             await doc.save();
-          }
+          },
         );
         break;
       }
@@ -35,15 +35,15 @@ export default withApiAuthRequired(
           getAuthId(request, response)!,
           (
             filter: FilterQuery<any> | undefined,
-            update: UpdateQuery<any> | undefined
+            update: UpdateQuery<any> | undefined,
           ) =>
             UserModel.findOneAndUpdate(filter, update, {
               new: true,
-            })
+            }),
         );
         break;
       }
       default:
     }
-  })
+  }),
 );

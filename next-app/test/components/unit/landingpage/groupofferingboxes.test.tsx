@@ -15,7 +15,7 @@ test("Make sure text is loaded properly on GroupOfferingBoxes", () => {
   };
 
   const render = TestRenderer.create(
-    <GroupOfferingBoxes offering={offering} />
+    <GroupOfferingBoxes offering={offering} />,
   );
 
   const testInstance = render.root;
@@ -28,6 +28,6 @@ test("Make sure text is loaded properly on GroupOfferingBoxes", () => {
   ]);
 
   expect(
-    testInstance.findByProps({ id: "offeringCardMedia" }).props.image
+    testInstance.findByProps({ id: "offeringCardMedia" }).props.image,
   ).toEqual(offering.imageUrl);
 });

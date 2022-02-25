@@ -6,10 +6,10 @@ import Pages from "../constants/Pages.enum";
 import useAuthRedirect from "../hooks/useAuthRedirect";
 
 const LandingPage: NextPage = () => {
-  const { isHandlingRedirect } = useAuthRedirect({ to: Pages.App })
+  const { isHandlingRedirect } = useAuthRedirect({ to: Pages.App });
 
   if (isHandlingRedirect) {
-    return <p>Loading...</p>
+    return <p>Loading...</p>;
   }
 
   return (

@@ -55,12 +55,10 @@ const OnboardingDialog: FC<OnboardingDialogProps> = () => {
               setOpen(false);
             })
             .catch((err) => {
-              console.log(err);
               setOpen(false);
             });
         })
         .catch((err) => {
-          console.log(err);
           setOpen(false);
         });
     }

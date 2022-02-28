@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../interfaces/classroom.interface";
 import validateClassroomGET from "../helpers/validateClassroomGET";
 import validateClassroomPOST from "../helpers/validateClassroomPOST";
+import validateSingleClassroomGET from "../helpers/validateSingleClassroomGET";
 
 export const createClassroom = async (
   req: NextApiRequest,
@@ -62,6 +63,38 @@ export const getClassrooms = async (
   try {
     const classrooms = await findClassrooms(filter);
     res.status(200).json({ classrooms });
+  } catch (err) {
+    res.status(500).end("Internal Error");
+  }
+};
+
+export const getClassroom = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  authId: string,
+  findClassroom: (
+    id: any,
+  ) => Query<any, any, any, any> | Promise<Classroom | null>,
+) => {
+  const { query } = req;
+  const { error } = validateSingleClassroomGET(query);
+  if (error) {
+    res.status(400).end(error.message);
+    return;
+  }
+
+  const { classId } = query;
+
+  try {
+    const classroom: Classroom = await findClassroom(classId);
+    const { instructorId, students } = classroom || {};
+    if (!classroom) {
+      res.status(404).end("Class doesn't exist");
+    } else if (instructorId !== authId && !students!.includes(authId)) {
+      res.status(403).end("Forbidden");
+    } else {
+      res.status(200).json(classroom);
+    }
   } catch (err) {
     res.status(500).end("Internal Error");
   }

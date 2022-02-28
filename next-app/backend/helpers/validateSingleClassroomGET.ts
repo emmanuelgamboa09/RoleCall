@@ -1,8 +1,11 @@
 import Joi from "joi";
+import { OBJECT_ID_LENGTH } from "../constants";
 import { HTTPBody } from "../types";
 
 const schema = {
-  taughtBy: Joi.string().required(),
+  classId: Joi.string()
+    .pattern(new RegExp(`^[A-Fa-f0-9]\{${OBJECT_ID_LENGTH}\}\$`))
+    .required(),
 };
 
 export default (body: HTTPBody) => {

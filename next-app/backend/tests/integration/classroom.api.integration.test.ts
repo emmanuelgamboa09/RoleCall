@@ -1,6 +1,10 @@
 import { expect, test } from "@jest/globals";
 import { createMocks } from "node-mocks-http";
-import { AUTH0_TEST_ID, CLASSROOM_TEST_TITLE } from "../../constants";
+import {
+  AUTH0_TEST_ID,
+  CLASSROOM_TEST_TITLE,
+  DB_TEST_NAME,
+} from "../../constants";
 import dbConnect, { dbDisconnect } from "../../api/database/dbConnect";
 import { createClassroom, getClassrooms } from "../../api/classroom";
 import { Classroom } from "../../../interfaces/classroom.interface";
@@ -9,7 +13,7 @@ import { FilterQuery } from "mongoose";
 import zip from "../../util/zip";
 
 beforeAll(async () => {
-  await dbConnect();
+  await dbConnect(DB_TEST_NAME);
 });
 
 afterAll(async () => {
@@ -116,14 +120,11 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
     ),
   );
 
-  // Breaks once we start to have out database filled with actual object
-  // We need to move all of our testing to utilize a mock mongodb database
-  // instead of a "production or testing" database.
-  // for (const value of sortedZip) {
-  //   delete value[1]._id;
-  //   delete value[1].__v;
-  //   expect(value[0]).toEqual(value[1]);
-  // }
+  for (const value of sortedZip) {
+    delete value[1]._id;
+    delete value[1].__v;
+    expect(value[0]).toEqual(value[1]);
+  }
 
   for (const value of classrooms) {
     const { instructorId } = value;

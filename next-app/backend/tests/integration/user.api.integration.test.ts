@@ -7,12 +7,13 @@ import {
   AUTH0_TEST_ID,
   AUTH0_TEST_USER_NAME,
   AUTH0_UPDATED_TEST_USER_NAME,
+  DB_TEST_NAME,
 } from "../../constants";
 import dbConnect, { dbDisconnect } from "../../api/database/dbConnect";
 import { FilterQuery, UpdateQuery } from "mongoose";
 
 beforeAll(async () => {
-  await dbConnect();
+  await dbConnect(DB_TEST_NAME);
 });
 
 afterAll(async () => {

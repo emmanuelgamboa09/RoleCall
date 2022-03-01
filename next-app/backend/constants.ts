@@ -8,3 +8,7 @@ export const AUTH0_TEST_USER_PWD = "test123!";
 export const AUTH0_TEST_ID = "auth0|6205adcf48929b007055fc4c";
 
 export const CLASSROOM_TEST_TITLE = "CS160";
+export const CLASSROOM_TEST_ID = "a123aabfaaaaaa485aaaaaaa";
+export const CLASSROOM_TEST_FIELDS = "title,instructorId";
+
+export const OBJECT_ID_LENGTH = 24;

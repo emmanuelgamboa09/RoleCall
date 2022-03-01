@@ -2,7 +2,7 @@ import Joi from "joi";
 import { HTTPBody } from "../types";
 
 const schema = {
-  taughtBy: Joi.string(),
+  taughtBy: Joi.string().required(),
 };
 
 export default (body: HTTPBody) => {

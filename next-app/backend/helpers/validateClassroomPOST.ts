@@ -4,11 +4,8 @@ import { Classroom } from "../../interfaces/classroom.interface";
 
 export default (body: Classroom | HTTPBody) => {
   const schema = {
-    title: Joi.string()
-      .min(2)
-      .max(16)
-      .pattern(new RegExp("^[a-zA-Z0-9]+(\\s[a-zA-Z0-9]*)?$"))
-      .required(),
+    instructorId: Joi.string(),
+    title: Joi.string().min(2).max(30).required(),
     // Specified end date cannot be in the past
     endDate: Joi.date().required().greater(Date.now()),
   };

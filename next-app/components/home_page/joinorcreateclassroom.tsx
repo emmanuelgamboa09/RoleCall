@@ -1,10 +1,20 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Box, Button } from "@mui/material";
 import UserIntroduction from "./userintroduction";
+import JoinClassroomDialog from "./joinclassroom/joinclassroomdialog";
 
 interface UserJoinOrCreateGridProps {}
 
 const UserJoinOrCreateGrid: FC<UserJoinOrCreateGridProps> = () => {
+  const [createClassrom, setCreateClassrom] = useState(false);
+  const closeClassroom = () => {
+    setCreateClassrom(false);
+  };
+
+  const openCreateClassroom = () => {
+    setCreateClassrom(true);
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <UserIntroduction />
@@ -20,10 +30,16 @@ const UserJoinOrCreateGrid: FC<UserJoinOrCreateGridProps> = () => {
         <Button sx={{ mb: 1, minWidth: 170 }} size="small" variant="contained">
           Join a classroom
         </Button>
-        <Button sx={{ mb: 1, minWidth: 170 }} size="small" variant="contained">
+        <Button
+          onClick={openCreateClassroom}
+          sx={{ mb: 1, minWidth: 170 }}
+          size="small"
+          variant="contained"
+        >
           Create a classroom
         </Button>
       </Box>
+      <JoinClassroomDialog open={createClassrom} handleClose={closeClassroom} />
     </div>
   );
 };

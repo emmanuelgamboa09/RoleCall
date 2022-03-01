@@ -4,6 +4,7 @@ import {
   AUTH0_TEST_ID,
   CLASSROOM_TEST_ID,
   CLASSROOM_TEST_TITLE,
+  DB_TEST_NAME,
 } from "../../constants";
 import dbConnect, { dbDisconnect } from "../../api/database/dbConnect";
 import {
@@ -17,7 +18,7 @@ import { FilterQuery } from "mongoose";
 import zip from "../../util/zip";
 
 beforeAll(async () => {
-  await dbConnect();
+  await dbConnect(DB_TEST_NAME);
 });
 
 afterAll(async () => {

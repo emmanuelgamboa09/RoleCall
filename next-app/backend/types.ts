@@ -5,5 +5,5 @@ export interface User {
 }
 
 export interface HTTPBody {
-  [key: string]: unknown;
+  [key: string]: any;
 }

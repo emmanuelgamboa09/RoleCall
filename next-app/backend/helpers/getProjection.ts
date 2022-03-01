@@ -9,16 +9,13 @@ export default (
   if (fieldParam === undefined) {
     return classroom;
   }
+
   const fields = (fieldParam as string).split(",");
-  const reducer = (
-    accum: {
-      [key: string]: any;
-    },
-    field: string,
-  ) => {
-    const proj = { ...accum };
-    proj[field] = classroom[field as keyof Classroom];
-    return proj;
-  };
-  return fields.reduce(reducer, {});
+  const projection: {
+    [key: string]: any;
+  } = {};
+  for (const field of fields) {
+    projection[field] = classroom[field as keyof Classroom];
+  }
+  return projection;
 };

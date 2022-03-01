@@ -4,12 +4,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { createRequest, createResponse } from "node-mocks-http";
 import dbConnect, { dbDisconnect } from "../../api/database/dbConnect";
 import { UserModel } from "../../api/models/user";
-import { AUTH0_TEST_ID } from "../../constants";
+import { AUTH0_TEST_ID, DB_TEST_NAME } from "../../constants";
 import { login } from "../../helpers/login";
 import { User } from "../../types";
 
 beforeAll(async () => {
-  await dbConnect();
+  await dbConnect(DB_TEST_NAME);
 });
 
 afterAll(async () => {

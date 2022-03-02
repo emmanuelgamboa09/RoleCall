@@ -107,7 +107,7 @@ test("Validate incorrect Classroom POST Input", () => {
 test("Get classrooms with retrieve operation successful", async () => {
   const { req, res } = createMocks({
     method: "GET",
-    query: { taughtBy: AUTH0_TEST_ID },
+    query: { taught: "true" },
   });
 
   await getClassrooms(req, res, AUTH0_TEST_ID, () => Promise.resolve([]));
@@ -118,7 +118,7 @@ test("Get classrooms with retrieve operation successful", async () => {
 test("Get classrooms but retrieve operation fails", async () => {
   const { req, res } = createMocks({
     method: "GET",
-    query: { taughtBy: AUTH0_TEST_ID },
+    query: { taught: "true" },
   });
 
   await getClassrooms(req, res, AUTH0_TEST_ID, () => Promise.reject());
@@ -126,20 +126,20 @@ test("Get classrooms but retrieve operation fails", async () => {
   expect(res._getStatusCode()).toBe(500);
 });
 
-test("Get classrooms but forbidden access", async () => {
+test("Get classrooms but missing query param", async () => {
   const { req, res } = createMocks({
     method: "GET",
-    query: { taughtBy: "abc" },
   });
 
   await getClassrooms(req, res, AUTH0_TEST_ID, () => Promise.resolve([]));
 
-  expect(res._getStatusCode()).toBe(403);
+  expect(res._getStatusCode()).toBe(400);
 });
 
-test("Get classrooms but missing query param", async () => {
+test("Get classrooms but invalid query param", async () => {
   const { req, res } = createMocks({
     method: "GET",
+    query: { taught: "false" },
   });
 
   await getClassrooms(req, res, AUTH0_TEST_ID, () => Promise.resolve([]));
@@ -195,10 +195,13 @@ test("Validate incorrect Classroom POST Input", () => {
 test("Validate correct Classroom GET Input", () => {
   const inputs = [
     {
-      taughtBy: "aaaaaaaaaaaaaaaaaaaaaaaa",
+      taught: "true",
     },
     {
-      taughtBy: "a123aagraaaaaa485aaaaaaa",
+      taught: "True",
+    },
+    {
+      taught: "tRuE",
     },
   ];
   inputs.forEach((val) => {
@@ -210,13 +213,22 @@ test("Validate correct Classroom GET Input", () => {
 test("Validate incorrect Classroom GET Input", () => {
   const inputs = [
     {},
-    { taughtBy: null },
+    { taught: null },
     {
-      taughtBy: "a123aagraaaaaa485aaaaaaa",
+      taught: "abc",
+    },
+    {
+      taught: "abc",
       diffKey: "123",
     },
     {
-      taughtBy: 123,
+      taught: 123,
+    },
+    {
+      taught: "false",
+    },
+    {
+      taught: "",
     },
   ];
   inputs.forEach((val) => {

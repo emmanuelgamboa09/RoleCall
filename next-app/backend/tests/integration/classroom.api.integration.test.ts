@@ -91,7 +91,7 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
   const { req, res } = createMocks({
     method: "GET",
     query: {
-      taughtBy: AUTH0_TEST_ID,
+      taught: "true",
     },
   });
 

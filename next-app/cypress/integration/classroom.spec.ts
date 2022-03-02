@@ -1,3 +1,4 @@
+import Pages from "../../constants/Pages.enum";
 
 const classroomName = "foo"
 const classroomTestPath = `/app/classroom/${classroomName}`;
@@ -25,6 +26,7 @@ describe("Navigation Between Landing & App Pages", () => {
 
         it("should load classroom page", () => {
             // @TODO: Ensure users can only join classrooms they are part of
+            cy.visit(Pages.App);
             cy.visit(classroomTestPath);
             cy.location("pathname").should("equal", classroomTestPath);
             cy.findByText(expectedClassroomHeading).should("exist")

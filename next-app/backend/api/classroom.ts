@@ -48,7 +48,6 @@ export const getClassrooms = async (
 
   const { error } = validateClassroomGET(query);
   if (error) {
-    console.log(error.message);
     res.status(400).end(error?.message);
     return;
   }

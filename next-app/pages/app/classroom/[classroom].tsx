@@ -22,7 +22,7 @@ const ClassroomPage: NextPageWithLayout = () => {
             }}
         >
             <Typography component="h1" variant="h3" marginTop="2rem">
-                Classroom {classroom}!
+                Classroom {classroom}
             </Typography>
             <Typography component="h2" variant="h4">
                 Instructor: Foo Bar

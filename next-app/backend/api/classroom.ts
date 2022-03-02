@@ -44,23 +44,22 @@ export const getClassrooms = async (
   ) => Query<any, any, any, any> | Promise<Classroom[]>,
 ) => {
   const { query } = req;
-  const { taughtBy } = query;
+  const { taught } = query;
 
   const { error } = validateClassroomGET(query);
-  if (error || Object.keys(query).length === 0) {
-    res.status(400).end(error?.message || "Invalid request");
+  if (error) {
+    res.status(400).end(error?.message);
     return;
   }
 
-  if (taughtBy !== authId) {
-    res.status(403).end("Forbidden");
-    return;
-  }
-
-  const filter = {
-    instructorId: taughtBy,
+  const filter: { [k: string]: any } = {
     endDate: { $gte: new Date() },
   };
+
+  if (taught) {
+    filter.instructorId = authId;
+  }
+
   try {
     const classrooms = await findClassrooms(filter);
     res.status(200).json({ classrooms });

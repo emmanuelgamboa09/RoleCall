@@ -1,7 +1,8 @@
 
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Link as MuiLink, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 import { ReactElement, useEffect, useState } from "react";
 import { CLASSROOM_TEST_TITLE } from "../../../backend/constants";
 import { Classroom } from "../../../interfaces/classroom.interface";
@@ -64,8 +65,13 @@ const ClassroomIndexPage: NextPageWithLayout = () => {
             </Typography>
             {classrooms.length > 0 &&
                 <ul>
-                    {classrooms.map(({ title, instructorId }) =>
-                        <li>{title} | Instructor: {instructorId}</li>
+                    {/* @TODO: Only get classroom ids & names. Specific pages will use the rest of the data */}
+                    {classrooms.map(({ _id, title, instructorId }) =>
+                        <Link href={`/app/classroom/${_id}`}>
+                            <MuiLink sx={{ cursor: "pointer" }}>
+                                <li>{title} | {_id} | Instructor: {instructorId}</li>
+                            </MuiLink>
+                        </Link>
                     )}
                 </ul>
             }

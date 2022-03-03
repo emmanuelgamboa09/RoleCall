@@ -3,15 +3,31 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { Box, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import ClassroomTabs from "../../../components/classroom/ClassroomTabs";
+import { Classroom } from "../../../interfaces/classroom.interface";
 import BaseAppLayout from "../../../layout/baseapplayout";
 import theme from "../../../src/theme";
+import { Data as ClassroomByIdData } from "../../api/classrooms/[classroomId]";
 
 
 const ClassroomPage: NextPageWithLayout = () => {
     const router = useRouter()
     const { classroom } = router.query as { classroom: string }
+
+    const [classroomData, setClassroomData] = useState<Classroom | null>(null)
+    const getClassrooms = async () => {
+        const response = await fetch(`/api/classrooms/${classroom}`)
+        const { classroom: classroomData } = await response.json() as ClassroomByIdData
+        setClassroomData(classroomData)
+    }
+
+    useEffect(() => {
+        getClassrooms().catch((error) => {
+            setClassroomData(null)
+            console.error(error)
+        })
+    }, [])
 
 
     return (
@@ -25,11 +41,16 @@ const ClassroomPage: NextPageWithLayout = () => {
                 Classroom {classroom}
             </Typography>
             <Typography component="h2" variant="h4">
-                Instructor: Foo Bar
+                {/* @TODO: Get instructor data */}
+                Instructor: {classroomData?.instructorId}
             </Typography>
             <ClassroomTabs
                 tabs={{
-                    "Project": { content: <div>Project</div> },
+                    "Project": {
+                        content: <div>Project
+                            <div>Other data: {JSON.stringify(classroomData)}</div>
+                        </div>
+                    },
                     "Team Finder": { content: <div>Team Finder</div> },
                     "My Team": { content: <div>My Team</div> },
                 }}

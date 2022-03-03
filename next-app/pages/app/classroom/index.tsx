@@ -83,7 +83,7 @@ const ClassroomIndexPage: NextPageWithLayout = () => {
 }
 
 
-ClassroomPage.getLayout = function getLayout(page: ReactElement) {
+ClassroomIndexPage.getLayout = function getLayout(page: ReactElement) {
     return <BaseAppLayout title={"Classroom"}>{page}</BaseAppLayout>;
 };
 
@@ -91,4 +91,4 @@ ClassroomPage.getLayout = function getLayout(page: ReactElement) {
 export const getServerSideProps: GetServerSideProps = withPageAuthRequired()
 
 
-export default ClassroomPage;
+export default ClassroomIndexPage;

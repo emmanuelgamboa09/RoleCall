@@ -8,7 +8,6 @@ import { CLASSROOM_TEST_TITLE } from "../../../backend/constants";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import BaseAppLayout from "../../../layout/baseapplayout";
 import theme from "../../../src/theme";
-import { Data as AllClassroomsData } from "../../api/classrooms/allClassrooms";
 
 
 const ClassroomIndexPage: NextPageWithLayout = () => {
@@ -18,7 +17,7 @@ const ClassroomIndexPage: NextPageWithLayout = () => {
     const [classrooms, setClassrooms] = useState<Classroom[]>([])
     const getClassrooms = async () => {
         const response = await fetch(`/api/classrooms?taughtBy=${user!.sub}`)
-        const { classrooms } = await response.json() as AllClassroomsData
+        const { classrooms } = await response.json() as { classrooms: Classroom[] } // @TODO: Export an explicit return type from the api function
         setClassrooms(classrooms)
     }
 

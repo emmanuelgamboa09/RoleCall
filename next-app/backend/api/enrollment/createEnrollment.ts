@@ -32,7 +32,7 @@ export default async (
     [sizeFilterKey]: { $exists: false },
   };
 
-  const update = { $addToSet: { students: authId } };
+  const update = { $push: { students: authId } };
   try {
     const classroom = await joinClassroom(filter, update, {
       new: true,

@@ -10,7 +10,8 @@ export const createClassroom = async (
   authId: string,
   save: (classroom: Classroom) => Promise<void>,
 ) => {
-  const body: Classroom = req.body;
+  // TODO: Ensure every incoming req.body is stringified; update tests 
+  const body: Classroom = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
   const { error } = validateClassroomPOST(body);
   if (error) {
     res.status(400).end(error.message);

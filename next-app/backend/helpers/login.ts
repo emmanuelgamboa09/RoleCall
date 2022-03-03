@@ -1,7 +1,7 @@
 import { handleCallback } from "@auth0/nextjs-auth0";
 import { HydratedDocument, Query } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import { UserModel } from "../api/models/user";
+import { UserModel } from "../database/models/user";
 import { User } from "../types";
 import { getAuthId } from "./getAuthId";
 

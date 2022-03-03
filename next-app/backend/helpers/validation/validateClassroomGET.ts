@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { HTTPBody } from "../types";
+import { HTTPBody } from "../../types";
 
 const schema = {
   taught: Joi.string().valid("true").insensitive(),

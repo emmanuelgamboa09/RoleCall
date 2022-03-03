@@ -1,6 +1,6 @@
-import { HTTPBody } from "./../types";
 import Joi from "joi";
-import { Classroom } from "../../interfaces/classroom.interface";
+import { Classroom } from "../../../interfaces/classroom.interface";
+import { HTTPBody } from "../../types";
 
 export default (body: Classroom | HTTPBody) => {
   const schema = {

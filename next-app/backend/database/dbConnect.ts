@@ -1,5 +1,5 @@
 import mongoose, { ConnectOptions } from "mongoose";
-import { DB_BASE_URI, DB_NAME } from "../../constants";
+import { DB_BASE_URI, DB_NAME } from "../constants";
 
 if (!process.env.DB_USER || !process.env.DB_PWD) {
   throw new Error(

@@ -1,8 +1,9 @@
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { FilterQuery, HydratedDocument, UpdateQuery } from "mongoose";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { UserModel } from "../../../backend/api/models/user";
-import { createUser, updateUser } from "../../../backend/api/user";
+import { UserModel } from "../../../backend/database/models/user";
+import createUser from "../../../backend/api/user/createUser";
+import updateUser from "../../../backend/api/user/updateUser";
 import { getAuthId } from "../../../backend/helpers/getAuthId";
 import withDb from "../../../backend/middleware/withDb";
 import { User } from "../../../backend/types";

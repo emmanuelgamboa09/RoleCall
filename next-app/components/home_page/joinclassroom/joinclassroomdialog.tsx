@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import validateClassroomPOST from "../../../backend/helpers/validateClassroomPOST";
+import validateClassroomPOST from "../../../backend/helpers/validation/validateClassroomPOST";
 import { addClassroom } from "../../../redux/slice/classroomslice";
 import { selectMe } from "../../../redux/store";
 

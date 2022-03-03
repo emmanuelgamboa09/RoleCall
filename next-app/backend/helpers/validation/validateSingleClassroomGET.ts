@@ -1,6 +1,6 @@
 import Joi from "joi";
-import { OBJECT_ID_LENGTH } from "../constants";
-import { HTTPBody } from "../types";
+import { OBJECT_ID_LENGTH } from "../../constants";
+import { HTTPBody } from "../../types";
 
 const validFields = ["_id", "instructorId", "students", "endDate", "title"];
 

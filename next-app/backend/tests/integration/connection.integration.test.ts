@@ -1,5 +1,5 @@
 import { expect, test } from "@jest/globals";
-import dbConnect, { dbDisconnect } from "../../api/database/dbConnect";
+import dbConnect, { dbDisconnect } from "../../database/dbConnect";
 import { DB_TEST_NAME } from "../../constants";
 
 afterAll(async () => {

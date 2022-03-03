@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { UserModel } from "../../../backend/api/models/user";
-import { getUser } from "../../../backend/api/user";
+import { UserModel } from "../../../backend/database/models/user";
+import getUser from "../../../backend/api/user/getUser";
 import { getAuthId } from "../../../backend/helpers/getAuthId";
 import withDb from "../../../backend/middleware/withDb";
 import { User } from "../../../backend/types";

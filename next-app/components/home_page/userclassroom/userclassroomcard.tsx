@@ -5,68 +5,74 @@ import {
   Card,
   CardContent,
   CardMedia,
+  styled,
   Typography,
 } from "@mui/material";
-import { Classroom } from "./userclassroom.types";
+import { Classroom } from "../../../interfaces/classroom.interface";
+
+const ClassroomCard = styled(Card)(({ theme }) => ({
+  margin: theme.spacing(1),
+  [theme.breakpoints.down("sm")]: {
+    width: "100vw",
+  },
+}));
 
 interface UserClassroomCardProp {
   classroom: Classroom;
+  width?: number;
+  height?: number;
+  taught?: boolean;
 }
 
-const UserClassroomCard: FC<UserClassroomCardProp> = ({ classroom }) => {
-  const { className, classDetails, classroomImage } = classroom;
+const UserClassroomCard: FC<UserClassroomCardProp> = ({
+  classroom,
+  width = 268,
+  height = 170,
+  taught = false,
+}) => {
+  const { title } = classroom;
+
   return (
-    <Card
+    <ClassroomCard
       sx={{
+        width,
         display: "flex",
-        borderRadius: 4,
+        height,
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <CardContent sx={{ flex: "1 0 auto" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", width: "85%" }}>
+        <CardContent sx={{ flex: "1 0 auto", height: "40%" }}>
           <Typography
-            variant="h6"
+            variant="subtitle1"
             sx={{
               fontWeight: "bold",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
             }}
-            id="className"
+            id="classTitle"
           >
-            {className}
+            {title}
           </Typography>
-          <div
-            style={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              maxHeight: 70,
-            }}
-          >
-            <Typography variant="subtitle2" id="classDetails">
-              {classDetails}
-            </Typography>
-          </div>
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1, mb: 1 }}>
           <Button variant="contained" size="small" style={{ marginRight: 5 }}>
-            {"View"}
+            View
           </Button>
-          <Button variant="contained" size="small">
-            {"View"}
-          </Button>
+          {taught && (
+            <Button variant="contained" size="small">
+              Edit
+            </Button>
+          )}
         </Box>
       </Box>
-      <Box style={{ maxWidth: "40%" }}>
+      <Box style={{ width: "20%" }}>
         <CardMedia
           id="classroomImage"
           component="img"
-          sx={{ borderRadius: 4, padding: 1, height: "100%" }}
-          image={classroomImage}
+          sx={{ height: "100%" }}
+          image={"/img/landing_page_img/landing_page_group.jpg"}
           alt="Classroom Image"
         />
       </Box>
-    </Card>
+    </ClassroomCard>
   );
 };
 

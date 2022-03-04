@@ -2,28 +2,51 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Classroom } from "../../interfaces/classroom.interface";
 
 interface ClassroomSliceState {
-  classrooms: Array<Classroom | any>;
+  taughtClassrooms: Array<Classroom>;
+  enrolledClassrooms: Array<Classroom>;
 }
 
 const initialState: ClassroomSliceState = {
-  classrooms: [],
+  taughtClassrooms: [],
+  enrolledClassrooms: [],
 };
 
 const classroomSlice = createSlice({
   name: "classrooms",
   initialState,
   reducers: {
-    addClassroom: (state, action: PayloadAction<Classroom | any>) => {
-      state.classrooms.push(action.payload);
+    setTaughtClassrooms: (state, action: PayloadAction<Array<Classroom>>) => {
+      state.taughtClassrooms = action.payload;
     },
-    removeClassroom: (state, action: PayloadAction<string>) => {
-      state.classrooms = state.classrooms.filter(
+    addTaughtClassroom: (state, action: PayloadAction<Classroom | any>) => {
+      state.taughtClassrooms.push(action.payload);
+    },
+    removeTaughtClassroom: (state, action: PayloadAction<string>) => {
+      state.taughtClassrooms = state.taughtClassrooms.filter(
+        (classroom) => classroom._id !== action.payload,
+      );
+    },
+    setEnrolledClassroms: (state, action: PayloadAction<Array<Classroom>>) => {
+      state.enrolledClassrooms = action.payload;
+    },
+    addEnrolledClassrooms: (state, action: PayloadAction<Classroom | any>) => {
+      state.enrolledClassrooms.push(action.payload);
+    },
+    removeEnrolledClassroom: (state, action: PayloadAction<string>) => {
+      state.enrolledClassrooms = state.enrolledClassrooms.filter(
         (classroom) => classroom._id !== action.payload,
       );
     },
   },
 });
 
-export const { addClassroom, removeClassroom } = classroomSlice.actions;
+export const {
+  addTaughtClassroom,
+  removeTaughtClassroom,
+  setTaughtClassrooms,
+  addEnrolledClassrooms,
+  removeEnrolledClassroom,
+  setEnrolledClassroms,
+} = classroomSlice.actions;
 
 export default classroomSlice;

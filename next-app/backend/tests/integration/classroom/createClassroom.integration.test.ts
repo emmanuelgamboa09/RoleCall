@@ -49,6 +49,7 @@ test("Insert classroom while authenticated, connected DB, and save operation suc
     students: [],
     endDate,
     instructorId: AUTH0_TEST_ID,
+    accessCode: classroom.accessCode
   });
   // validation of data is being done in the findOne. If findClassroom
   // equals null than something went wrong.

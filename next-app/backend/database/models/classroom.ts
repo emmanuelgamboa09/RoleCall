@@ -6,6 +6,7 @@ const schema = new Schema<Classroom>({
   title: { type: String, required: true },
   students: { type: [String], default: [], required: true, index: true },
   endDate: { type: Date, required: true },
+  accessCode: { type: String, required: true, unique: true },
 });
 
 export const ClassroomModel =

@@ -4,4 +4,5 @@ export interface Classroom {
   title: string;
   students?: Array<string>;
   endDate: Date;
+  accessCode?: string;
 }

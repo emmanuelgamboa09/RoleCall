@@ -27,7 +27,7 @@ test("Insert classroom while authenticated and save operation successful", async
   );
 
   expect(res._getStatusCode()).toBe(200);
-  const classroom = JSON.parse(res._getData());
+  const { accessCode, ...classroom } = JSON.parse(res._getData());
   expect(classroom).toEqual({
     instructorId: AUTH0_TEST_ID,
     title: CLASSROOM_TEST_TITLE,

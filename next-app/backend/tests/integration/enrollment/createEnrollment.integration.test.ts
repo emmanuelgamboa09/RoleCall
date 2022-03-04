@@ -3,6 +3,7 @@ import { Classroom } from "../../../../interfaces/classroom.interface";
 import { ClassroomModel } from "../../../database/models/classroom";
 import {
   AUTH0_TEST_ID,
+  CLASSROOM_TEST_ACCESS_CODE,
   CLASSROOM_TEST_ID,
   CLASSROOM_TEST_TITLE,
   DB_TEST_NAME,
@@ -29,13 +30,14 @@ test("Update enrollment while authenticated, connected DB, and update operation 
     endDate,
     title: CLASSROOM_TEST_TITLE,
     instructorId: TEST_INSTRUCTOR_ID,
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
   };
 
   const doc = new ClassroomModel(classroom);
   await doc.save();
 
   const body = {
-    accessCode: CLASSROOM_TEST_ID,
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
   };
 
   const { req, res } = createMocks({
@@ -64,6 +66,7 @@ test("Update enrollment while authenticated, connected DB, and update operation 
     title: CLASSROOM_TEST_TITLE,
     students: [AUTH0_TEST_ID],
     endDate: endDate.toISOString(),
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
     __v: 0,
   });
   await ClassroomModel.deleteOne({ _id: CLASSROOM_TEST_ID });
@@ -77,13 +80,14 @@ test("Update enrollment when user already registered", async () => {
     endDate,
     title: CLASSROOM_TEST_TITLE,
     instructorId: TEST_INSTRUCTOR_ID,
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
   };
 
   const doc = new ClassroomModel(classroom);
   await doc.save();
 
   const body = {
-    accessCode: CLASSROOM_TEST_ID,
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
   };
 
   const { req, res } = createMocks({
@@ -116,13 +120,14 @@ test("Update enrollment when class is full", async () => {
     endDate,
     title: CLASSROOM_TEST_TITLE,
     instructorId: TEST_INSTRUCTOR_ID,
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
   };
 
   const doc = new ClassroomModel(classroom);
   await doc.save();
 
   const body = {
-    accessCode: CLASSROOM_TEST_ID,
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
   };
 
   const { req, res } = createMocks({
@@ -153,13 +158,14 @@ test("Update enrollment when user is instructor", async () => {
     endDate,
     title: CLASSROOM_TEST_TITLE,
     instructorId: AUTH0_TEST_ID,
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
   };
 
   const doc = new ClassroomModel(classroom);
   await doc.save();
 
   const body = {
-    accessCode: CLASSROOM_TEST_ID,
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
   };
 
   const { req, res } = createMocks({

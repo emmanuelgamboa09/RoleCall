@@ -25,7 +25,8 @@ export default withApiAuthRequired(
             const doc: HydratedDocument<Classroom> = new ClassroomModel(
               classroom,
             );
-            await doc.save();
+            const newClassrooms = await doc.save();
+            return newClassrooms;
           },
         );
         break;

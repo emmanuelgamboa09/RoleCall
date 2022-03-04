@@ -48,14 +48,23 @@ const UserCurrentClassrooms: FC<UserAvailableClassroomsProps> = ({
               py: 1,
             }}
           >
-            {classrooms &&
+            {classrooms && classrooms.length > 0 ? (
               classrooms.map((classroom, i) => (
                 <UserClassroomCard
                   key={i}
                   classroom={classroom}
                   taught={taught}
                 />
-              ))}
+              ))
+            ) : (
+              <div style={{ maxWidth: 400 }}>
+                <Typography variant="h6">
+                  No Current Classes. To join a classroom click the button "JOIN
+                  A CLASSROOM" or to create a classroom click "CREATE A
+                  CLASSROOM"
+                </Typography>
+              </div>
+            )}
           </Box>
         )}
       </div>

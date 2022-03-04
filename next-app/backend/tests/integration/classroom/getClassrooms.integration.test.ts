@@ -3,7 +3,11 @@ import { createMocks } from "node-mocks-http";
 import { Classroom } from "../../../../interfaces/classroom.interface";
 import getClassrooms from "../../../api/classroom/getClassrooms";
 import { ClassroomModel } from "../../../database/models/classroom";
-import { AUTH0_TEST_ID, DB_TEST_NAME } from "../../../constants";
+import {
+  AUTH0_TEST_ID,
+  CLASSROOM_ID_LENGTH,
+  DB_TEST_NAME,
+} from "../../../constants";
 import dbConnect, { dbDisconnect } from "../../../database/dbConnect";
 import zip from "../../../util/zip";
 import generateRandomString from "../../../util/generateRandomString";
@@ -18,7 +22,7 @@ afterAll(async () => {
 
 test("Get classrooms while authenticated, connected DB, and retrieve operation successful", async () => {
   const classIds = Array.from(Array(4).keys()).map(() =>
-    generateRandomString(),
+    generateRandomString(Math.floor(CLASSROOM_ID_LENGTH / 2)),
   );
 
   const classrooms = [

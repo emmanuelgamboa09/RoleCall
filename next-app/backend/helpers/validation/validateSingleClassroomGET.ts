@@ -1,10 +1,11 @@
 import Joi from "joi";
+import { CLASSROOM_ID_LENGTH } from "../../constants";
 import { HTTPBody } from "../../types";
 
 const validFields = ["_id", "instructorId", "students", "endDate", "title"];
 
 const schema = {
-  classId: Joi.string().length(20).required(),
+  classId: Joi.string().length(CLASSROOM_ID_LENGTH).required(),
   fields: Joi.string(),
 };
 

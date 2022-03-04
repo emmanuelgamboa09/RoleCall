@@ -14,3 +14,5 @@ export const CLASSROOM_TEST_FIELDS = "title,instructorId";
 export const TEST_INSTRUCTOR_ID = "a123ccbfaaaaba487aaa";
 
 export const MAX_CLASSROOM_SIZE = 500;
+
+export const CLASSROOM_ID_LENGTH = 20;

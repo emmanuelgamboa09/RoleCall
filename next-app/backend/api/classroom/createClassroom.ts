@@ -8,7 +8,7 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse,
   authId: string,
-  save: (classroom: Classroom) => Promise<void>,
+  save: (classroom: Classroom) => Promise<Classroom>,
 ) => {
   const body: Classroom = req.body;
   const { error } = validateClassroomPOST(body);
@@ -27,8 +27,8 @@ export default async (
   };
 
   try {
-    await save(classroom);
-    res.status(200).json(classroom);
+    const savedClassroom = await save(classroom);
+    res.status(200).json(savedClassroom);
   } catch (err) {
     res.status(500).end("Internal Error");
   }

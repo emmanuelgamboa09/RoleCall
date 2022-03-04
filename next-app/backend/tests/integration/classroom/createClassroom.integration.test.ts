@@ -30,18 +30,29 @@ test("Insert classroom while authenticated, connected DB, and save operation suc
     body,
   });
 
-  await createClassroom(req, res, AUTH0_TEST_ID, (classroom: Classroom) => {
-    const doc = new ClassroomModel(classroom);
-    return doc.save();
-  });
+  await createClassroom(
+    req,
+    res,
+    AUTH0_TEST_ID,
+    async (classroom: Classroom) => {
+      const doc = new ClassroomModel(classroom);
+      const newClassrooms = await doc.save();
+      return newClassrooms;
+    },
+  );
 
   expect(res._getStatusCode()).toBe(200);
-  const { accessCode, ...classroom } = JSON.parse(res._getData());
-  expect(classroom).toEqual({
-    instructorId: AUTH0_TEST_ID,
+  const classroom = JSON.parse(res._getData());
+  const findClassroom = await ClassroomModel.findOne({
+    _id: classroom._id,
     title: CLASSROOM_TEST_TITLE,
     students: [],
     endDate,
+    instructorId: AUTH0_TEST_ID,
+    accessCode: classroom.accessCode
   });
-  await ClassroomModel.deleteOne({ instructorId: AUTH0_TEST_ID });
+  // validation of data is being done in the findOne. If findClassroom
+  // equals null than something went wrong.
+  expect(findClassroom).not.toBeNull();
+  await ClassroomModel.deleteOne({ instructorId: classroom.instructorId });
 });

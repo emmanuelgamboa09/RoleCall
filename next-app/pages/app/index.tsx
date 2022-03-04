@@ -1,7 +1,8 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import type { ReactElement } from "react";
 import UserJoinOrCreateGrid from "../../components/home_page/joinorcreateclassroom";
-import UserCurrentClassrooms from "../../components/home_page/userclassroom/usercurrentclassroom";
+import UserEnrolledClassroomList from "../../components/home_page/userclassroom/userenrolledclassroomlist";
+import UserTaughtClassroomList from "../../components/home_page/userclassroom/usertaughtclassroomslist";
 import BaseAppLayout from "../../layout/baseapplayout";
 import theme from "../../src/theme";
 
@@ -14,7 +15,8 @@ function HomePage() {
       }}
     >
       <UserJoinOrCreateGrid />
-      <UserCurrentClassrooms />
+      <UserTaughtClassroomList />
+      <UserEnrolledClassroomList />
     </div>
   );
 }

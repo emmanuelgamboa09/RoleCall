@@ -36,12 +36,12 @@ test("Insert classroom while authenticated, connected DB, and save operation suc
   });
 
   expect(res._getStatusCode()).toBe(200);
-  const classroom = JSON.parse(res._getData());
+  const { accessCode, ...classroom } = JSON.parse(res._getData());
   expect(classroom).toEqual({
     instructorId: AUTH0_TEST_ID,
     title: CLASSROOM_TEST_TITLE,
     students: [],
     endDate,
   });
-  await ClassroomModel.deleteOne({ instructorId: classroom.instructorId });
+  await ClassroomModel.deleteOne({ instructorId: AUTH0_TEST_ID });
 });

@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../../interfaces/classroom.interface";
+import { CLASS_ACCESS_CODE_LENGTH } from "../../constants";
 import validateClassroomPOST from "../../helpers/validation/validateClassroomPOST";
+import generateRandomString from "../../util/generateRandomString";
 
 export default async (
   req: NextApiRequest,
@@ -21,6 +23,7 @@ export default async (
     title,
     endDate,
     students,
+    accessCode: generateRandomString(Math.floor(CLASS_ACCESS_CODE_LENGTH / 2)),
   };
 
   try {

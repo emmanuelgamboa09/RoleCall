@@ -11,8 +11,11 @@ export const AUTH0_TEST_ID = "auth0|6205adcf48929b007055fc4c";
 export const CLASSROOM_TEST_TITLE = "CS160";
 export const CLASSROOM_TEST_ID = "a123aabfaaaaaa485aaaaaaa";
 export const CLASSROOM_TEST_FIELDS = "title,instructorId";
+export const CLASSROOM_TEST_ACCESS_CODE = "asrgbreaboin1j4mmbde";
 export const TEST_INSTRUCTOR_ID = "a123ccbfaaaaba487aaaacaa";
 
 export const OBJECT_ID_LENGTH = 24;
 
 export const MAX_CLASSROOM_SIZE = 500;
+
+export const CLASS_ACCESS_CODE_LENGTH = 20;

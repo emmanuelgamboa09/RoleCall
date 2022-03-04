@@ -3,6 +3,7 @@ import getClassroom from "../../../api/classroom/getClassroom";
 import { ClassroomModel } from "../../../database/models/classroom";
 import {
   AUTH0_TEST_ID,
+  CLASSROOM_TEST_ACCESS_CODE,
   CLASSROOM_TEST_ID,
   DB_TEST_NAME,
 } from "../../../constants";
@@ -23,6 +24,7 @@ test("Get single classroom while authenticated, connected DB, and retrieve opera
     title: "KIN",
     students: [],
     endDate: new Date("2022-07-10"),
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
   };
   const doc = new ClassroomModel(classroom);
   await doc.save();
@@ -49,7 +51,8 @@ test("Get single classroom while authenticated, connected DB, and retrieve opera
     title: "KIN",
     students: [],
     endDate: new Date("2022-07-10").toISOString(),
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
   });
 
-  await ClassroomModel.deleteOne({ instructorId: AUTH0_TEST_ID });
+  await ClassroomModel.deleteOne({ _id: CLASSROOM_TEST_ID });
 });

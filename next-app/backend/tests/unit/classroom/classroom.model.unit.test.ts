@@ -1,4 +1,5 @@
 import { expect, test } from "@jest/globals";
+import { CLASSROOM_TEST_ACCESS_CODE } from "../../../constants";
 import { ClassroomModel } from "../../../database/models/classroom";
 
 const TEST_INSTRUCTOR_ID = "123df3efb618f5141202a196";
@@ -12,6 +13,7 @@ test("Classroom documents inserted correctly", async () => {
     title: TEST_TITLE,
     students: TEST_STUDENTS,
     endDate: new Date(),
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
   };
 
   const mongoClassroom = new ClassroomModel(classroom);
@@ -21,6 +23,7 @@ test("Classroom documents inserted correctly", async () => {
     instructorId: TEST_INSTRUCTOR_ID,
     title: TEST_TITLE,
     endDate: new Date(),
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
   };
 
   const classroomWithoutStudents = new ClassroomModel(objectWithoutStudents);

@@ -25,7 +25,7 @@ export default async (
 
   const sizeFilterKey = `students.${MAX_CLASSROOM_SIZE - 1}`;
   const filter = {
-    _id: accessCode,
+    accessCode,
     instructorId: { $ne: authId },
     endDate: { $gt: new Date() },
     students: { $ne: authId },

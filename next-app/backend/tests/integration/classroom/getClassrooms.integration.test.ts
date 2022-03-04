@@ -3,7 +3,11 @@ import { createMocks } from "node-mocks-http";
 import { Classroom } from "../../../../interfaces/classroom.interface";
 import getClassrooms from "../../../api/classroom/getClassrooms";
 import { ClassroomModel } from "../../../database/models/classroom";
-import { AUTH0_TEST_ID, DB_TEST_NAME } from "../../../constants";
+import {
+  AUTH0_TEST_ID,
+  CLASSROOM_TEST_ACCESS_CODE,
+  DB_TEST_NAME,
+} from "../../../constants";
 import dbConnect, { dbDisconnect } from "../../../database/dbConnect";
 import zip from "../../../util/zip";
 
@@ -22,6 +26,7 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
       title: "CS",
       students: [],
       endDate: new Date(),
+      accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
 
     {
@@ -29,18 +34,21 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
       title: "KIN",
       students: [],
       endDate: new Date("2022-07-10"),
+      accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
     {
       instructorId: AUTH0_TEST_ID,
       title: "MATH",
       students: [],
       endDate: new Date("2022-01-01"),
+      accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
     {
       instructorId: AUTH0_TEST_ID,
       title: "PHYS",
       students: [],
       endDate: new Date("2022-05-05"),
+      accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
   ];
 
@@ -71,12 +79,14 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
       title: "KIN",
       students: [],
       endDate: new Date("2022-07-10").toISOString(),
+      accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
     {
       instructorId: AUTH0_TEST_ID,
       title: "PHYS",
       students: [],
       endDate: new Date("2022-05-05").toISOString(),
+      accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
   ];
   const sortedZip = zip(

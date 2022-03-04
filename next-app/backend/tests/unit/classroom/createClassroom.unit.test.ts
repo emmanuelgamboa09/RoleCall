@@ -19,8 +19,8 @@ test("Insert classroom while authenticated and save operation successful", async
   await createClassroom(req, res, AUTH0_TEST_ID, () => Promise.resolve());
 
   expect(res._getStatusCode()).toBe(200);
-  const classroom = JSON.parse(res._getData());
-  expect(classroom).toEqual({
+  const { _id, ...rest } = JSON.parse(res._getData());
+  expect(rest).toEqual({
     instructorId: AUTH0_TEST_ID,
     title: CLASSROOM_TEST_TITLE,
     students: [],

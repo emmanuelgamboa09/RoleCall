@@ -6,6 +6,7 @@ import { ClassroomModel } from "../../../database/models/classroom";
 import { AUTH0_TEST_ID, DB_TEST_NAME } from "../../../constants";
 import dbConnect, { dbDisconnect } from "../../../database/dbConnect";
 import zip from "../../../util/zip";
+import generateRandomString from "../../../util/generateRandomString";
 
 beforeAll(async () => {
   await dbConnect(DB_TEST_NAME);
@@ -16,8 +17,13 @@ afterAll(async () => {
 });
 
 test("Get classrooms while authenticated, connected DB, and retrieve operation successful", async () => {
+  const classIds = Array.from(Array(4).keys()).map(() =>
+    generateRandomString(),
+  );
+
   const classrooms = [
     {
+      _id: classIds[0],
       instructorId: "abc",
       title: "CS",
       students: [],
@@ -25,18 +31,21 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
     },
 
     {
+      _id: classIds[1],
       instructorId: AUTH0_TEST_ID,
       title: "KIN",
       students: [],
       endDate: new Date("2022-07-10"),
     },
     {
+      _id: classIds[2],
       instructorId: AUTH0_TEST_ID,
       title: "MATH",
       students: [],
       endDate: new Date("2022-01-01"),
     },
     {
+      _id: classIds[3],
       instructorId: AUTH0_TEST_ID,
       title: "PHYS",
       students: [],

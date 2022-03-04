@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import validateClassroomPOST from "../../helpers/validation/validateClassroomPOST";
+import generateRandomString from "../../util/generateRandomString";
 
 export default async (
   req: NextApiRequest,
@@ -17,6 +18,7 @@ export default async (
 
   const { title, endDate, students = [] } = body;
   const classroom = {
+    _id: generateRandomString(),
     instructorId: authId,
     title,
     endDate,

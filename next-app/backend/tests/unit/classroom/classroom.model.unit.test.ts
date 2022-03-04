@@ -1,4 +1,5 @@
 import { expect, test } from "@jest/globals";
+import { CLASSROOM_TEST_ID } from "../../../constants";
 import { ClassroomModel } from "../../../database/models/classroom";
 
 const TEST_INSTRUCTOR_ID = "123df3efb618f5141202a196";
@@ -8,6 +9,7 @@ const TEST_INCORRECT_TYPE = {};
 
 test("Classroom documents inserted correctly", async () => {
   const classroom = {
+    _id: CLASSROOM_TEST_ID,
     instructorId: TEST_INSTRUCTOR_ID,
     title: TEST_TITLE,
     students: TEST_STUDENTS,
@@ -18,6 +20,7 @@ test("Classroom documents inserted correctly", async () => {
   await expect(mongoClassroom.validate()).resolves.toEqual(undefined);
 
   const objectWithoutStudents = {
+    _id: CLASSROOM_TEST_ID,
     instructorId: TEST_INSTRUCTOR_ID,
     title: TEST_TITLE,
     endDate: new Date(),

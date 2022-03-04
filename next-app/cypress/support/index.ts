@@ -14,11 +14,13 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import "./commands";
-
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+import '@testing-library/cypress/add-commands';
 import "cypress-nextjs-auth0";
+import "./commands";
+
+
 
 declare global {
   namespace Cypress {

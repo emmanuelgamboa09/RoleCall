@@ -4,9 +4,13 @@ import { Classroom } from "../../../interfaces/classroom.interface";
 import getProjection from "../../helpers/getProjection";
 import validateSingleClassroomGET from "../../helpers/validation/validateSingleClassroomGET";
 
+export interface Data {
+  classroom: Classroom
+}
+
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse<Data>,
   authId: string,
   findClassroom: (
     id: any,
@@ -29,7 +33,7 @@ export default async (
     } else if (instructorId !== authId && !students!.includes(authId)) {
       res.status(403).end("Forbidden");
     } else {
-      res.status(200).json(getProjection(fields, classroom));
+      res.status(200).json({ classroom: getProjection(fields, classroom) as Classroom });
     }
   } catch (err) {
     res.status(500).end("Internal Error");

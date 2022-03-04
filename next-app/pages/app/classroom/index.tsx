@@ -1,56 +1,49 @@
 
-import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { Box, Button, Link as MuiLink, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { Data as GetClassroomsApiData } from "../../../backend/api/classroom/getClassrooms";
 import { CLASSROOM_TEST_TITLE } from "../../../backend/constants";
-import { Classroom } from "../../../interfaces/classroom.interface";
 import BaseAppLayout from "../../../layout/baseapplayout";
 import theme from "../../../src/theme";
 
-
 const ClassroomIndexPage: NextPageWithLayout = () => {
-    // TODO: Create useGetClassrooms hook
-    const { user } = useUser()
+    const queryClient = useQueryClient()
 
-    const [classrooms, setClassrooms] = useState<Classroom[]>([])
-    const getClassrooms = async () => {
-        const response = await fetch(`/api/classrooms?taughtBy=${user!.sub}`)
-        const { classrooms } = await response.json() as { classrooms: Classroom[] } // @TODO: Export an explicit return type from the api function
-        setClassrooms(classrooms)
-    }
+    // TODO: Get classes the user is enrolled in
+    const { isLoading, error, data } = useQuery<GetClassroomsApiData>('taught-classrooms', () =>
+        fetch(`/api/classrooms?taught=true`).then((res => res.json()))
+    )
 
-    useEffect(() => {
-        if (user) {
-            getClassrooms().catch((error) => {
-                setClassrooms([])
-                console.error(error)
-            })
-        }
-    }, [user])
+    const mutation = useMutation<unknown, unknown, { title: string, endDate: number }>((newClassroom) =>
+        fetch("/api/classrooms", { method: "POST", body: JSON.stringify(newClassroom) }).then(response => response.json())
+        , {
+            onSuccess: () => {
+                // Invalidate and refetch
+                queryClient.invalidateQueries('taught-classrooms')
+            },
+        })
 
-
-    // TODO: Create useCreateClassroom hook 
     const handleCreatePlaceholderClassroom = async () => {
         const endDate = new Date().setHours(23, 59, 59);
 
         try {
-            const response = await fetch("/api/classrooms", {
-                method: "POST", body: JSON.stringify({
-                    title: CLASSROOM_TEST_TITLE,
-                    endDate,
-                })
-            })
-            if (response.status !== 200) { throw new Error(await response.json()) }
-            // TODO: Later consideration: re-fetch data using a library like React Query or SWR and/or track latest updates in Redux global state
-            await getClassrooms()
+            await mutation.mutateAsync({ title: CLASSROOM_TEST_TITLE, endDate })
         } catch (error) {
             console.error(error)
         }
 
     }
 
+
+    if (isLoading) return <>Loading...</>
+
+    if (error || !data) return <>Failed to load classrooms</>
+
+    const { classrooms } = data
 
     return (
         <Box

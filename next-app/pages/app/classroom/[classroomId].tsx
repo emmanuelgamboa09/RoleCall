@@ -3,45 +3,39 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { Box, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement } from "react";
+import { useQuery } from 'react-query';
+import { Data as GetClassroomApiData } from "../../../backend/api/classroom/getClassroom";
 import ClassroomTabs from "../../../components/classroom/ClassroomTabs";
-import { Classroom } from "../../../interfaces/classroom.interface";
 import BaseAppLayout from "../../../layout/baseapplayout";
 import theme from "../../../src/theme";
-import { Data as ClassroomByIdData } from "../../api/classrooms/[classroomId]";
+
 
 const ClassroomPage: NextPageWithLayout = () => {
     const router = useRouter()
-    const { classroom } = router.query as { classroom: string }
+    const { classroomId } = router.query as { classroomId: string }
 
-    const [classroomData, setClassroomData] = useState<Classroom | null>(null)
-    const getClassrooms = async () => {
-        const response = await fetch(`/api/classrooms/${classroom}`)
-        const { classroom: classroomData } = await response.json() as ClassroomByIdData
-        setClassroomData(classroomData)
+    const { isLoading, error, data } = useQuery<GetClassroomApiData>('classroom', () =>
+        fetch(`/api/classrooms/${classroomId}`).then((res => res.json()))
+    )
+
+    if (isLoading) return <>Loading...</>
+
+    if (error || !data?.classroom) {
+        console.error(error)
+        return <>Classroom not found</>
     }
 
-    useEffect(() => {
-        getClassrooms().catch((error) => {
-            setClassroomData(null)
-            console.error(error)
-        })
-    }, [])
-
+    const { classroom } = data
 
     return (
-        <Box
-            sx={{
-                backgroundColor: theme.palette.secondary.main,
-                minHeight: "100vh",
-            }}
-        >
+        <>
             <Typography component="h1" variant="h3" marginTop="2rem">
-                Classroom {classroom}
+                Classroom {classroom.title}
             </Typography>
             <Typography component="h2" variant="h4">
                 {/* @TODO: Get instructor data */}
-                Instructor: {classroomData?.instructorId}
+                Instructor: {classroom.instructorId}
             </Typography>
             <ClassroomTabs
                 tabs={{
@@ -50,13 +44,22 @@ const ClassroomPage: NextPageWithLayout = () => {
                     "My Team": { content: <div>My Team</div> },
                 }}
             />
-        </Box >
+        </>
     );
 }
 
 
 ClassroomPage.getLayout = function getLayout(page: ReactElement) {
-    return <BaseAppLayout title={"Classroom"}>{page}</BaseAppLayout>;
+    return <BaseAppLayout title={"Classroom"}>
+        <Box
+            sx={{
+                backgroundColor: theme.palette.secondary.main,
+                minHeight: "100vh",
+            }}
+        >
+            {page}
+        </Box>
+    </BaseAppLayout >;
 };
 
 

@@ -1,5 +1,5 @@
 import mongoose, { ConnectOptions } from "mongoose";
-import { DB_BASE_URI, DB_NAME } from "../../constants";
+import { DB_BASE_URI, DB_NAME } from "../constants";
 
 if (!process.env.DB_USER || !process.env.DB_PWD) {
   throw new Error(
@@ -18,7 +18,7 @@ if (!cached) {
   cached = global.mongooseInst = { conn: null, promise: null };
 }
 
-async function dbConnect() {
+async function dbConnect(dbName?: string) {
   if (cached.conn) {
     console.log(":: MONGOOSE - Re-using existing connection");
     return cached.conn;
@@ -28,7 +28,7 @@ async function dbConnect() {
     const opts: ConnectOptions = {
       user: process.env.DB_USER,
       pass: process.env.DB_PWD,
-      dbName: DB_NAME,
+      dbName: dbName || DB_NAME,
       serverSelectionTimeoutMS: 10000,
       bufferCommands: false,
     };

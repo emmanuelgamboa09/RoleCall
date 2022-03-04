@@ -1,12 +1,16 @@
 import { expect, test } from "@jest/globals";
-import dbConnect, { dbDisconnect } from "../../api/database/dbConnect";
-import { UserModel } from "../../api/models/user";
-import { AUTH0_TEST_ID, AUTH0_TEST_USER_NAME } from "../../constants";
+import dbConnect, { dbDisconnect } from "../../../database/dbConnect";
+import { UserModel } from "../../../database/models/user";
+import {
+  AUTH0_TEST_ID,
+  AUTH0_TEST_USER_NAME,
+  DB_TEST_NAME,
+} from "../../../constants";
 
 const DOC_TEST_ID = "123df3efb618f5141202a196";
 
 beforeAll(async () => {
-  return await dbConnect();
+  return await dbConnect(DB_TEST_NAME);
 });
 
 afterAll(async () => {

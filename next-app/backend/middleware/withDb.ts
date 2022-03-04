@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect, { dbDisconnect } from "../api/database/dbConnect";
+import dbConnect, { dbDisconnect } from "../database/dbConnect";
 
 export default (
   next: (request: NextApiRequest, response: NextApiResponse) => Promise<void>,

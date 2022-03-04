@@ -10,7 +10,6 @@ import BaseAppLayout from "../../../layout/baseapplayout";
 import theme from "../../../src/theme";
 import { Data as ClassroomByIdData } from "../../api/classrooms/[classroomId]";
 
-
 const ClassroomPage: NextPageWithLayout = () => {
     const router = useRouter()
     const { classroom } = router.query as { classroom: string }
@@ -46,11 +45,7 @@ const ClassroomPage: NextPageWithLayout = () => {
             </Typography>
             <ClassroomTabs
                 tabs={{
-                    "Project": {
-                        content: <div>Project
-                            <div>Other data: {JSON.stringify(classroomData)}</div>
-                        </div>
-                    },
+                    "Project": { content: <div>Project</div> },
                     "Team Finder": { content: <div>Team Finder</div> },
                     "My Team": { content: <div>My Team</div> },
                 }}

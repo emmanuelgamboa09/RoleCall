@@ -1,66 +1,26 @@
-import React, { FC, useState } from "react";
-import { CircularProgress, Divider, Grid, Typography } from "@mui/material";
-import { Classroom } from "./userclassroom.types";
+import React, { FC } from "react";
+import { Box, CircularProgress, Divider, Typography } from "@mui/material";
 import UserClassroomCard from "./userclassroomcard";
+import { Classroom } from "../../../interfaces/classroom.interface";
 
-const mock_classrooms: Array<Classroom> = [
-  {
-    className: "Classroom A",
-    classDetails:
-      "Sausage bresaola meatball hamburger ground round pork loin picanha leberkas",
-    classroomImage: "/img/landing_page_img/landing_page_group.jpg",
-  },
-  {
-    className: "Classroom B",
-    classDetails:
-      "Sausage bresaola meatball hamburger ground round pork loin picanha leberkas",
-    classroomImage: "/img/landing_page_img/landing_page_group.jpg",
-  },
-  {
-    className: "Classroom C",
-    classDetails:
-      "Sausage bresaola meatball hamburger ground round pork loin picanha leberkas",
-    classroomImage: "/img/landing_page_img/landing_page_group.jpg",
-  },
-  {
-    className: "Classroom D",
-    classDetails:
-      "Sausage bresaola meatball hamburger ground round pork loin picanha leberkas",
-    classroomImage: "/img/landing_page_img/landing_page_group.jpg",
-  },
-  {
-    className: "Classroom E",
-    classDetails:
-      "Sausage bresaola meatball hamburger ground round pork loin picanha leberkas",
-    classroomImage: "/img/landing_page_img/landing_page_group.jpg",
-  },
-  {
-    className: "Classroom F",
-    classDetails:
-      "Sausage bresaola meatball hamburger ground round pork loin picanha leberkas",
-    classroomImage: "/img/landing_page_img/landing_page_group.jpg",
-  },
-  {
-    className: "Classroom G",
-    classDetails:
-      "Sausage bresaola meatball hamburger ground round pork loin picanha leberkas",
-    classroomImage: "/img/landing_page_img/landing_page_group.jpg",
-  },
-];
+interface UserAvailableClassroomsProps {
+  classrooms: Array<Classroom>;
+  title?: string;
+  loading?: boolean;
+  taught?: boolean;
+}
 
-interface UserAvailableClassroomsProps {}
-
-const UserCurrentClassrooms: FC<UserAvailableClassroomsProps> = () => {
-  // Loading Screen will be used once we have to make the call to the backend in
-  // order to retrieve the users classrooms.
-  const [loading, isLoading] = useState(false);
-  // Unit test once client calls have been created to actually grab users classrooms
-  const usersClasses: Array<Classroom> = mock_classrooms;
+const UserCurrentClassrooms: FC<UserAvailableClassroomsProps> = ({
+  classrooms,
+  title,
+  loading = false,
+  taught = true,
+}) => {
   return (
     <>
       <div>
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-          Classrooms
+          {title}
         </Typography>
       </div>
       <Divider sx={{ my: 3 }} />
@@ -72,7 +32,7 @@ const UserCurrentClassrooms: FC<UserAvailableClassroomsProps> = () => {
         {loading ? (
           <div
             style={{
-              minHeight: "30vh",
+              minHeight: "25vh",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -81,23 +41,22 @@ const UserCurrentClassrooms: FC<UserAvailableClassroomsProps> = () => {
             <CircularProgress />
           </div>
         ) : (
-          <Grid container spacing={1} py={1}>
-            {usersClasses.length > 0 ? (
-              usersClasses.map((classroom, i) => (
-                <Grid key={i} item xs={12} sm={6} md={4} lg={3} xl={2}>
-                  <UserClassroomCard classroom={classroom} />
-                </Grid>
-              ))
-            ) : (
-              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                <Typography variant="h6">
-                  Welcome to your list of classes. To join a classroom click the
-                  button "JOIN A CLASSROOM" or to create a classroom click
-                  "CREATE A CLASSROOM"
-                </Typography>
-              </Grid>
-            )}
-          </Grid>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              py: 1,
+            }}
+          >
+            {classrooms &&
+              classrooms.map((classroom, i) => (
+                <UserClassroomCard
+                  key={i}
+                  classroom={classroom}
+                  taught={taught}
+                />
+              ))}
+          </Box>
         )}
       </div>
     </>

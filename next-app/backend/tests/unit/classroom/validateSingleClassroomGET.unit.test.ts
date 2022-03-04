@@ -4,7 +4,7 @@ import validateSingleClassroomGET from "../../../helpers/validation/validateSing
 test("Validate correct single Classroom GET Input", () => {
   const inputs = [
     {
-      classId: "aaaaaaaaaaaaaaaaaaaaaaaa",
+      classId: "aaaaaaaaaaaaaaaaaaaa",
     },
     {
       classId: CLASSROOM_TEST_ID,

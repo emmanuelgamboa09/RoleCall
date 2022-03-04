@@ -46,7 +46,8 @@ test("Insert classroom while authenticated, connected DB, and save operation suc
   const findClassroom = await ClassroomModel.findOne({
     _id: classroom._id,
     title: CLASSROOM_TEST_TITLE,
-    endDate: endDate,
+    students: [],
+    endDate,
     instructorId: AUTH0_TEST_ID,
   });
   // validation of data is being done in the findOne. If findClassroom

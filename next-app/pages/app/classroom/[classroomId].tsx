@@ -9,34 +9,42 @@ import { Data as GetClassroomApiData } from "../../../backend/api/classroom/getC
 import ClassroomTabs from "../../../components/classroom/ClassroomTabs";
 import BaseAppLayout from "../../../layout/baseapplayout";
 import theme from "../../../src/theme";
+import { Data as GetInstructorProfileApiData } from "../../api/users/profile/[authId]";
 
 
 const ClassroomPage: NextPageWithLayout = () => {
     const router = useRouter()
     const { classroomId } = router.query as { classroomId: string }
 
-    const { isLoading, error, data } = useQuery<GetClassroomApiData>('classroom', () =>
+    const { isLoading: isClassroomLoading, error: hasClassroomError, data: classroomData } = useQuery<GetClassroomApiData>('classroom', () =>
         fetch(`/api/classrooms/${classroomId}`).then((res => res.json()))
     )
 
-    if (isLoading) return <>Loading...</>
+    const instructorId = classroomData?.classroom.instructorId
 
-    if (error || !data?.classroom) {
-        console.error(error)
+    const { isLoading: isInstructorProfileLoading, error: hasInstructorProfileError, data: instructorProfileData } = useQuery<GetInstructorProfileApiData>('instructor-profile', () =>
+        fetch(`/api/users/profile/${instructorId!}`).then((res => res.json())), { enabled: !!instructorId }
+    )
+
+    if (isClassroomLoading || isInstructorProfileLoading) return <>Loading...</>
+
+    if (hasClassroomError || !classroomData?.classroom || hasInstructorProfileError || !instructorProfileData) {
+        console.error(hasClassroomError)
         return <>Classroom not found</>
     }
 
-    const { classroom } = data
+    const { classroom } = classroomData
 
     return (
         <>
             <Typography component="h1" variant="h3" marginTop="2rem">
                 Classroom {classroom.title}
             </Typography>
+
             <Typography component="h2" variant="h4">
-                {/* @TODO: Get instructor data */}
-                Instructor: {classroom.instructorId}
+                Instructor: {instructorProfileData?.profile.name}
             </Typography>
+
             <ClassroomTabs
                 tabs={{
                     "Project": { content: <div>Project</div> },

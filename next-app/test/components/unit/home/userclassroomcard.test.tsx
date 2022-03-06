@@ -4,15 +4,15 @@
 
 import React from "react";
 import TestRenderer from "react-test-renderer";
-import { Classroom } from "../../../../components/home_page/userclassroom/userclassroom.types";
+import { AUTH0_TEST_ID } from "../../../../backend/constants";
 import UserClassroomCard from "../../../../components/home_page/userclassroom/userclassroomcard";
+import { Classroom } from "../../../../interfaces/classroom.interface";
 
 test("String set properly on userclassroomcard", () => {
   const classroom: Classroom = {
-    className: "Classroom A",
-    classDetails:
-      "Sausage bresaola meatball hamburger ground round pork loin picanha leberkas",
-    classroomImage: "/img/landing_page_img/landing_page_group.jpg",
+    instructorId: AUTH0_TEST_ID,
+    title: "Classroom A",
+    endDate: new Date(),
   };
 
   const render = TestRenderer.create(
@@ -21,13 +21,7 @@ test("String set properly on userclassroomcard", () => {
 
   const testInstance = render.root;
 
-  expect(testInstance.findByProps({ id: "className" }).props.children).toEqual(
-    classroom.className,
+  expect(testInstance.findByProps({ id: "classTitle" }).props.children).toEqual(
+    classroom.title,
   );
-  expect(
-    testInstance.findByProps({ id: "classDetails" }).props.children,
-  ).toEqual(classroom.classDetails);
-  expect(
-    testInstance.findByProps({ id: "classroomImage" }).props.image,
-  ).toEqual(classroom.classroomImage);
 });

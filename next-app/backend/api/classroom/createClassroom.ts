@@ -1,12 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../../interfaces/classroom.interface";
+import { CLASS_ACCESS_CODE_LENGTH } from "../../constants";
 import validateClassroomPOST from "../../helpers/validation/validateClassroomPOST";
+import generateRandomString from "../../util/generateRandomString";
 
 export default async (
   req: NextApiRequest,
   res: NextApiResponse,
   authId: string,
-  save: (classroom: Classroom) => Promise<void>,
+  save: (classroom: Classroom) => Promise<Classroom>,
 ) => {
   console.log(req.body)
   const body: Classroom = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
@@ -22,11 +24,12 @@ export default async (
     title,
     endDate,
     students,
+    accessCode: generateRandomString(Math.floor(CLASS_ACCESS_CODE_LENGTH / 2)),
   };
 
   try {
-    await save(classroom);
-    res.status(200).json(classroom);
+    const savedClassroom = await save(classroom);
+    res.status(200).json(savedClassroom);
   } catch (err) {
     res.status(500).end("Internal Error");
   }

@@ -1,12 +1,13 @@
 import React, { FC, useState } from "react";
 import { Box, Button } from "@mui/material";
 import UserIntroduction from "./userintroduction";
-import JoinClassroomDialog from "./joinclassroom/joinclassroomdialog";
+import CreateClassroomDialog from "./createclassroom/createclassroomdialog";
 
 interface UserJoinOrCreateGridProps {}
 
 const UserJoinOrCreateGrid: FC<UserJoinOrCreateGridProps> = () => {
   const [createClassrom, setCreateClassrom] = useState(false);
+
   const closeClassroom = () => {
     setCreateClassrom(false);
   };
@@ -39,7 +40,10 @@ const UserJoinOrCreateGrid: FC<UserJoinOrCreateGridProps> = () => {
           Create a classroom
         </Button>
       </Box>
-      <JoinClassroomDialog open={createClassrom} handleClose={closeClassroom} />
+      <CreateClassroomDialog
+        open={createClassrom}
+        handleClose={closeClassroom}
+      />
     </div>
   );
 };

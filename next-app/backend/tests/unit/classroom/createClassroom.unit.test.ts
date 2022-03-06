@@ -1,5 +1,6 @@
 import { expect, test } from "@jest/globals";
 import { createMocks } from "node-mocks-http";
+import { Classroom } from "../../../../interfaces/classroom.interface";
 import createClassroom from "../../../api/classroom/createClassroom";
 import { AUTH0_TEST_ID, CLASSROOM_TEST_TITLE } from "../../../constants";
 
@@ -16,10 +17,17 @@ test("Insert classroom while authenticated and save operation successful", async
     body,
   });
 
-  await createClassroom(req, res, AUTH0_TEST_ID, () => Promise.resolve());
+  await createClassroom(
+    req,
+    res,
+    AUTH0_TEST_ID,
+    async (classroom: Classroom) => {
+      return classroom;
+    },
+  );
 
   expect(res._getStatusCode()).toBe(200);
-  const classroom = JSON.parse(res._getData());
+  const { accessCode, ...classroom } = JSON.parse(res._getData());
   expect(classroom).toEqual({
     instructorId: AUTH0_TEST_ID,
     title: CLASSROOM_TEST_TITLE,

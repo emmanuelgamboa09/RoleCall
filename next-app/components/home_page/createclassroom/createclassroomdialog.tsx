@@ -15,17 +15,17 @@ import {
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import validateClassroomPOST from "../../../backend/helpers/validation/validateClassroomPOST";
-import { addClassroom } from "../../../redux/slice/classroomslice";
+import { addTaughtClassroom } from "../../../redux/slice/classroomslice";
 import { selectMe } from "../../../redux/store";
 
-interface JoinClassroomDialogProps {
+interface CreateClassroomDialogProps {
   open: boolean;
   handleClose: () => void;
 }
 
 const DEFAULT_TIME_ADDER = 7 * 24 * 60 * 60 * 1000;
 
-const JoinClassroomDialog: FC<JoinClassroomDialogProps> = ({
+const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
   open,
   handleClose,
 }) => {
@@ -82,7 +82,7 @@ const JoinClassroomDialog: FC<JoinClassroomDialogProps> = ({
           res
             .json()
             .then((res) => {
-              dispatch(addClassroom(res));
+              dispatch(addTaughtClassroom(res));
               handleClose();
               clearFieldData();
             })
@@ -156,4 +156,4 @@ const JoinClassroomDialog: FC<JoinClassroomDialogProps> = ({
   );
 };
 
-export default JoinClassroomDialog;
+export default CreateClassroomDialog;

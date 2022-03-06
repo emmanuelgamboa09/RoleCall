@@ -13,5 +13,7 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export const selectMe = (state: RootState) => state.userReducer.user;
-export const selectClassrooms = (state: RootState) =>
-  state.classroomReducer.classrooms;
+export const selectTaughtClassrooms = (state: RootState) =>
+  state.classroomReducer.taughtClassrooms;
+export const selectEnrolledClassroooms = (state: RootState) =>
+  state.classroomReducer.enrolledClassrooms;

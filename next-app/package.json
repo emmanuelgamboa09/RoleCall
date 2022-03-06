@@ -2,13 +2,13 @@
   "name": "next-app",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
-    "unit": "jest --testMatch='**/backend/tests/unit/*.unit.test.ts'",
-    "integration": "jest --testMatch='**/backend/tests/integration/*.integration.test.ts'",
+    "test": "jest --runInBand",
+    "unit": "jest --testMatch='**/backend/tests/unit/*.unit.test.ts' --runInBand",
+    "integration": "jest --testMatch='**/backend/tests/integration/*.integration.test.ts' --runInBand",
     "cypress:open": "cypress open"
   },
   "dependencies": {

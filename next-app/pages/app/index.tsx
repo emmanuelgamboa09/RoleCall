@@ -1,4 +1,5 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { GetServerSideProps } from "next";
 import type { ReactElement } from "react";
 import UserJoinOrCreateGrid from "../../components/home_page/joinorcreateclassroom";
 import UserEnrolledClassroomList from "../../components/home_page/userclassroom/userenrolledclassroomlist";
@@ -21,10 +22,12 @@ function HomePage() {
   );
 }
 
-const AuthWrapper = withPageAuthRequired(HomePage) as NextPageWithLayout;
 
-AuthWrapper.getLayout = function getLayout(page: ReactElement) {
+HomePage.getLayout = function getLayout(page: ReactElement) {
   return <BaseAppLayout title={"Home"}>{page}</BaseAppLayout>;
 };
 
-export default AuthWrapper;
+export const getServerSideProps: GetServerSideProps = withPageAuthRequired()
+
+
+export default HomePage

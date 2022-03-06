@@ -1,4 +1,3 @@
-import React, { FC } from "react";
 import {
   Box,
   Button,
@@ -6,8 +5,10 @@ import {
   CardContent,
   CardMedia,
   styled,
-  Typography,
+  Typography
 } from "@mui/material";
+import Link from 'next/link';
+import React, { FC } from "react";
 import { Classroom } from "../../../interfaces/classroom.interface";
 
 const ClassroomCard = styled(Card)(({ theme }) => ({
@@ -53,9 +54,11 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({
           </Typography>
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1, mb: 1 }}>
-          <Button variant="contained" size="small" style={{ marginRight: 5 }}>
-            View
-          </Button>
+          <Link href={`/app/classroom/${classroom._id}`}>
+            <Button variant="contained" size="small" style={{ marginRight: 5 }}>
+              View
+            </Button>
+          </Link>
           {taught && (
             <Button variant="contained" size="small">
               Edit

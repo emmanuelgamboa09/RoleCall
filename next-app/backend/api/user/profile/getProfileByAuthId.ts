@@ -13,7 +13,7 @@ export default async function getProfileByAuthId(req: NextApiRequest, res: NextA
 
     try {
         // TODO: Only allow users to view their own profiles, peer profiles, and their instructors' profiles
-        const user = await UserModel.findOne({ authId }, { _id: 0, authId: 0, name: 1 }).exec()
+        const user = await UserModel.findOne({ authId }, { _id:0, name:1}).exec()
         if (!user) {
             return res.status(400).send("Invalid request")
         }

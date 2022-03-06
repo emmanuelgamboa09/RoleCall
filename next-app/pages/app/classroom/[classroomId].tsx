@@ -6,10 +6,10 @@ import { useRouter } from "next/router";
 import { ReactElement } from "react";
 import { useQuery } from 'react-query';
 import { Data as GetClassroomApiData } from "../../../backend/api/classroom/getClassroom";
+import { Data as GetInstructorProfileApiData } from "../../../backend/api/user/profile/getProfileByAuthId";
 import ClassroomTabs from "../../../components/classroom/ClassroomTabs";
 import BaseAppLayout from "../../../layout/baseapplayout";
 import theme from "../../../src/theme";
-import { Data as GetInstructorProfileApiData } from "../../api/users/profile/[authId]";
 
 
 const ClassroomPage: NextPageWithLayout = () => {

@@ -43,6 +43,7 @@ const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
   const clearFieldData = () => {
     setClassroomTitle("");
     changeClassroomTime(null);
+    setError(false);
   };
 
   const changeClassroomTime = (newTime: Date | null) => {
@@ -59,6 +60,11 @@ const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
       return;
     }
     setError(false);
+  };
+
+  const handleDialogClose = () => {
+    handleClose();
+    clearFieldData();
   };
 
   const createClassroom = () => {
@@ -83,8 +89,7 @@ const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
             .json()
             .then((res) => {
               dispatch(addTaughtClassroom(res));
-              handleClose();
-              clearFieldData();
+              handleDialogClose();
             })
             .catch(() => {
               setErrorText(
@@ -104,7 +109,7 @@ const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
 
   return (
     <>
-      <Dialog onClose={handleClose} open={open}>
+      <Dialog onClose={handleDialogClose} open={open}>
         <DialogTitle>Create Classroom</DialogTitle>
         <DialogContent>
           <DialogContentText>

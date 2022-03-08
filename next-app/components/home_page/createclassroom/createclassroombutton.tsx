@@ -1,14 +1,9 @@
 import { Button } from "@mui/material";
 import { FC, useState } from "react";
+import CustomButtonProps from "../../misc/interfaces/custombuttonprops";
 import CreateClassroomDialog from "./createclassroomdialog";
 
-interface CreateClassroomButtonProps {
-  sx?: Object;
-  size?: "small" | "medium" | "large" | undefined;
-  variant?: "text" | "outlined" | "contained" | undefined;
-}
-
-const CreateClassroomButton: FC<CreateClassroomButtonProps> = ({
+const CreateClassroomButton: FC<CustomButtonProps> = ({
   sx,
   size,
   variant,

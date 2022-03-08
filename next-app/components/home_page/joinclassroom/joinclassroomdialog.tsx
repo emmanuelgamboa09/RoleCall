@@ -53,10 +53,10 @@ const JoinClassroomDialog: FC<JoinClassroomDialogProps> = ({
   return (
     <>
       <Dialog onClose={handleDialogClose} open={open}>
-        <DialogTitle>Create Classroom</DialogTitle>
+        <DialogTitle>Join Classroom</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Enter Your Classroom Access Code
+            Please fill out the required fields necessary to join a classroom
           </DialogContentText>
           <Stack component="form" spacing={2}>
             <TextField

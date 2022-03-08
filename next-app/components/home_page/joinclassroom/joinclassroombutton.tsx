@@ -1,18 +1,9 @@
 import { Button } from "@mui/material";
 import { FC, useState } from "react";
+import CustomButtonProps from "../../misc/interfaces/custombuttonprops";
 import JoinClassroomDialog from "./joinclassroomdialog";
 
-interface JoinClassroomButtonProps {
-  sx?: Object;
-  size?: "small" | "medium" | "large" | undefined;
-  variant?: "text" | "outlined" | "contained" | undefined;
-}
-
-const JoinClassroomButton: FC<JoinClassroomButtonProps> = ({
-  sx,
-  size,
-  variant,
-}) => {
+const JoinClassroomButton: FC<CustomButtonProps> = ({ sx, size, variant }) => {
   const [createClassrom, setCreateClassrom] = useState(false);
 
   const closeClassroom = () => {

@@ -4,14 +4,14 @@ import CustomButtonProps from "../../misc/interfaces/custombuttonprops";
 import JoinClassroomDialog from "./joinclassroomdialog";
 
 const JoinClassroomButton: FC<CustomButtonProps> = ({ sx, size, variant }) => {
-  const [createClassrom, setCreateClassrom] = useState(false);
+  const [joinClassroom, setJoinClassroom] = useState(false);
 
   const closeClassroom = () => {
-    setCreateClassrom(false);
+    setJoinClassroom(false);
   };
 
   const openCreateClassroom = () => {
-    setCreateClassrom(true);
+    setJoinClassroom(true);
   };
   return (
     <>
@@ -23,7 +23,7 @@ const JoinClassroomButton: FC<CustomButtonProps> = ({ sx, size, variant }) => {
       >
         Join a classroom
       </Button>
-      <JoinClassroomDialog open={createClassrom} handleClose={closeClassroom} />
+      <JoinClassroomDialog open={joinClassroom} handleClose={closeClassroom} />
     </>
   );
 };

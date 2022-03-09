@@ -8,7 +8,7 @@ import {
   CLASSROOM_TEST_TITLE,
 } from "../../../constants";
 import dbConnect from "../../../database/dbConnect";
-import dropDatabase from "../../../util/dropDatabase";
+import dropTestDb from "../../../util/dropTestDb";
 import { DB_TEST_NAME } from "./../../../constants";
 
 beforeAll(async () => {
@@ -16,7 +16,7 @@ beforeAll(async () => {
 });
 
 afterEach(async () => {
-  await dropDatabase(DB_TEST_NAME);
+  await dropTestDb();
   await dbDisconnect();
 });
 

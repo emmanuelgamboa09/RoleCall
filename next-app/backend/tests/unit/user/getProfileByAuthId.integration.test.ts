@@ -11,7 +11,7 @@ import {
 } from "../../../constants";
 import dbConnect, { dbDisconnect } from "../../../database/dbConnect";
 import { UserModel } from "../../../database/models/user";
-import dropDatabase from "../../../util/dropDatabase";
+import dropTestDb from "../../../util/dropTestDb";
 
 const authId = AUTH0_TEST_ID;
 
@@ -26,7 +26,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await dropDatabase(DB_TEST_NAME);
+  await dropTestDb();
   await dbDisconnect();
 });
 

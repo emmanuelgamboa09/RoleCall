@@ -57,15 +57,3 @@ test("fails to get a profile through an invalid authId", async () => {
 
     expect(res._getStatusCode()).not.toBe(200);
 });
-
-// test("Get user but user document doesn't exist", async () => {
-//     const { req, res } = createMocks({
-//         method: "GET",
-//     });
-
-//     await getUser(req, res, AUTH0_TEST_ID, (user: User) => {
-//         return UserModel.findOne(user);
-//     });
-
-//     expect(res._getStatusCode()).toBe(404);
-// });

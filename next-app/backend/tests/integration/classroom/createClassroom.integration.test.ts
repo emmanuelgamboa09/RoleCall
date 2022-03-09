@@ -1,19 +1,21 @@
 import { createMocks } from "node-mocks-http";
 import { Classroom } from "../../../../interfaces/classroom.interface";
 import createClassroom from "../../../api/classroom/createClassroom";
-import { ClassroomModel } from "../../../database/models/classroom";
 import {
   AUTH0_TEST_ID,
   CLASSROOM_TEST_TITLE,
-  DB_TEST_NAME,
+  DB_TEST_NAME
 } from "../../../constants";
 import dbConnect, { dbDisconnect } from "../../../database/dbConnect";
+import { ClassroomModel } from "../../../database/models/classroom";
+import dropDatabase from "../../../util/dropDatabase";
 
 beforeAll(async () => {
   await dbConnect(DB_TEST_NAME);
 });
 
 afterAll(async () => {
+  await dropDatabase(DB_TEST_NAME)
   await dbDisconnect();
 });
 

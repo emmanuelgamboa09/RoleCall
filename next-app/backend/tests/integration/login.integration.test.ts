@@ -7,12 +7,14 @@ import { UserModel } from "../../database/models/user";
 import { AUTH0_TEST_ID, DB_TEST_NAME } from "../../constants";
 import { login } from "../../helpers/login";
 import { User } from "../../types";
+import dropDatabase from "../../util/dropDatabase";
 
 beforeAll(async () => {
   await dbConnect(DB_TEST_NAME);
 });
 
 afterAll(async () => {
+  await dropDatabase(DB_TEST_NAME)
   await dbDisconnect();
 });
 
@@ -24,7 +26,7 @@ test("Login for first time and successfully add user record", async () => {
     login(
       req,
       res,
-      () => {},
+      () => { },
       () => AUTH0_TEST_ID,
       (user: User) => UserModel.findOne(user),
       async (user: User) => {

@@ -1,3 +1,4 @@
+import { dbDisconnect } from "./../../../database/dbConnect";
 import { createMocks } from "node-mocks-http";
 import getClassroom from "../../../api/classroom/getClassroom";
 import {
@@ -6,6 +7,18 @@ import {
   CLASSROOM_TEST_ID,
   CLASSROOM_TEST_TITLE,
 } from "../../../constants";
+import dbConnect from "../../../database/dbConnect";
+import dropDatabase from "../../../util/dropDatabase";
+import { DB_TEST_NAME } from "./../../../constants";
+
+beforeAll(async () => {
+  await dbConnect(DB_TEST_NAME);
+});
+
+afterEach(async () => {
+  await dropDatabase(DB_TEST_NAME);
+  await dbDisconnect();
+});
 
 test("Get single classroom with retrieve operation successful", async () => {
   const endDate = new Date("2022-05-05");

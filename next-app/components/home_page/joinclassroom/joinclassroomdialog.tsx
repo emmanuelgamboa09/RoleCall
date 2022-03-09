@@ -11,6 +11,9 @@ import {
   TextField,
 } from "@mui/material";
 import { FC, useState } from "react";
+import { useDispatch } from "react-redux";
+import validateEnrollmentPUT from "../../../backend/helpers/validation/validateEnrollmentPUT";
+import { addEnrolledClassrooms } from "../../../redux/slice/classroomslice";
 
 interface JoinClassroomDialogProps {
   open: boolean;
@@ -24,6 +27,7 @@ const JoinClassroomDialog: FC<JoinClassroomDialogProps> = ({
   const [accessCode, setAccessCode] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("");
+  const dispatch = useDispatch();
 
   const clearFieldData = () => {
     handleClose();
@@ -46,8 +50,41 @@ const JoinClassroomDialog: FC<JoinClassroomDialogProps> = ({
     clearFieldData();
   };
 
+  const setErrorMessage = (message: string) => {
+    setError(true);
+    setErrorText(message);
+  };
+
   const joinClassroom = () => {
-    // Will be implemented once the backend route is setup to join a classroom.
+    const data = { accessCode };
+    const { error } = validateEnrollmentPUT(data);
+    if (error) {
+      setErrorMessage(error.message);
+    } else {
+      fetch("api/enrollments", {
+        method: "PUT",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(data),
+      })
+        .then((res) => {
+          res
+            .json()
+            .then((res) => {
+              dispatch(addEnrolledClassrooms(res));
+              handleDialogClose();
+            })
+            .catch(() => {
+              setErrorMessage(
+                "Unable to join classroom at this moment. Please try again later.",
+              );
+            });
+        })
+        .catch(() => {
+          setErrorMessage(
+            "Unable to join classroom at this moment. Please try again later.",
+          );
+        });
+    }
   };
 
   return (

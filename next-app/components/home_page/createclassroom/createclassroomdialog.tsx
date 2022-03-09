@@ -67,6 +67,11 @@ const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
     clearFieldData();
   };
 
+  const setErrorMessage = (message: string) => {
+    setError(true);
+    setErrorText(message);
+  };
+
   const createClassroom = () => {
     const data = {
       instructorId: me.authId,
@@ -76,8 +81,7 @@ const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
     const { error } = validateClassroomPOST(data);
 
     if (error) {
-      setErrorText(error.message.toLocaleUpperCase());
-      setError(true);
+      setErrorMessage(error.message.toLocaleUpperCase());
     } else {
       fetch("api/classrooms", {
         method: "POST",
@@ -92,17 +96,15 @@ const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
               handleDialogClose();
             })
             .catch(() => {
-              setErrorText(
+              setErrorMessage(
                 "Unable to create classroom at this moment. Please try again later.",
               );
-              setError(true);
             });
         })
         .catch(() => {
-          setErrorText(
+          setErrorMessage(
             "Unable to create classroom at this moment. Please try again later.",
           );
-          setError(true);
         });
     }
   };

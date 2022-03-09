@@ -56,7 +56,7 @@ const JoinClassroomDialog: FC<JoinClassroomDialogProps> = ({
   };
 
   const joinClassroom = () => {
-    const data = { accessCode };
+    const data = { accessCode: accessCode.trim() };
     const { error } = validateEnrollmentPUT(data);
     if (error) {
       setErrorMessage(error.message);

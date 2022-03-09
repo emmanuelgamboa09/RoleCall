@@ -20,25 +20,21 @@ const ClassroomPage: NextPageWithLayout = () => {
         fetch(`/api/classrooms/${classroomId}`).then((res => res.json()))
     )
 
-    const instructorId = classroomData?.classroom.instructorId
-
     const { isLoading: isInstructorProfileLoading, error: hasInstructorProfileError, data: instructorProfileData } = useQuery<GetInstructorProfileApiData>('instructor-profile', () =>
-        fetch(`/api/users/profile/${instructorId!}`).then((res => res.json())), { enabled: !!instructorId }
+        fetch(`/api/users/profile/${classroomData!.instructorId!}`).then((res => res.json())), { enabled: !!classroomData?.instructorId }
     )
 
     if (isClassroomLoading || isInstructorProfileLoading) return <>Loading...</>
 
-    if (hasClassroomError || !classroomData?.classroom || hasInstructorProfileError || !instructorProfileData) {
+    if (hasClassroomError || !classroomData || hasInstructorProfileError || !instructorProfileData) {
         console.error(hasClassroomError)
         return <>Classroom not found</>
     }
 
-    const { classroom } = classroomData
-
     return (
         <>
             <Typography component="h1" variant="h3" marginTop="2rem">
-                Classroom {classroom.title}
+                {classroomData.title || "Untitled Classroom"}
             </Typography>
 
             <Typography component="h2" variant="h4">

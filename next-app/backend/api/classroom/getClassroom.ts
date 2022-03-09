@@ -4,9 +4,7 @@ import { Classroom } from "../../../interfaces/classroom.interface";
 import getProjection from "../../helpers/getProjection";
 import validateSingleClassroomGET from "../../helpers/validation/validateSingleClassroomGET";
 
-export interface Data {
-  classroom: Classroom
-}
+export type Data = { [P in keyof Classroom]?: Classroom[P] };
 
 export default async (
   req: NextApiRequest,
@@ -33,7 +31,7 @@ export default async (
     } else if (instructorId !== authId && !students!.includes(authId)) {
       res.status(403).end("Forbidden");
     } else {
-      res.status(200).json({ classroom: getProjection(fields, classroom) as Classroom });
+      res.status(200).json(getProjection(fields, classroom));
     }
   } catch (err) {
     res.status(500).end("Internal Error");

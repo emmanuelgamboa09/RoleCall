@@ -9,18 +9,18 @@ import {
   CLASSROOM_TEST_TITLE,
   DB_TEST_NAME,
   MAX_CLASSROOM_SIZE,
-  TEST_INSTRUCTOR_ID
+  TEST_INSTRUCTOR_ID,
 } from "../../../constants";
 import dbConnect, { dbDisconnect } from "../../../database/dbConnect";
 import { ClassroomModel } from "../../../database/models/classroom";
-import dropDatabase from "../../../util/dropDatabase";
+import dropTestDb from "../../../util/dropTestDb";
 
 beforeAll(async () => {
   await dbConnect(DB_TEST_NAME);
 });
 
 afterAll(async () => {
-  await dropDatabase(DB_TEST_NAME)
+  await dropTestDb();
   await dbDisconnect();
 });
 

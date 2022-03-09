@@ -10,7 +10,6 @@ export default async (
   authId: string,
   save: (classroom: Classroom) => Promise<Classroom>,
 ) => {
-  console.log(req.body)
   const body: Classroom = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
   const { error } = validateClassroomPOST(body);
   if (error) {

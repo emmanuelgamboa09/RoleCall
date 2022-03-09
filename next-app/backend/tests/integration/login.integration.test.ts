@@ -14,7 +14,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await dropDatabase(DB_TEST_NAME)
+  await dropDatabase(DB_TEST_NAME);
   await dbDisconnect();
 });
 
@@ -26,7 +26,7 @@ test("Login for first time and successfully add user record", async () => {
     login(
       req,
       res,
-      () => { },
+      () => {},
       () => AUTH0_TEST_ID,
       (user: User) => UserModel.findOne(user),
       async (user: User) => {

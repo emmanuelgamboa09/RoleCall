@@ -4,7 +4,7 @@ import createClassroom from "../../../api/classroom/createClassroom";
 import {
   AUTH0_TEST_ID,
   CLASSROOM_TEST_TITLE,
-  DB_TEST_NAME
+  DB_TEST_NAME,
 } from "../../../constants";
 import dbConnect, { dbDisconnect } from "../../../database/dbConnect";
 import { ClassroomModel } from "../../../database/models/classroom";
@@ -15,7 +15,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await dropDatabase(DB_TEST_NAME)
+  await dropDatabase(DB_TEST_NAME);
   await dbDisconnect();
 });
 
@@ -51,7 +51,7 @@ test("Insert classroom while authenticated, connected DB, and save operation suc
     students: [],
     endDate,
     instructorId: AUTH0_TEST_ID,
-    accessCode: classroom.accessCode
+    accessCode: classroom.accessCode,
   });
   // validation of data is being done in the findOne. If findClassroom
   // equals null than something went wrong.

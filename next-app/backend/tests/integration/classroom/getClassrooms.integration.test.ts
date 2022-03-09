@@ -107,3 +107,85 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
     await ClassroomModel.deleteMany({ instructorId });
   }
 });
+
+test("Get classrooms while authenticated, connected DB, and retrieve operation successful", async () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+
+  const classrooms = [
+    {
+      instructorId: "abc",
+      title: "CS",
+      students: [AUTH0_TEST_ID],
+      endDate: date,
+      accessCode: CLASSROOM_TEST_ACCESS_CODE,
+    },
+
+    {
+      instructorId: AUTH0_TEST_ID,
+      title: "KIN",
+      students: [],
+      endDate: new Date(),
+      accessCode: CLASSROOM_TEST_ACCESS_CODE,
+    },
+    {
+      instructorId: AUTH0_TEST_ID,
+      title: "MATH",
+      students: [],
+      endDate: date,
+      accessCode: CLASSROOM_TEST_ACCESS_CODE,
+    },
+    {
+      instructorId: AUTH0_TEST_ID,
+      title: "PHYS",
+      students: [],
+      endDate: date,
+      accessCode: CLASSROOM_TEST_ACCESS_CODE,
+    },
+  ];
+
+  for (const classroom of classrooms) {
+    const doc = new ClassroomModel(classroom);
+    await doc.save();
+  }
+
+  const { req, res } = createMocks({
+    method: "GET",
+  });
+
+  await getClassrooms(
+    req,
+    res,
+    AUTH0_TEST_ID,
+    (filter: FilterQuery<Classroom>) => ClassroomModel.find(filter),
+  );
+
+  expect(res._getStatusCode()).toBe(200);
+  const results = JSON.parse(res._getData()).classrooms;
+  const expected = [
+    {
+      instructorId: "abc",
+      title: "CS",
+      students: [AUTH0_TEST_ID],
+      endDate: date.toISOString(),
+      accessCode: CLASSROOM_TEST_ACCESS_CODE,
+    },
+  ];
+  const sortedZip = zip(
+    expected,
+    results.sort((a: { [key: string]: any }, b: { [key: string]: any }) =>
+      a.title.localeCompare(b.title),
+    ),
+  );
+
+  for (const value of sortedZip) {
+    delete value[1]._id;
+    delete value[1].__v;
+    expect(value[0]).toEqual(value[1]);
+  }
+
+  for (const value of classrooms) {
+    const { instructorId } = value;
+    await ClassroomModel.deleteMany({ instructorId });
+  }
+});

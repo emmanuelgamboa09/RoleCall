@@ -24,14 +24,14 @@ test("Get classrooms but retrieve operation fails", async () => {
   expect(res._getStatusCode()).toBe(500);
 });
 
-test("Get classrooms but missing query param", async () => {
+test("Get classrooms with no params", async () => {
   const { req, res } = createMocks({
     method: "GET",
   });
 
   await getClassrooms(req, res, AUTH0_TEST_ID, () => Promise.resolve([]));
 
-  expect(res._getStatusCode()).toBe(400);
+  expect(res._getStatusCode()).toBe(200);
 });
 
 test("Get classrooms but invalid query param", async () => {

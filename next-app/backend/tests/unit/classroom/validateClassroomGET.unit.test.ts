@@ -20,7 +20,6 @@ test("Validate correct Classroom GET Input", () => {
 
 test("Validate incorrect Classroom GET Input", () => {
   const inputs = [
-    {},
     { taught: null },
     {
       taught: "abc",

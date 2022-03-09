@@ -24,9 +24,7 @@ export default async (
     endDate: { $gte: new Date() },
   };
 
-  if (taught) {
-    filter.instructorId = authId;
-  }
+  taught ? (filter.instructorId = authId) : (filter.students = authId);
 
   try {
     const classrooms = await findClassrooms(filter);

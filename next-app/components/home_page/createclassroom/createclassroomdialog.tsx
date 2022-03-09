@@ -43,6 +43,7 @@ const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
   const clearFieldData = () => {
     setClassroomTitle("");
     changeClassroomTime(null);
+    setError(false);
   };
 
   const changeClassroomTime = (newTime: Date | null) => {
@@ -61,6 +62,16 @@ const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
     setError(false);
   };
 
+  const handleDialogClose = () => {
+    handleClose();
+    clearFieldData();
+  };
+
+  const setErrorMessage = (message: string) => {
+    setError(true);
+    setErrorText(message);
+  };
+
   const createClassroom = () => {
     const data = {
       instructorId: me.authId,
@@ -70,8 +81,7 @@ const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
     const { error } = validateClassroomPOST(data);
 
     if (error) {
-      setErrorText(error.message.toLocaleUpperCase());
-      setError(true);
+      setErrorMessage(error.message.toLocaleUpperCase());
     } else {
       fetch("api/classrooms", {
         method: "POST",
@@ -83,28 +93,25 @@ const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
             .json()
             .then((res) => {
               dispatch(addTaughtClassroom(res));
-              handleClose();
-              clearFieldData();
+              handleDialogClose();
             })
             .catch(() => {
-              setErrorText(
+              setErrorMessage(
                 "Unable to create classroom at this moment. Please try again later.",
               );
-              setError(true);
             });
         })
         .catch(() => {
-          setErrorText(
+          setErrorMessage(
             "Unable to create classroom at this moment. Please try again later.",
           );
-          setError(true);
         });
     }
   };
 
   return (
     <>
-      <Dialog onClose={handleClose} open={open}>
+      <Dialog onClose={handleDialogClose} open={open}>
         <DialogTitle>Create Classroom</DialogTitle>
         <DialogContent>
           <DialogContentText>

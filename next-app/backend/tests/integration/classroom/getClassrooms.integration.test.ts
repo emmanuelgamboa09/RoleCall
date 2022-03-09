@@ -10,12 +10,14 @@ import {
 } from "../../../constants";
 import dbConnect, { dbDisconnect } from "../../../database/dbConnect";
 import zip from "../../../util/zip";
+import dropTestDb from "../../../util/dropTestDb";
 
 beforeAll(async () => {
   await dbConnect(DB_TEST_NAME);
 });
 
 afterAll(async () => {
+  await dropTestDb();
   await dbDisconnect();
 });
 

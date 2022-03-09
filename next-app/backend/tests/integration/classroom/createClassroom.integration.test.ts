@@ -1,19 +1,21 @@
 import { createMocks } from "node-mocks-http";
 import { Classroom } from "../../../../interfaces/classroom.interface";
 import createClassroom from "../../../api/classroom/createClassroom";
-import { ClassroomModel } from "../../../database/models/classroom";
 import {
   AUTH0_TEST_ID,
   CLASSROOM_TEST_TITLE,
   DB_TEST_NAME,
 } from "../../../constants";
 import dbConnect, { dbDisconnect } from "../../../database/dbConnect";
+import { ClassroomModel } from "../../../database/models/classroom";
+import dropTestDb from "../../../util/dropTestDb";
 
 beforeAll(async () => {
   await dbConnect(DB_TEST_NAME);
 });
 
 afterAll(async () => {
+  await dropTestDb();
   await dbDisconnect();
 });
 
@@ -49,7 +51,7 @@ test("Insert classroom while authenticated, connected DB, and save operation suc
     students: [],
     endDate,
     instructorId: AUTH0_TEST_ID,
-    accessCode: classroom.accessCode
+    accessCode: classroom.accessCode,
   });
   // validation of data is being done in the findOne. If findClassroom
   // equals null than something went wrong.

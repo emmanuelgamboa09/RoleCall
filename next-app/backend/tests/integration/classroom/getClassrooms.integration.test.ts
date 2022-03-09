@@ -17,7 +17,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await dropDatabase(DB_TEST_NAME)
+  await dropDatabase(DB_TEST_NAME);
   await dbDisconnect();
 });
 

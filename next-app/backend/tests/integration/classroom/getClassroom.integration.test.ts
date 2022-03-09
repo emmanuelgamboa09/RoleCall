@@ -4,7 +4,7 @@ import {
   AUTH0_TEST_ID,
   CLASSROOM_TEST_ACCESS_CODE,
   CLASSROOM_TEST_ID,
-  DB_TEST_NAME
+  DB_TEST_NAME,
 } from "../../../constants";
 import dbConnect, { dbDisconnect } from "../../../database/dbConnect";
 import { ClassroomModel } from "../../../database/models/classroom";
@@ -15,7 +15,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await dropDatabase(DB_TEST_NAME)
+  await dropDatabase(DB_TEST_NAME);
   await dbDisconnect();
 });
 

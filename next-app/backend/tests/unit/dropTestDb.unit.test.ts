@@ -1,13 +1,13 @@
 import { expect, test } from "@jest/globals";
 import dbConnect from "../../database/dbConnect";
-import dropDatabase from "../../util/dropDatabase";
+import dropTestDb from "../../util/dropTestDb";
 import {
   AUTH0_TEST_ID,
   AUTH0_TEST_USER_NAME,
   DB_TEST_NAME,
-} from "./../../constants";
-import { dbDisconnect } from "./../../database/dbConnect";
-import { UserModel } from "./../../database/models/user";
+} from "../../constants";
+import { dbDisconnect } from "../../database/dbConnect";
+import { UserModel } from "../../database/models/user";
 
 const TEST_USER = { name: AUTH0_TEST_USER_NAME, authId: AUTH0_TEST_ID };
 
@@ -16,7 +16,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await dropDatabase(DB_TEST_NAME);
+  await dropTestDb();
   await dbDisconnect();
 });
 
@@ -24,6 +24,6 @@ test("Properly drops a test database", async () => {
   await UserModel.create(TEST_USER);
   expect(await UserModel.findOne(TEST_USER)).not.toBeNull();
 
-  await dropDatabase(DB_TEST_NAME);
+  await dropTestDb();
   expect(await UserModel.findOne(TEST_USER)).toBeNull();
 });

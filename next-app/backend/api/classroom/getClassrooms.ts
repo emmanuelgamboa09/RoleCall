@@ -3,9 +3,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import validateClassroomGET from "../../helpers/validation/validateClassroomGET";
 
+export interface Data {
+  classrooms: Classroom[]
+}
+
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse<Data>,
   authId: string,
   findClassrooms: (
     filter: FilterQuery<Classroom>,

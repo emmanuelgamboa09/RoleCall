@@ -21,6 +21,7 @@ describe("Navigation Between Landing & App Pages", () => {
   });
   context("Logged in", () => {
     before(() => {
+      cy.visit(landingPagePath);
       cy.clearAuth0Cookies().login();
     });
     after(() => {

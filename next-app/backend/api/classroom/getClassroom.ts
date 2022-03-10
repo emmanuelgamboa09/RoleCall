@@ -4,9 +4,11 @@ import { Classroom } from "../../../interfaces/classroom.interface";
 import getProjection from "../../helpers/getProjection";
 import validateSingleClassroomGET from "../../helpers/validation/validateSingleClassroomGET";
 
+export type Data = { [P in keyof Classroom]?: Classroom[P] };
+
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse<Data>,
   authId: string,
   findClassroom: (
     id: any,

@@ -3,10 +3,11 @@ import {
   Button,
   Card,
   CardContent,
-  CardMedia, styled,
-  Typography
+  CardMedia,
+  styled,
+  Typography,
 } from "@mui/material";
-import Link from 'next/link';
+import Link from "next/link";
 import React, { FC } from "react";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import AlertButton from "../../AlertButton";
@@ -36,7 +37,7 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({
     if (accessCode) {
       navigator.clipboard.writeText(accessCode);
     }
-  }
+  };
 
   return (
     <ClassroomCard
@@ -58,7 +59,14 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({
             {title}
           </Typography>
         </CardContent>
-        <Box sx={{ display: "flex", justifyContent: "space-between", margin: "0.5rem", maxWidth: "200px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "0.5rem",
+            maxWidth: "200px",
+          }}
+        >
           <Link href={`/app/classroom/${classroom._id}`}>
             <Button variant="contained" size="small">
               View
@@ -69,20 +77,35 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({
               <Button variant="contained" size="small">
                 Edit
               </Button>
-              {accessCode &&
+              {accessCode && (
                 <AlertButton
                   buttonText="Invite"
                   alertContent={
                     <Typography variant="body1">
                       Copied access code to clipboard:&nbsp;
-                      <div onClick={() => { copyAccessCodeToClipboard(); window.alert("Copied!") }} style={{ textDecoration: "underline", display: "inline", cursor: "pointer" }}>{accessCode}</div>
-                    </Typography>}
+                      <div
+                        onClick={() => {
+                          copyAccessCodeToClipboard();
+                          window.alert("Copied!");
+                        }}
+                        style={{
+                          textDecoration: "underline",
+                          display: "inline",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {accessCode}
+                      </div>
+                    </Typography>
+                  }
                   buttonProps={{
-                    variant: "contained", size: "small", onClick: copyAccessCodeToClipboard
+                    variant: "contained",
+                    size: "small",
+                    onClick: copyAccessCodeToClipboard,
                   }}
                   alertProps={{ severity: "info" }}
                 />
-              }
+              )}
             </>
           )}
         </Box>

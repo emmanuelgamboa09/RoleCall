@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import { connect, ConnectOptions } from "mongoose";
 import { DB_BASE_URI, DB_NAME, DB_TEST_NAME } from "../constants";
 
 /**
@@ -25,7 +25,7 @@ async function dbConnect(dbName?: string, user?: string, pwd?: string) {
   }
 
   if (!cached.promise) {
-    const opts: mongoose.ConnectOptions = {
+    const opts: ConnectOptions = {
       user: user || process.env.DB_USER,
       pass: pwd || process.env.DB_PWD,
       dbName: dbName || process.env.APP_ENV === "test" ? DB_TEST_NAME : DB_NAME,
@@ -33,9 +33,7 @@ async function dbConnect(dbName?: string, user?: string, pwd?: string) {
       bufferCommands: false,
     };
 
-    console.log(opts);
-
-    cached.promise = mongoose.connect(DB_BASE_URI, opts).then((mongoose) => {
+    cached.promise = connect(DB_BASE_URI, opts).then((mongoose) => {
       console.log(":: MONGOOSE - Created new connection");
       return mongoose;
     });

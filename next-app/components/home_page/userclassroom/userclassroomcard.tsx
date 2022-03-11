@@ -5,11 +5,12 @@ import {
   CardContent,
   CardMedia,
   styled,
-  Typography
+  Typography,
 } from "@mui/material";
-import Link from 'next/link';
+import Link from "next/link";
 import React, { FC } from "react";
 import { Classroom } from "../../../interfaces/classroom.interface";
+import AlertButton from "../../AlertButton";
 
 const ClassroomCard = styled(Card)(({ theme }) => ({
   margin: theme.spacing(1),
@@ -31,7 +32,12 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({
   height = 170,
   taught = false,
 }) => {
-  const { title } = classroom;
+  const { title, accessCode } = classroom;
+  const copyAccessCodeToClipboard = () => {
+    if (accessCode) {
+      navigator.clipboard.writeText(accessCode);
+    }
+  };
 
   return (
     <ClassroomCard
@@ -53,16 +59,54 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({
             {title}
           </Typography>
         </CardContent>
-        <Box sx={{ display: "flex", alignItems: "center", pl: 1, mb: 1 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "0.5rem",
+            maxWidth: "200px",
+          }}
+        >
           <Link href={`/app/classroom/${classroom._id}`}>
-            <Button variant="contained" size="small" style={{ marginRight: 5 }}>
+            <Button variant="contained" size="small">
               View
             </Button>
           </Link>
           {taught && (
-            <Button variant="contained" size="small">
-              Edit
-            </Button>
+            <>
+              <Button variant="contained" size="small">
+                Edit
+              </Button>
+              {accessCode && (
+                <AlertButton
+                  buttonText="Invite"
+                  alertContent={
+                    <Typography variant="body1">
+                      Copied access code to clipboard:&nbsp;
+                      <div
+                        onClick={() => {
+                          copyAccessCodeToClipboard();
+                          window.alert("Copied!");
+                        }}
+                        style={{
+                          textDecoration: "underline",
+                          display: "inline",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {accessCode}
+                      </div>
+                    </Typography>
+                  }
+                  buttonProps={{
+                    variant: "contained",
+                    size: "small",
+                    onClick: copyAccessCodeToClipboard,
+                  }}
+                  alertProps={{ severity: "info" }}
+                />
+              )}
+            </>
           )}
         </Box>
       </Box>

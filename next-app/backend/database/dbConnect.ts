@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose";
+import mongoose from "mongoose";
 import { DB_BASE_URI, DB_NAME, DB_TEST_NAME } from "../constants";
 
 /**

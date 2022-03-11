@@ -1,4 +1,4 @@
-import mongoose, { FilterQuery, QueryOptions, UpdateQuery } from "mongoose";
+import { FilterQuery, QueryOptions, Types, UpdateQuery } from "mongoose";
 import { createMocks } from "node-mocks-http";
 import { Classroom } from "../../../../interfaces/classroom.interface";
 import createEnrollment from "../../../api/enrollment/createEnrollment";
@@ -117,7 +117,7 @@ test("Update enrollment when class is full", async () => {
   const classroom = {
     _id: CLASSROOM_TEST_ID,
     students: Array.from(Array(MAX_CLASSROOM_SIZE).keys()).map(
-      () => new mongoose.Types.ObjectId(),
+      () => new Types.ObjectId(),
     ),
     endDate,
     title: CLASSROOM_TEST_TITLE,

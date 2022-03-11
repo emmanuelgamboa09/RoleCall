@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import * as mongoose from "mongoose";
 import { NextPage } from "next";
 
 declare global {
@@ -8,6 +8,7 @@ declare global {
   };
   namespace NodeJS {
     interface ProcessEnv extends ProcessEnv {
+      APP_ENV: undefined | "test"; // setting NODE_ENV=test will set this to "test"
       AUTH0_SECRET: string;
       AUTH0_BASE_URL: string;
       AUTH0_ISSUER_BASE_URL: string;

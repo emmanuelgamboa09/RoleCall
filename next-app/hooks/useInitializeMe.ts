@@ -11,7 +11,7 @@ export default function useInitializeMe() {
 
   useEffect(() => {
     if (user && me === null) {
-      fetch("api/users/me", {
+      fetch("/api/users/me", {
         method: "GET",
         headers: { "Content-type": "application/json" },
       })

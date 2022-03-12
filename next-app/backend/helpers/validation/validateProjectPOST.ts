@@ -8,11 +8,15 @@ const schema = {
   maxGroupSize: Joi.string()
     .regex(/^[1-9][0-9]*$/)
     .required(),
-  formationDeadline: Joi.date().greater(new Date(Date.now() + 1000 * 60)),
+  formationDeadline: Joi.date()
+    .greater(new Date(Date.now() + 1000 * 60))
+    .required(),
 };
 
 export function validateCreateProjectForm(input: { [key: string]: any }) {
   const validated = Joi.object(schema).validate(input, { abortEarly: false });
+
+  console.log(validated);
 
   if (
     !validated.error &&

@@ -1,21 +1,19 @@
 import { LoadingButton } from "@mui/lab";
 import Joi from "joi";
 import { useRouter } from "next/router";
-import React, { FC, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setServerError,
-  setValidationErrors,
-  ValidationError,
-} from "../../redux/slice/createProjectSlice";
-import { selectCreateProjectForm } from "../../redux/store";
+import { setServerError } from "../../redux/slice/createProjectSlice";
 import { validateCreateProjectForm } from "../../backend/helpers/validation/validateProjectPOST";
+import { ProjectForm, ValidationError } from "./ProjectForm";
 
-interface SubmitButtonProps {}
+interface SubmitButtonProps {
+  form: ProjectForm;
+  setValidationErrors: Dispatch<SetStateAction<ValidationError[]>>;
+}
 
-const SubmitButton: FC<SubmitButtonProps> = () => {
+const SubmitButton: FC<SubmitButtonProps> = ({ form, setValidationErrors }) => {
   const [loading, setLoading] = useState(false);
-  const form = useSelector(selectCreateProjectForm);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -24,12 +22,10 @@ const SubmitButton: FC<SubmitButtonProps> = () => {
 
     const { error } = validateCreateProjectForm(form);
     if (error) {
-      dispatch(
-        setValidationErrors(
-          error.details.map(
-            (detail: Partial<Joi.ValidationErrorItem>) =>
-              detail.context as ValidationError,
-          ),
+      setValidationErrors(
+        error.details.map(
+          (detail: Partial<Joi.ValidationErrorItem>) =>
+            detail.context as ValidationError,
         ),
       );
       setLoading(false);

@@ -19,11 +19,5 @@ export const selectTaughtClassrooms = (state: RootState) =>
   state.classroomReducer.taughtClassrooms;
 export const selectEnrolledClassroooms = (state: RootState) =>
   state.classroomReducer.enrolledClassrooms;
-export const selectCreateProjectForm = (state: RootState) =>
-  state.createProjectReducer.form;
-export const selectCreateProjectValidationErrors = (state: RootState) =>
-  state.createProjectReducer.validationErrors;
 export const selectCreateProjectServerError = (state: RootState) =>
   state.createProjectReducer.serverError;
-export const selectCreateProjectFormationDeadline = (state: RootState) =>
-  state.createProjectReducer.form.formationDeadline;

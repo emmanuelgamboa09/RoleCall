@@ -1,33 +1,44 @@
 import { Box, TextField } from "@mui/material";
-import type { FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  removeValidationErrors,
-  setMaxGroupSize,
-  setMinGroupSize,
-  setTitle,
-  ValidationError,
-} from "../../redux/slice/createProjectSlice";
-import {
-  selectCreateProjectForm,
-  selectCreateProjectValidationErrors,
-} from "../../redux/store";
+import { FC, useState } from "react";
+import getTomorrow from "../../src/util/getTomorrow";
 import FormationDeadlinePicker from "./FormationDeadlinePicker";
 import SubmitButton from "./SubmitButton";
+
+export interface ProjectForm {
+  title: string;
+  minGroupSize: string;
+  maxGroupSize: string;
+  formationDeadline: string;
+}
+
+export interface ValidationError {
+  label: string;
+  value: string;
+  key: string;
+}
 
 export interface ProjectFormProps {}
 
 const ProjectForm: FC<ProjectFormProps> = () => {
-  const dispatch = useDispatch();
-  const validationErrors = useSelector(selectCreateProjectValidationErrors);
-  const form = useSelector(selectCreateProjectForm);
+  const [form, setForm] = useState<ProjectForm>({
+    title: "",
+    minGroupSize: "",
+    maxGroupSize: "",
+    formationDeadline: getTomorrow().toISOString(),
+  });
+  const [validationErrors, setValidationErrors] = useState<ValidationError[]>(
+    [],
+  );
 
-  const onInputChange = (
-    action: { payload: any; type: string },
-    key: string,
-  ) => {
-    dispatch(removeValidationErrors(key));
-    dispatch(action);
+  const clearError = (field: string) => {
+    setValidationErrors(validationErrors.filter((err) => err.key !== field));
+  };
+
+  const onInputChange = (key: string, value: string) => {
+    clearError(key);
+    const updated = { ...form };
+    updated[key as keyof ProjectForm] = value;
+    setForm(updated);
   };
 
   const onNumericInputChange = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -55,7 +66,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
         id="title-input"
         required
         label="Title"
-        onChange={(e) => onInputChange(setTitle(e.target.value), "title")}
+        onChange={(e) => onInputChange("title", e.target.value)}
         error={fieldHasError("title")}
         style={{ marginBottom: "6vh" }}
         value={form.title}
@@ -66,9 +77,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
           id="min-group-input"
           required
           label="Min. Group Size"
-          onChange={(e) =>
-            onInputChange(setMinGroupSize(e.target.value), "minGroupSize")
-          }
+          onChange={(e) => onInputChange("minGroupSize", e.target.value)}
           onKeyDown={onNumericInputChange}
           error={fieldHasError("minGroupSize")}
           style={{ flex: 1 }}
@@ -78,9 +87,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
           id="max-group-input"
           required
           label="Max. Group Size"
-          onChange={(e) =>
-            onInputChange(setMaxGroupSize(e.target.value), "maxGroupSize")
-          }
+          onChange={(e) => onInputChange("maxGroupSize", e.target.value)}
           onKeyDown={onNumericInputChange}
           error={fieldHasError("maxGroupSize")}
           value={form.maxGroupSize}
@@ -89,9 +96,14 @@ const ProjectForm: FC<ProjectFormProps> = () => {
 
       <FormationDeadlinePicker
         style={{ marginBottom: "6vh" }}
+        onInputChange={onInputChange}
+        value={form.formationDeadline}
       ></FormationDeadlinePicker>
 
-      <SubmitButton></SubmitButton>
+      <SubmitButton
+        form={form}
+        setValidationErrors={setValidationErrors}
+      ></SubmitButton>
     </Box>
   );
 };

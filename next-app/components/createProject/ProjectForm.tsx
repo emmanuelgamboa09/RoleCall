@@ -36,9 +36,12 @@ const ProjectForm: FC<ProjectFormProps> = () => {
 
   const onInputChange = (key: string, value: string) => {
     clearError(key);
+    console.log(form);
     const updated = { ...form };
     updated[key as keyof ProjectForm] = value;
     setForm(updated);
+    console.log(updated);
+    console.log(key, value);
   };
 
   const onNumericInputChange = (e: React.KeyboardEvent<HTMLDivElement>) => {

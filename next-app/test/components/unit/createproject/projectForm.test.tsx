@@ -26,14 +26,10 @@ afterEach(() => {
 
 test("Displays inputs in ProjectForm component", async () => {
   const state = {
-    form: {
-      title: CLASSROOM_TEST_TITLE,
-      minGroupSize: "1",
-      maxGroupSize: "3",
-      formationDeadline: getTomorrow().toISOString(),
-    },
-    validationErrors: [],
-    serverError: null,
+    title: CLASSROOM_TEST_TITLE,
+    minGroupSize: "1",
+    maxGroupSize: "3",
+    formationDeadline: getTomorrow().toISOString(),
   };
 
   const store = mockStore({
@@ -54,15 +50,20 @@ test("Displays inputs in ProjectForm component", async () => {
   if (render) {
     const testInstance = (render as ReactTestRenderer).root;
 
+    const inputs = testInstance.findAllByType("input");
+
+    act(() => {
+      inputs[0].props.onChange({ target: { value: CLASSROOM_TEST_TITLE } });
+    });
+    act(() => {
+      inputs[1].props.onChange({ target: { value: "1" } });
+    });
+    act(() => {
+      inputs[2].props.onChange({ target: { value: "3" } });
+    });
+
     expect(
-      testInstance
-        .findAllByType("input")
-        .map((input: ReactTestInstance) => input.props.value)
-        .slice(0, -1),
-    ).toEqual([
-      state.form.title,
-      state.form.minGroupSize,
-      state.form.maxGroupSize,
-    ]);
+      inputs.map((input: ReactTestInstance) => input.props.value).slice(0, -1),
+    ).toEqual([state.title, state.minGroupSize, state.maxGroupSize]);
   }
 });

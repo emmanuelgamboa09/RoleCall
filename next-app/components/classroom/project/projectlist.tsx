@@ -1,18 +1,16 @@
 import { Typography, Divider, CircularProgress, Box } from "@mui/material";
 import { FC } from "react";
+import { UseQueryResult } from "react-query";
 import ClassroomProjectCard from "./projectcard";
 
 interface ClassroomProjectListProps {
-  isLoading: boolean;
-  error?: any;
-  projectList?: Array<any> | any;
+  projectListQuery: UseQueryResult<any[], unknown>;
 }
 
 const ClassroomProjectList: FC<ClassroomProjectListProps> = ({
-  isLoading,
-  error,
-  projectList: tempRename,
+  projectListQuery,
 }) => {
+  const { isLoading, error, data } = projectListQuery;
   // Temp list just to fill out project ideas
   const projectList = [
     { title: "Create a new application", formationDeadline: new Date() },

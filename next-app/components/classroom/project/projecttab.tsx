@@ -9,7 +9,6 @@ interface ClassroomProjectTabInterface {
 const ClassroomProjectTab: FC<ClassroomProjectTabInterface> = ({
   projectListQuery,
 }) => {
-  const { isLoading, error, data } = projectListQuery;
   return (
     <>
       <div>
@@ -17,11 +16,7 @@ const ClassroomProjectTab: FC<ClassroomProjectTabInterface> = ({
           Projects
         </Typography>
       </div>
-      <ClassroomProjectList
-        isLoading={isLoading}
-        error={error}
-        projectList={data}
-      />
+      <ClassroomProjectList projectListQuery={projectListQuery} />
     </>
   );
 };

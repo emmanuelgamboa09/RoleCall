@@ -20,7 +20,7 @@ const ClassroomProjectList: FC<ClassroomProjectListProps> = ({
       title: "Classroom final project presentation",
       formationDeadline: new Date(),
     },
-    { title: "How to make a new database", formationDeadline: new Date() },
+    { title: "How to make a new database" },
   ];
   return (
     <>

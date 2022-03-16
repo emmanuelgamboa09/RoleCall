@@ -40,8 +40,8 @@ test("Make sure text is loaded properly inside of ClassroomProjectCards", () => 
   }).props;
   expect(projectTitleWIthoutDate.children).toEqual(projectWithoutDate.title);
 
-  const projectDateWIthoutDate = secondTestInstance.findByProps({
+  const projectDateWIthoutDate = secondTestInstance.findAllByProps({
     id: "projectDate",
-  }).props;
-  expect(projectDateWIthoutDate.children).toBeUndefined();
+  });
+  expect(projectDateWIthoutDate.length).toBe(0);
 });

@@ -45,12 +45,14 @@ const ClassroomProjectCard: FC<ProjectCardProps> = ({
         <Typography variant="subtitle1" id="projectTitle">
           {title}
         </Typography>
-        <div>
-          <Typography variant="subtitle2">Formation Deadline</Typography>
-          <Typography variant="subtitle2" id="projectDate">
-            {formationDeadline && formationDeadline.toLocaleString()}
-          </Typography>
-        </div>
+        {formationDeadline && (
+          <div>
+            <Typography variant="subtitle2">Formation Deadline</Typography>
+            <Typography variant="subtitle2" id="projectDate">
+              {formationDeadline.toLocaleString()}
+            </Typography>
+          </div>
+        )}
       </CardContent>
       <div
         // For now using just main color but in another pr Ill go in and setup

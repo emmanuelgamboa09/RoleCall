@@ -47,7 +47,7 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({
         height,
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column", width: "85%" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", width: "90%" }}>
         <CardContent sx={{ flex: "1 0 auto", height: "40%" }}>
           <Typography
             variant="subtitle1"
@@ -110,7 +110,7 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({
           )}
         </Box>
       </Box>
-      <Box style={{ width: "20%" }}>
+      <Box style={{ width: "10%" }}>
         <CardMedia
           id="classroomImage"
           component="img"

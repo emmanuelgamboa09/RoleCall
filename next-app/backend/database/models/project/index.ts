@@ -19,7 +19,7 @@ export interface Project {
 }
 
 const projectSchema = new Schema<Project>({
-  classroomId: { type: String, required: true },
+  classroomId: { type: String, required: true, index: true },
   teams: { type: [teamSchema], required: false, default: [] },
   projectUsers: { type: [projectUserSchema], required: false, default: [] },
   title: { type: String, required: true },

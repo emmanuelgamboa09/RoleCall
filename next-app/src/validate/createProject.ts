@@ -1,21 +1,25 @@
 import Joi from "joi";
-import { MAX_CLASSROOM_SIZE } from "../../constants";
 
 const schema = {
-  classroomId: Joi.string().required(),
   title: Joi.string().min(2).max(30).required(),
   description: Joi.string().max(512).allow(""),
-  minTeamSize: Joi.number().min(1).max(MAX_CLASSROOM_SIZE).required(),
-  maxTeamSize: Joi.number().min(1).max(MAX_CLASSROOM_SIZE).required(),
+  minTeamSize: Joi.string()
+    .regex(/^[1-9][0-9]*$/)
+    .max(3)
+    .required(),
+  maxTeamSize: Joi.string()
+    .regex(/^[1-9][0-9]*$/)
+    .max(3)
+    .required(),
   formationDeadline: Joi.date()
     .greater(new Date(Date.now() + 1000 * 60))
     .required(),
 };
 
-export default (input: { [key: string]: any }) => {
-  const validated = Joi.object(schema).validate(input);
+export function validateCreateProjectForm(input: { [key: string]: any }) {
+  const validated = Joi.object(schema).validate(input, { abortEarly: false });
   const { minTeamSize, maxTeamSize } = input;
-  if (!validated.error && minTeamSize > maxTeamSize) {
+  if (!validated.error && minTeamSize.localeCompare(maxTeamSize) > 0) {
     return {
       ...validated,
       error: {
@@ -37,4 +41,4 @@ export default (input: { [key: string]: any }) => {
   }
 
   return validated;
-};
+}

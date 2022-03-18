@@ -3,13 +3,17 @@ import { HydratedDocument } from "mongoose";
 import { Project } from "./../../../database/models/project";
 import { ProjectModel } from "./../../../database/models/project/index";
 
+const TEST_CLASSROOM_ID = "test_id";
 const TEST_TITLE = "foo";
 const TEST_FORMATION_DEADLINE = new Date(Date.now() + 24 * 60 * 60 * 1000);
 const TEST_MIN_TEAM_SIZE = 1;
 const TEST_MAX_TEAM_SIZE = 4;
 
 test("Project document validates successfully", async () => {
+  // TODO: Foreign key constraint on classrooms?
+
   const project: Project = {
+    classroomId: TEST_CLASSROOM_ID,
     title: TEST_TITLE,
     formationDeadline: TEST_FORMATION_DEADLINE,
     minTeamSize: TEST_MIN_TEAM_SIZE,
@@ -22,6 +26,7 @@ test("Project document validates successfully", async () => {
 
 test("Project document validation fails if invalid", async () => {
   const project: Project = {
+    classroomId: TEST_CLASSROOM_ID,
     title: TEST_TITLE,
     formationDeadline: TEST_FORMATION_DEADLINE,
     minTeamSize: TEST_MIN_TEAM_SIZE,

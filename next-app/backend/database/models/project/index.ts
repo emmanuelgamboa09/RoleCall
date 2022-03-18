@@ -5,6 +5,7 @@ const { model, Schema } = mongoose;
 
 export interface Project {
   _id?: string;
+  classroomId: string;
   teams?: Team[];
   projectUsers?: ProjectUser[];
   title: string;
@@ -18,6 +19,7 @@ export interface Project {
 }
 
 const projectSchema = new Schema<Project>({
+  classroomId: { type: String, required: true },
   teams: { type: [teamSchema], required: false, default: [] },
   projectUsers: { type: [projectUserSchema], required: false, default: [] },
   title: { type: String, required: true },

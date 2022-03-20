@@ -4,10 +4,14 @@
 
 import React from "react";
 import TestRenderer from "react-test-renderer";
+import { Project } from "../../../../backend/database/models/project";
 import ClassroomProjectCard from "../../../../components/classroom/project/projectcard";
 
 test("Make sure text is loaded properly inside of ClassroomProjectCards", () => {
-  const project = {
+  const project: Project = {
+    classroomId: "",
+    minTeamSize: 1,
+    maxTeamSize: 2,
     title: "Create a new application",
     formationDeadline: new Date(),
   };
@@ -26,22 +30,4 @@ test("Make sure text is loaded properly inside of ClassroomProjectCards", () => 
   expect(projectDate.children).toEqual(
     project.formationDeadline.toLocaleString(),
   );
-
-  const projectWithoutDate = {
-    title: "Create a new application",
-  };
-  const renderWithoutDate = TestRenderer.create(
-    <ClassroomProjectCard project={projectWithoutDate} />,
-  );
-
-  const secondTestInstance = renderWithoutDate.root;
-  const projectTitleWIthoutDate = secondTestInstance.findByProps({
-    id: "projectTitle",
-  }).props;
-  expect(projectTitleWIthoutDate.children).toEqual(projectWithoutDate.title);
-
-  const projectDateWIthoutDate = secondTestInstance.findAllByProps({
-    id: "projectDate",
-  });
-  expect(projectDateWIthoutDate.length).toBe(0);
 });

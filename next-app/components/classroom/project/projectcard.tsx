@@ -1,5 +1,6 @@
 import { Card, CardContent, Typography, styled } from "@mui/material";
 import React, { FC } from "react";
+import { Project } from "../../../backend/database/models/project";
 import theme from "../../../src/theme";
 
 const ProjectCard = styled(Card)(({ theme }) => ({
@@ -10,7 +11,7 @@ const ProjectCard = styled(Card)(({ theme }) => ({
 }));
 
 interface ProjectCardProps {
-  project: Object | any;
+  project: Project;
   width?: number;
   height?: number;
   taught?: boolean;

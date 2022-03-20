@@ -1,6 +1,7 @@
 import { Typography, Divider, CircularProgress, Box } from "@mui/material";
 import { FC } from "react";
 import { UseQueryResult } from "react-query";
+import { Project } from "../../../backend/database/models/project";
 import ClassroomProjectCard from "./projectcard";
 
 interface ClassroomProjectListProps {
@@ -12,13 +13,28 @@ const ClassroomProjectList: FC<ClassroomProjectListProps> = ({
 }) => {
   const { isLoading, error, data } = projectListQuery;
   // Temp list just to fill out project ideas
-  const projectList = [
-    { title: "Create a new application", formationDeadline: new Date() },
+  const projectList: Array<Project> = [
+    {
+      title: "Create a new application",
+      formationDeadline: new Date(),
+      classroomId: "",
+      minTeamSize: 0,
+      maxTeamSize: 1,
+    },
     {
       title: "Classroom final project presentation",
       formationDeadline: new Date(),
+      classroomId: "",
+      minTeamSize: 0,
+      maxTeamSize: 1,
     },
-    { title: "How to make a new database" },
+    {
+      title: "How to make a new database",
+      formationDeadline: new Date(),
+      classroomId: "",
+      minTeamSize: 0,
+      maxTeamSize: 1,
+    },
   ];
   return (
     <>

@@ -17,11 +17,11 @@ const FormationDeadlinePicker: FC<FormationDeadlinePickerProps> = ({
   value,
 }) => {
   return (
-    <div style={style} id="formation-deadline-input">
+    <div style={style}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DateTimePicker
           renderInput={(params) => <TextField {...params} required />}
-          label="Deadline to form group"
+          label="Deadline to form team"
           value={value}
           onChange={(date) => {
             onInputChange(

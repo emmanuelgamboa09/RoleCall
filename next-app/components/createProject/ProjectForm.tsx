@@ -6,8 +6,9 @@ import SubmitButton from "./SubmitButton";
 
 export interface ProjectForm {
   title: string;
-  minGroupSize: string;
-  maxGroupSize: string;
+  description: string;
+  minTeamSize: string;
+  maxTeamSize: string;
   formationDeadline: string;
 }
 
@@ -22,8 +23,9 @@ export interface ProjectFormProps {}
 const ProjectForm: FC<ProjectFormProps> = () => {
   const [form, setForm] = useState<ProjectForm>({
     title: "",
-    minGroupSize: "",
-    maxGroupSize: "",
+    description: "",
+    minTeamSize: "",
+    maxTeamSize: "",
     formationDeadline: getTomorrow().toISOString(),
   });
   const [validationErrors, setValidationErrors] = useState<ValidationError[]>(
@@ -36,12 +38,9 @@ const ProjectForm: FC<ProjectFormProps> = () => {
 
   const onInputChange = (key: string, value: string) => {
     clearError(key);
-    console.log(form);
     const updated = { ...form };
     updated[key as keyof ProjectForm] = value;
     setForm(updated);
-    console.log(updated);
-    console.log(key, value);
   };
 
   const onNumericInputChange = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -66,7 +65,6 @@ const ProjectForm: FC<ProjectFormProps> = () => {
       minHeight={"100vh"}
     >
       <TextField
-        id="title-input"
         required
         label="Title"
         onChange={(e) => onInputChange("title", e.target.value)}
@@ -75,25 +73,36 @@ const ProjectForm: FC<ProjectFormProps> = () => {
         value={form.title}
       />
 
+      <div>
+        <TextField
+          id="-multiline-static"
+          label="Project Description"
+          multiline
+          rows={6}
+          style={{ marginBottom: "6vh", width: "30vw" }}
+          onChange={(e) => onInputChange("description", e.target.value)}
+          error={fieldHasError("description")}
+          value={form.description}
+        />
+      </div>
+
       <div style={{ display: "flex", marginBottom: "6vh" }}>
         <TextField
-          id="min-group-input"
           required
-          label="Min. Group Size"
-          onChange={(e) => onInputChange("minGroupSize", e.target.value)}
+          label="Min. Team Size"
+          onChange={(e) => onInputChange("minTeamSize", e.target.value)}
           onKeyDown={onNumericInputChange}
-          error={fieldHasError("minGroupSize")}
+          error={fieldHasError("minTeamSize")}
           style={{ flex: 1 }}
-          value={form.minGroupSize}
+          value={form.minTeamSize}
         />
         <TextField
-          id="max-group-input"
           required
-          label="Max. Group Size"
-          onChange={(e) => onInputChange("maxGroupSize", e.target.value)}
+          label="Max. Team Size"
+          onChange={(e) => onInputChange("maxTeamSize", e.target.value)}
           onKeyDown={onNumericInputChange}
-          error={fieldHasError("maxGroupSize")}
-          value={form.maxGroupSize}
+          error={fieldHasError("maxTeamSize")}
+          value={form.maxTeamSize}
         />
       </div>
 

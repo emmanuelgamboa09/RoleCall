@@ -5,20 +5,24 @@ import {
 } from "../../constants";
 
 const schema = {
+  projectId: Joi.string().required(),
   classroomId: Joi.string().required(),
-  title: Joi.string().min(2).max(30).required(),
+  title: Joi.string().min(2).max(30),
   description: Joi.string().max(MAX_PROJECT_DESCRIPTION_LENGTH).allow(""),
-  minTeamSize: Joi.number().min(1).max(MAX_CLASSROOM_SIZE).required(),
-  maxTeamSize: Joi.number().min(1).max(MAX_CLASSROOM_SIZE).required(),
-  formationDeadline: Joi.date()
-    .greater(new Date(Date.now() + 1000 * 60))
-    .required(),
+  minTeamSize: Joi.number().min(1).max(MAX_CLASSROOM_SIZE),
+  maxTeamSize: Joi.number().min(1).max(MAX_CLASSROOM_SIZE),
+  formationDeadline: Joi.date().greater(new Date(Date.now() + 1000 * 60)),
 };
 
 export default (input: { [key: string]: any }) => {
   const validated = Joi.object(schema).validate(input);
   const { minTeamSize, maxTeamSize } = input;
-  if (!validated.error && minTeamSize > maxTeamSize) {
+  if (
+    !validated.error &&
+    minTeamSize !== undefined &&
+    maxTeamSize !== undefined &&
+    minTeamSize > maxTeamSize
+  ) {
     return {
       ...validated,
       error: {

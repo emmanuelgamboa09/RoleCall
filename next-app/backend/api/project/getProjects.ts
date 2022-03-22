@@ -1,5 +1,6 @@
 import { FilterQuery, Query } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
+import { Classroom } from "../../../interfaces/classroom.interface";
 import { Project } from "../../database/models/project";
 import validateProjectsGET from "../../helpers/validation/validateProjectsGET";
 
@@ -10,9 +11,13 @@ export interface Data {
 export default async (
   req: NextApiRequest,
   res: NextApiResponse<Data>,
+  authId: string,
   findProjects: (
     filter: FilterQuery<Project>,
   ) => Query<any, any, any, any> | Promise<Project[]>,
+  findClassroom: (
+    id: any,
+  ) => Query<any, any, any, any> | Promise<Classroom | null>,
 ) => {
   const { query } = req;
 
@@ -27,6 +32,14 @@ export default async (
   };
 
   try {
+    const classroom: Classroom = await findClassroom(classroomId);
+    if (!classroom) return res.status(404).end("Classroom doesn't exist");
+
+    const { instructorId, students = [] } = classroom;
+    if (instructorId !== authId && !students.includes(authId)) {
+      return res.status(403).end("Forbidden");
+    }
+
     const projects = await findProjects(filter);
     return res.status(200).json(projects);
   } catch (err) {

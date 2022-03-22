@@ -1,6 +1,8 @@
 import { FilterQuery } from "mongoose";
 import { createMocks } from "node-mocks-http";
 import {
+  AUTH0_TEST_ID,
+  CLASSROOM_TEST_ACCESS_CODE,
   CLASSROOM_TEST_ID,
   DB_TEST_NAME,
   PROJECT_TEST_DESCRIPTION,
@@ -11,6 +13,7 @@ import zip from "../../../util/zip";
 import dropTestDb from "../../../util/dropTestDb";
 import { Project, ProjectModel } from "../../../database/models/project";
 import getProjects from "../../../api/project/getProjects";
+import { ClassroomModel } from "../../../database/models/classroom";
 
 beforeAll(async () => {
   await dbConnect(DB_TEST_NAME);
@@ -60,8 +63,23 @@ test("Get projects while authenticated, connected DB, and retrieve operation suc
     },
   });
 
-  await getProjects(req, res, (filter: FilterQuery<Project>) =>
-    ProjectModel.find(filter),
+  const classroom = {
+    _id: CLASSROOM_TEST_ID,
+    instructorId: "abc",
+    title: "CS",
+    students: [AUTH0_TEST_ID],
+    endDate: date,
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
+  };
+  const classroomDoc = new ClassroomModel(classroom);
+  await classroomDoc.save();
+
+  await getProjects(
+    req,
+    res,
+    AUTH0_TEST_ID,
+    (filter: FilterQuery<Project>) => ProjectModel.find(filter),
+    (id: any) => ClassroomModel.findById(id),
   );
 
   expect(res._getStatusCode()).toBe(200);

@@ -29,14 +29,14 @@ export default async (
     if (!project) return res.status(404).end("Project doesn't exist");
 
     const classroom: Classroom = await findClassroom(project.classroomId);
-    const { instructorId, students = [] } = classroom || {};
-    if (!classroom) {
-      return res.status(404).end("Classroom doesn't exist");
-    } else if (instructorId !== authId && !students!.includes(authId)) {
+    if (!classroom) return res.status(404).end("Classroom doesn't exist");
+
+    const { instructorId, students = [] } = classroom;
+    if (instructorId !== authId && !students!.includes(authId)) {
       return res.status(403).end("Forbidden");
-    } else {
-      return res.status(200).json(getProjection(fields, project));
     }
+
+    return res.status(200).json(getProjection(fields, project));
   } catch (err) {
     return res.status(500).end("Internal Error");
   }

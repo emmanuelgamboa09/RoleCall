@@ -32,10 +32,10 @@ export default async (
   };
 
   try {
-    const classroom = await findClassroom(classroomId);
+    const classroom: Classroom = await findClassroom(classroomId);
     if (!classroom) return res.status(404).end("Classroom doesn't exist");
 
-    const { instructorId, students = [] } = classroom || {};
+    const { instructorId, students = [] } = classroom;
     if (instructorId !== authId && !students.includes(authId)) {
       return res.status(403).end("Forbidden");
     }

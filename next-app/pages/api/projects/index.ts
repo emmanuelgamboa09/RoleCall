@@ -27,8 +27,12 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
       break;
     }
     case "GET": {
-      await getProjects(request, response, (filter: FilterQuery<Project>) =>
-        ProjectModel.find(filter),
+      await getProjects(
+        request,
+        response,
+        getAuthId(request, response)!,
+        (filter: FilterQuery<Project>) => ProjectModel.find(filter),
+        (id: any) => ClassroomModel.findById(id),
       );
       break;
     }

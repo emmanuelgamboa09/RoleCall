@@ -19,8 +19,7 @@ export default async (
   const { query } = req;
   const { error } = validateProjectGET(query);
   if (error) {
-    res.status(400).end(error.message);
-    return;
+    return res.status(400).end(error.message);
   }
 
   const { projectId, fields } = query;

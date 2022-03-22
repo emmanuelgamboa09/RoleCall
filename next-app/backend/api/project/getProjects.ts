@@ -18,8 +18,7 @@ export default async (
 
   const { error } = validateProjectsGET(query);
   if (error) {
-    res.status(400).end(error?.message);
-    return;
+    return res.status(400).end(error?.message);
   }
 
   const { classroomId } = query;
@@ -29,8 +28,8 @@ export default async (
 
   try {
     const projects = await findProjects(filter);
-    res.status(200).json(projects);
+    return res.status(200).json(projects);
   } catch (err) {
-    res.status(500).end("Internal Error");
+    return res.status(500).end("Internal Error");
   }
 };

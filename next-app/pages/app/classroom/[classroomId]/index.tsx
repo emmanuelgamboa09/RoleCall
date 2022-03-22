@@ -5,10 +5,10 @@ import { useRouter } from "next/router";
 import { ReactElement } from "react";
 import { useQuery } from "react-query";
 import { Data as GetClassroomApiData } from "../../../../backend/api/classroom/getClassroom";
-import { Data as GetInstructorProfileApiData } from "../../../../backend/api/user/profile/getProfileByAuthId";
 import { Data as GetProjectsApiData } from "../../../../backend/api/project/getProjects";
-import ClassroomTabs from "../../../../components/classroom/ClassroomTabs";
+import { Data as GetInstructorProfileApiData } from "../../../../backend/api/user/profile/getProfileByAuthId";
 import ClassroomProjectTab from "../../../../components/classroom/project/projecttab";
+import CustomTabs from "../../../../components/CustomTabs";
 import BaseAppLayout from "../../../../layout/baseapplayout";
 import theme from "../../../../src/theme";
 
@@ -68,10 +68,11 @@ const ClassroomPage: NextPageWithLayout = () => {
         Instructor: {instructorProfileData?.profile.name}
       </Typography>
 
-      <ClassroomTabs
+      <CustomTabs
         tabs={{
           Project: {
             content: (
+              // Getting a type error -- will fix when we fetch real project data
               <ClassroomProjectTab projectListQuery={projectListQuery} />
             ),
           },

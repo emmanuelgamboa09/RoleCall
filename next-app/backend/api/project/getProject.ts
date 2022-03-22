@@ -5,7 +5,7 @@ import { Project } from "../../database/models/project";
 import getProjection from "../../helpers/getProjection";
 import validateProjectGET from "../../helpers/validation/validateSingleProjectGET";
 
-export type Data = { [P in keyof Classroom]?: Classroom[P] };
+export type Data = { [P in keyof Project]?: Project[P] };
 
 export default async (
   req: NextApiRequest,

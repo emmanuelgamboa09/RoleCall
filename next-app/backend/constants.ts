@@ -22,5 +22,6 @@ export const PROJECT_TEST_FIELDS = "projectId,title,description";
 export const OBJECT_ID_LENGTH = 24;
 
 export const MAX_CLASSROOM_SIZE = 500;
+export const MAX_PROJECT_DESCRIPTION_LENGTH = 512;
 
 export const CLASS_ACCESS_CODE_LENGTH = 20;

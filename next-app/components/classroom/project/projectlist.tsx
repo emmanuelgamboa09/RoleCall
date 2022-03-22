@@ -5,37 +5,13 @@ import { Project } from "../../../backend/database/models/project";
 import ClassroomProjectCard from "./projectcard";
 
 interface ClassroomProjectListProps {
-  projectListQuery: UseQueryResult<any[], unknown>;
+  projectListQuery: UseQueryResult<Project[], unknown>;
 }
 
 const ClassroomProjectList: FC<ClassroomProjectListProps> = ({
   projectListQuery,
 }) => {
-  const { isLoading, error, data } = projectListQuery;
-  // Temp list just to fill out project ideas
-  const projectList: Array<Project> = [
-    {
-      title: "Create a new application",
-      formationDeadline: new Date(),
-      classroomId: "",
-      minTeamSize: 0,
-      maxTeamSize: 1,
-    },
-    {
-      title: "Classroom final project presentation",
-      formationDeadline: new Date(),
-      classroomId: "",
-      minTeamSize: 0,
-      maxTeamSize: 1,
-    },
-    {
-      title: "How to make a new database",
-      formationDeadline: new Date(),
-      classroomId: "",
-      minTeamSize: 0,
-      maxTeamSize: 1,
-    },
-  ];
+  const { isLoading, error, data: projectList } = projectListQuery;
   return (
     <>
       <Divider sx={{ my: 3 }} />

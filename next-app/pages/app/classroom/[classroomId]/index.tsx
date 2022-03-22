@@ -5,9 +5,10 @@ import { useRouter } from "next/router";
 import { ReactElement } from "react";
 import { useQuery } from "react-query";
 import { Data as GetClassroomApiData } from "../../../../backend/api/classroom/getClassroom";
+import { Data as GetProjectsApiData } from "../../../../backend/api/project/getProjects";
 import { Data as GetInstructorProfileApiData } from "../../../../backend/api/user/profile/getProfileByAuthId";
-import CustomTabs from "../../../../components/CustomTabs";
 import ClassroomProjectTab from "../../../../components/classroom/project/projecttab";
+import CustomTabs from "../../../../components/CustomTabs";
 import BaseAppLayout from "../../../../layout/baseapplayout";
 import theme from "../../../../src/theme";
 
@@ -38,10 +39,11 @@ const ClassroomPage: NextPageWithLayout = () => {
 
   // Pass query data into child tab component so tab doesn't call the backend multiple times
   // whenever the user changes to a different tab on the classroom page
-  const projectListQuery = useQuery<Array<Object | any>>("projects", () =>
-    // Fetch will change according to how the projects get setup on the backend
-    // Just a filler for now. Throws error but mock list is loaded in place
-    fetch(`/api/projects/${classroomId}`).then((res) => res.json()),
+  const projectListQuery = useQuery<GetProjectsApiData>("projects", () =>
+    fetch(`/api/projects/?classroomId=${classroomId}`, {
+      method: "GET",
+      headers: { "Content-type": "application/json" },
+    }).then((res) => res.json()),
   );
 
   if (isClassroomLoading || isInstructorProfileLoading) return <>Loading...</>;
@@ -70,6 +72,7 @@ const ClassroomPage: NextPageWithLayout = () => {
         tabs={{
           Project: {
             content: (
+              // Getting a type error -- will fix when we fetch real project data
               <ClassroomProjectTab projectListQuery={projectListQuery} />
             ),
           },

@@ -20,7 +20,7 @@ export default function useFetchEnrolledClassrooms() {
   };
 
   useEffect(() => {
-    fetch("api/classrooms", {
+    fetch("/api/classrooms", {
       method: "GET",
       headers: { "Content-type": "application/json" },
     })

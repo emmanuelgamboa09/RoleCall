@@ -42,7 +42,7 @@ const OnboardingDialog: FC<OnboardingDialogProps> = () => {
       setErrorText(error.message.toLocaleUpperCase());
       setError(true);
     } else {
-      fetch("api/users", {
+      fetch("/api/users", {
         method: "PUT",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(updateData),

@@ -10,25 +10,39 @@ import {
 import { ClassroomModel } from "../../../backend/database/models/classroom";
 import { FilterQuery } from "mongoose";
 import updateProject from "../../../backend/api/project/updateProject";
+import getProject from "../../../backend/api/project/getProject";
 
-const handler = async (request: NextApiRequest, response: NextApiResponse) => {
-  const { method } = request;
+export default withApiAuthRequired(
+  withDb(async function handler(
+    request: NextApiRequest,
+    response: NextApiResponse,
+  ) {
+    const { method } = request;
 
-  switch (method) {
-    case "PUT": {
-      await updateProject(
-        request,
-        response,
-        getAuthId(request, response)!,
-        (filter: FilterQuery<Classroom>) => ClassroomModel.findOne(filter),
-        (id: string, project: Partial<Project>) =>
-          ProjectModel.findByIdAndUpdate(id, { $set: project }, { new: true }),
-      );
-      break;
+    switch (method) {
+      case "GET": {
+        await getProject(
+          request,
+          response,
+          getAuthId(request, response)!,
+          (id: any) => ProjectModel.findById(id),
+          (id: any) => ClassroomModel.findById(id),
+        );
+        break;
+      }
+      case "PUT": {
+        await updateProject(
+          request,
+          response,
+          getAuthId(request, response)!,
+          (filter: FilterQuery<Classroom>) => ClassroomModel.findOne(filter),
+          (id: string, project: Partial<Project>) =>
+            ProjectModel.findByIdAndUpdate(id, { $set: project }, { new: true }),
+        );
+        break;
+      }
+      default:
+        response.status(405).end("Invalid HTTP Method: " + method);
     }
-    default:
-      response.status(405).end("Invalid HTTP Method: " + method);
-  }
-};
-
-export default withApiAuthRequired(withDb(handler));
+  }),
+);

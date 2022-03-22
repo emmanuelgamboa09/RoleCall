@@ -10,6 +10,7 @@ import {
 } from "../../../backend/database/models/project";
 import { ClassroomModel } from "../../../backend/database/models/classroom";
 import { FilterQuery } from "mongoose";
+import getProjects from "../../../backend/api/project/getProjects";
 
 const handler = async (request: NextApiRequest, response: NextApiResponse) => {
   const { method } = request;
@@ -22,6 +23,12 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
         getAuthId(request, response)!,
         (filter: FilterQuery<Classroom>) => ClassroomModel.findOne(filter),
         (project: Project) => new ProjectModel(project).save(),
+      );
+      break;
+    }
+    case "GET": {
+      await getProjects(request, response, (filter: FilterQuery<Project>) =>
+        ProjectModel.find(filter),
       );
       break;
     }

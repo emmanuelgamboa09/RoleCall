@@ -13,9 +13,11 @@ export const CLASSROOM_TEST_ID = "a123aabfaaaaaa485aaaaaaa";
 export const CLASSROOM_TEST_FIELDS = "title,instructorId";
 export const CLASSROOM_TEST_ACCESS_CODE = "asrgbreaboin1j4mmbde";
 export const TEST_INSTRUCTOR_ID = "a123ccbfaaaaba487aaaacaa";
-export const PROJECT_TEST_ID = "e94a7248c6d830b7250a0f2d";
+
 export const PROJECT_TEST_TITLE = "Capstone Project";
 export const PROJECT_TEST_DESCRIPTION = "Test Description";
+export const PROJECT_TEST_ID = "a124aaafaabaaa425aaaaaaa";
+export const PROJECT_TEST_FIELDS = "projectId,title,description";
 
 export const OBJECT_ID_LENGTH = 24;
 

@@ -61,7 +61,7 @@ const JoinClassroomDialog: FC<JoinClassroomDialogProps> = ({
     if (error) {
       setErrorMessage(error.message);
     } else {
-      fetch("api/enrollments", {
+      fetch("/api/enrollments", {
         method: "PUT",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(data),

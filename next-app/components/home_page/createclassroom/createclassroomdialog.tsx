@@ -83,7 +83,7 @@ const CreateClassroomDialog: FC<CreateClassroomDialogProps> = ({
     if (error) {
       setErrorMessage(error.message.toLocaleUpperCase());
     } else {
-      fetch("api/classrooms", {
+      fetch("/api/classrooms", {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(data),

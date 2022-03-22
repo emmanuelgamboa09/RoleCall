@@ -36,7 +36,7 @@ export default async (
     if (!classroom) return res.status(404).end("Classroom doesn't exist");
 
     const { instructorId, students = [] } = classroom || {};
-    if (instructorId !== authId && !students!.includes(authId)) {
+    if (instructorId !== authId && !students.includes(authId)) {
       return res.status(403).end("Forbidden");
     }
 

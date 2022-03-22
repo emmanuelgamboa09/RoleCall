@@ -12,7 +12,7 @@ const ClassroomProjectTab: FC<ClassroomProjectTabProps> = ({
   projectListQuery,
   isInstructor,
 }) => {
-  const { error, isLoading, data } = projectListQuery;
+  const { error, isLoading, data: projects } = projectListQuery;
 
   return (
     <>
@@ -42,7 +42,7 @@ const ClassroomProjectTab: FC<ClassroomProjectTabProps> = ({
       )}
 
       {!isLoading && !error && (
-        <ClassroomProjectList projects={data?.projects || []} />
+        <ClassroomProjectList projects={projects || []} />
       )}
       {isInstructor && <CreateProjectButton />}
     </>

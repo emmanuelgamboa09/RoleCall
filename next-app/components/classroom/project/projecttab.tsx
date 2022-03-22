@@ -1,18 +1,19 @@
-import { Typography } from "@mui/material";
+import { CircularProgress, Divider, Typography } from "@mui/material";
 import { FC } from "react";
 import { UseQueryResult } from "react-query";
-import { Project } from "../../../backend/database/models/project";
+import { Data as GetProjectsApiData } from "../../../backend/api/project/getProjects";
 import CreateProjectButton from "./CreateProjectButton";
 import ClassroomProjectList from "./projectlist";
-
-interface ClassroomProjectTabInterface {
-  projectListQuery: UseQueryResult<Project[], unknown>;
+interface ClassroomProjectTabProps {
+  projectListQuery: UseQueryResult<GetProjectsApiData, unknown>;
   isInstructor: boolean;
 }
-const ClassroomProjectTab: FC<ClassroomProjectTabInterface> = ({
+const ClassroomProjectTab: FC<ClassroomProjectTabProps> = ({
   projectListQuery,
   isInstructor,
 }) => {
+  const { error, isLoading, data } = projectListQuery;
+
   return (
     <>
       <div>
@@ -20,7 +21,29 @@ const ClassroomProjectTab: FC<ClassroomProjectTabInterface> = ({
           Projects
         </Typography>
       </div>
-      <ClassroomProjectList projectListQuery={projectListQuery} />
+
+      <Divider sx={{ my: 3 }} />
+      {error && (
+        <>
+          Encountered error when fetching project data. Please try again later.
+        </>
+      )}
+      {isLoading && (
+        <div
+          style={{
+            minHeight: "25vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
+
+      {!isLoading && !error && (
+        <ClassroomProjectList projects={data?.projects || []} />
+      )}
       {isInstructor && <CreateProjectButton />}
     </>
   );

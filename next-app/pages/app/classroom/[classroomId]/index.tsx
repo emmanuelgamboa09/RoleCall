@@ -73,7 +73,6 @@ const ClassroomPage: NextPageWithLayout = () => {
         tabs={{
           Project: {
             content: (
-              // Getting a type error -- will fix when we fetch real project data
               <ClassroomProjectTab
                 projectListQuery={projectListQuery}
                 isInstructor={

@@ -43,11 +43,7 @@ const ClassroomPage: NextPageWithLayout = () => {
     fetch(`/api/projects/?classroomId=${classroomId}`, {
       method: "GET",
       headers: { "Content-type": "application/json" },
-    })
-      .then((res) => res.json())
-      .catch(() => {
-        console.log("FIND ME");
-      }),
+    }).then((res) => res.json()),
   );
 
   if (isClassroomLoading || isInstructorProfileLoading) return <>Loading...</>;

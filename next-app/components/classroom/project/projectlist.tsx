@@ -5,9 +5,15 @@ import ClassroomProjectCard from "./projectcard";
 
 interface ClassroomProjectListProps {
   projects: Project[];
+  classroomId: string;
+  taught: boolean;
 }
 
-const ClassroomProjectList: FC<ClassroomProjectListProps> = ({ projects }) => {
+const ClassroomProjectList: FC<ClassroomProjectListProps> = ({
+  projects,
+  classroomId,
+  taught,
+}) => {
   return (
     <>
       <div
@@ -24,7 +30,12 @@ const ClassroomProjectList: FC<ClassroomProjectListProps> = ({ projects }) => {
         >
           {projects.length > 0 ? (
             projects.map((project, i) => (
-              <ClassroomProjectCard key={i} project={project} />
+              <ClassroomProjectCard
+                key={i}
+                project={project}
+                classroomId={classroomId}
+                taught={taught}
+              />
             ))
           ) : (
             <div style={{ maxWidth: 400 }}>

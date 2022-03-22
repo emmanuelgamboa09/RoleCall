@@ -5,10 +5,12 @@ import { Data as GetProjectsApiData } from "../../../backend/api/project/getProj
 import CreateProjectButton from "./CreateProjectButton";
 import ClassroomProjectList from "./projectlist";
 interface ClassroomProjectTabProps {
+  classroomId: string;
   projectListQuery: UseQueryResult<GetProjectsApiData, unknown>;
   isInstructor: boolean;
 }
 const ClassroomProjectTab: FC<ClassroomProjectTabProps> = ({
+  classroomId,
   projectListQuery,
   isInstructor,
 }) => {
@@ -42,7 +44,11 @@ const ClassroomProjectTab: FC<ClassroomProjectTabProps> = ({
       )}
 
       {!isLoading && !error && (
-        <ClassroomProjectList projects={projects || []} />
+        <ClassroomProjectList
+          projects={projects || []}
+          classroomId={classroomId}
+          taught={isInstructor}
+        />
       )}
       {isInstructor && <CreateProjectButton />}
     </>

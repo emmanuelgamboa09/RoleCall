@@ -1,4 +1,12 @@
-import { Card, CardContent, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  styled,
+  Typography,
+} from "@mui/material";
+import Link from "next/link";
 import React, { FC } from "react";
 import { Project } from "../../../backend/database/models/project";
 import theme from "../../../src/theme";
@@ -11,13 +19,16 @@ const ProjectCard = styled(Card)(({ theme }) => ({
 }));
 
 interface ProjectCardProps {
+  classroomId: string;
   project: Project;
+  taught: boolean;
   width?: number;
   height?: number;
-  taught?: boolean;
 }
 
 const ClassroomProjectCard: FC<ProjectCardProps> = ({
+  classroomId,
+  taught,
   project,
   width = 268,
   height = 170,
@@ -54,7 +65,31 @@ const ClassroomProjectCard: FC<ProjectCardProps> = ({
             </Typography>
           </div>
         )}
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            gap: "0.5rem",
+            margin: "0.5rem",
+            maxWidth: "200px",
+          }}
+        >
+          <Link href={`/app/classroom/${classroomId}/projects/${project._id}`}>
+            <Button variant="contained" size="small">
+              View
+            </Button>
+          </Link>
+          {taught && (
+            <>
+              <Button variant="contained" size="small">
+                Edit
+              </Button>
+            </>
+          )}
+        </Box>
       </CardContent>
+
       <div
         // For now using just main color but in another pr Ill go in and setup
         // a way for the classroom color to be the color of the projects

@@ -74,6 +74,7 @@ const ClassroomPage: NextPageWithLayout = () => {
           Project: {
             content: (
               <ClassroomProjectTab
+                classroomId={classroomId}
                 projectListQuery={projectListQuery}
                 isInstructor={
                   !!(

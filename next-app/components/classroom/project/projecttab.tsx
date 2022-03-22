@@ -7,9 +7,11 @@ import ClassroomProjectList from "./projectlist";
 
 interface ClassroomProjectTabInterface {
   projectListQuery: UseQueryResult<Project[], unknown>;
+  isInstructor: boolean;
 }
 const ClassroomProjectTab: FC<ClassroomProjectTabInterface> = ({
   projectListQuery,
+  isInstructor,
 }) => {
   return (
     <>
@@ -19,7 +21,7 @@ const ClassroomProjectTab: FC<ClassroomProjectTabInterface> = ({
         </Typography>
       </div>
       <ClassroomProjectList projectListQuery={projectListQuery} />
-      <CreateProjectButton />
+      {isInstructor && <CreateProjectButton />}
     </>
   );
 };

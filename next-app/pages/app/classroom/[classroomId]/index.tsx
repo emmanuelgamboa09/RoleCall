@@ -1,4 +1,4 @@
-import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { Box, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -13,6 +13,7 @@ import BaseAppLayout from "../../../../layout/baseapplayout";
 import theme from "../../../../src/theme";
 
 const ClassroomPage: NextPageWithLayout = () => {
+  const { user } = useUser();
   const router = useRouter();
   const { classroomId } = router.query as { classroomId: string };
 
@@ -73,7 +74,16 @@ const ClassroomPage: NextPageWithLayout = () => {
           Project: {
             content: (
               // Getting a type error -- will fix when we fetch real project data
-              <ClassroomProjectTab projectListQuery={projectListQuery} />
+              <ClassroomProjectTab
+                projectListQuery={projectListQuery}
+                isInstructor={
+                  !!(
+                    classroomData?.instructorId &&
+                    user?.sub &&
+                    user.sub === classroomData.instructorId
+                  )
+                }
+              />
             ),
           },
           "Team Finder": { content: <div>Team Finder</div> },

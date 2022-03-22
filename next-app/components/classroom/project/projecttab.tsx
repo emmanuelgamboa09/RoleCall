@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import { FC } from "react";
 import { UseQueryResult } from "react-query";
 import { Project } from "../../../backend/database/models/project";
+import CreateProjectButton from "./CreateProjectButton";
 import ClassroomProjectList from "./projectlist";
 
 interface ClassroomProjectTabInterface {
@@ -18,6 +19,7 @@ const ClassroomProjectTab: FC<ClassroomProjectTabInterface> = ({
         </Typography>
       </div>
       <ClassroomProjectList projectListQuery={projectListQuery} />
+      <CreateProjectButton />
     </>
   );
 };

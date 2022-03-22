@@ -6,7 +6,7 @@ import { ReactElement } from "react";
 import { useQuery } from "react-query";
 import { Data as GetClassroomApiData } from "../../../../backend/api/classroom/getClassroom";
 import { Data as GetInstructorProfileApiData } from "../../../../backend/api/user/profile/getProfileByAuthId";
-import ClassroomTabs from "../../../../components/classroom/ClassroomTabs";
+import CustomTabs from "../../../../components/CustomTabs";
 import ClassroomProjectTab from "../../../../components/classroom/project/projecttab";
 import BaseAppLayout from "../../../../layout/baseapplayout";
 import theme from "../../../../src/theme";
@@ -66,7 +66,7 @@ const ClassroomPage: NextPageWithLayout = () => {
         Instructor: {instructorProfileData?.profile.name}
       </Typography>
 
-      <ClassroomTabs
+      <CustomTabs
         tabs={{
           Project: {
             content: (

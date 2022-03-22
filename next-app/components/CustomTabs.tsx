@@ -1,14 +1,14 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 
-export type ClassroomTabs = { [name: string]: { content: JSX.Element } };
+export type CustomTabs = { [name: string]: { content: JSX.Element } };
 
-export interface ClassroomTabsProps {
-  tabs: ClassroomTabs;
+export interface CustomTabsProps {
+  tabs: CustomTabs;
   initialTab?: string;
 }
 
-const ClassroomTabs = ({ tabs, initialTab }: ClassroomTabsProps) => {
+const CustomTabs = ({ tabs, initialTab }: CustomTabsProps) => {
   const [tab, setTab] = useState<string>(initialTab ?? Object.keys(tabs)[0]);
 
   return (
@@ -16,7 +16,7 @@ const ClassroomTabs = ({ tabs, initialTab }: ClassroomTabsProps) => {
       <Tabs
         value={tab}
         onChange={(_, newValue) => setTab(newValue)}
-        aria-label="classroom tabs"
+        aria-label="tabs"
         centered
       >
         {Object.keys(tabs).map((name) => {
@@ -28,4 +28,4 @@ const ClassroomTabs = ({ tabs, initialTab }: ClassroomTabsProps) => {
   );
 };
 
-export default ClassroomTabs;
+export default CustomTabs;

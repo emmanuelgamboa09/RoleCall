@@ -18,6 +18,7 @@ const CreateProjectButton: FC<CreateProjectButtonProps> = () => {
   return (
     <Fab
       color="primary"
+      data-testid="create-project"
       aria-label="add"
       style={{ position: "fixed", bottom: "5vh", right: "4vw" }}
       href={redirectUrl}

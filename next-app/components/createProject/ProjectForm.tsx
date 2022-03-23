@@ -71,6 +71,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
         error={fieldHasError("title")}
         style={{ marginBottom: "6vh" }}
         value={form.title}
+        data-testid="input-title"
       />
 
       <div>
@@ -83,6 +84,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
           onChange={(e) => onInputChange("description", e.target.value)}
           error={fieldHasError("description")}
           value={form.description}
+          data-testid="input-description"
         />
       </div>
 
@@ -95,6 +97,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
           error={fieldHasError("minTeamSize")}
           style={{ flex: 1 }}
           value={form.minTeamSize}
+          data-testid="input-min-team-size"
         />
         <TextField
           required
@@ -103,6 +106,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
           onKeyDown={onNumericInputChange}
           error={fieldHasError("maxTeamSize")}
           value={form.maxTeamSize}
+          data-testid="input-max-team-size"
         />
       </div>
 

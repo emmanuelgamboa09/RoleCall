@@ -1,5 +1,5 @@
+import { AUTH0_TEST_USER_NAME } from "../../backend/constants";
 import Pages from "../../constants/Pages.enum";
-import { AUTH0_TEST_USER_NAME } from "./../../backend/constants";
 
 const classroomTestName = "foo";
 
@@ -32,6 +32,19 @@ describe("Create and join a classroom while authenticated", () => {
 
   it("should be able to enter a classroom", () => {
     cy.findByText("View").click();
-    cy.findByText(classroomTestName).should("exist");
+    cy.wait(2000).findByText(classroomTestName).should("exist");
+  });
+
+  it("should be able to create a project", () => {
+    cy.findByTestId("create-project").click().wait(2000);
+
+    cy.findByTestId("input-title").click().type("My First Project");
+    cy.findByTestId("input-description").click().type("lorem ipsum");
+    cy.findByTestId("input-min-team-size").click().type("1");
+    cy.findByTestId("input-max-team-size").click().type("4");
+    cy.get("#create-project-btn").click().wait(2000);
+
+    cy.findByText("View").click().wait(2000);
+    cy.findByText("My First Project").should("exist");
   });
 });

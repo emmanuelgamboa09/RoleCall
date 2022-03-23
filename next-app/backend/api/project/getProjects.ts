@@ -4,9 +4,7 @@ import { Classroom } from "../../../interfaces/classroom.interface";
 import { Project } from "../../database/models/project";
 import validateProjectsGET from "../../helpers/validation/validateProjectsGET";
 
-export interface Data {
-  projects: Project[];
-}
+export type Data = Project[];
 
 export default async (
   req: NextApiRequest,

@@ -45,3 +45,7 @@ export default (input: { [key: string]: any }) => {
 
   return validated;
 };
+
+export const validateProjectUpdate = (input: { [key: string]: any }) => {
+  return Joi.object(schema).validate(input);
+};

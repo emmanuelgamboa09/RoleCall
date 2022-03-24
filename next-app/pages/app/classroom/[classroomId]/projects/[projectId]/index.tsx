@@ -4,10 +4,10 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
 import { useQuery } from "react-query";
-import { Data as GetProjectApiData } from "../../../../../backend/api/project/getProject";
-import CustomTabs from "../../../../../components/CustomTabs";
-import BaseAppLayout from "../../../../../layout/baseapplayout";
-import theme from "../../../../../src/theme";
+import { Data as GetProjectApiData } from "../../../../../../backend/api/project/getProject";
+import CustomTabs from "../../../../../../components/CustomTabs";
+import BaseAppLayout from "../../../../../../layout/baseapplayout";
+import theme from "../../../../../../src/theme";
 
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();

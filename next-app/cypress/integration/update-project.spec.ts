@@ -1,6 +1,6 @@
 import Pages from "../../constants/Pages.enum";
 
-describe("Create and join a classroom while authenticated", () => {
+describe("Update a project that has already been created", () => {
   before(() => {
     cy.visit(Pages.Landing);
     cy.task("dropTestDb")

@@ -12,7 +12,7 @@ describe("Create and join a classroom while authenticated", () => {
   });
 
   after(() => {
-    cy.clearAuth0Cookies();
+    cy.clearAuth0Cookies().task("dropTestDb");
     cy.visit(Pages.Landing);
   });
 

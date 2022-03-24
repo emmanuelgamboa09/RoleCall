@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCreateProjectServerError } from "../../redux/store";
+import { selectCreateProjectServerError } from "../../../redux/store";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { setServerError } from "../../redux/slice/createProjectSlice";
+import { setServerError } from "../../../redux/slice/createProjectSlice";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -12,9 +12,9 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-interface ErrorSnackBarProps {}
+interface ServerErrorSnackBar {}
 
-const ErrorSnackBar: FC<ErrorSnackBarProps> = () => {
+const ServerErrorSnackBar: FC<ServerErrorSnackBar> = () => {
   const error = useSelector(selectCreateProjectServerError);
   const dispatch = useDispatch();
 
@@ -46,4 +46,4 @@ const ErrorSnackBar: FC<ErrorSnackBarProps> = () => {
   );
 };
 
-export default ErrorSnackBar;
+export default ServerErrorSnackBar;

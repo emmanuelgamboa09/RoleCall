@@ -7,7 +7,7 @@ import BaseAppLayout from "../../../../../layout/baseapplayout";
 import useCreateProjectURLChecker from "../../../../../hooks/useCreateProjectURLChecker";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import ErrorSnackBar from "../../../../../components/createProject/ErrorSnackbar";
+import ServerErrorSnackBar from "../../../../../components/misc/snackbars/ServerErrorSnackBar";
 
 const CreateProjectPage: NextPageWithLayout = () => {
   const { checkingUrl } = useCreateProjectURLChecker();
@@ -33,8 +33,8 @@ const CreateProjectPage: NextPageWithLayout = () => {
       textAlign="center"
     >
       <Grid item xs={3}>
-        <ProjectForm></ProjectForm>
-        <ErrorSnackBar></ErrorSnackBar>
+        <ProjectForm />
+        <ServerErrorSnackBar />
       </Grid>
     </Grid>
   );

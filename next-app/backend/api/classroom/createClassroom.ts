@@ -2,13 +2,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import { CLASS_ACCESS_CODE_LENGTH } from "../../constants";
 import validateClassroomPOST from "../../helpers/validation/validateClassroomPOST";
+import { Insert } from "../../types";
 import generateRandomString from "../../util/generateRandomString";
 
 export default async (
   req: NextApiRequest,
   res: NextApiResponse,
   authId: string,
-  save: (classroom: Classroom) => Promise<Classroom>,
+  save: Insert<Classroom>,
 ) => {
   const body: Classroom = req.body;
   const { error } = validateClassroomPOST(body);

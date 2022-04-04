@@ -2,18 +2,17 @@ import { FilterQuery, Query } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import validateClassroomGET from "../../helpers/validation/validateClassroomGET";
+import { FindMany } from "../../types";
 
 export interface Data {
-  classrooms: Classroom[]
+  classrooms: Classroom[];
 }
 
 export default async (
   req: NextApiRequest,
   res: NextApiResponse<Data>,
   authId: string,
-  findClassrooms: (
-    filter: FilterQuery<Classroom>,
-  ) => Query<any, any, any, any> | Promise<Classroom[]>,
+  findClassrooms: FindMany<Classroom>,
 ) => {
   const { query } = req;
   const { taught } = query;

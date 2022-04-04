@@ -3,16 +3,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import { MAX_CLASSROOM_SIZE } from "../../constants";
 import validateEnrollmentPUT from "../../helpers/validation/validateEnrollmentPUT";
+import { Update } from "../../types";
 
 export default async (
   req: NextApiRequest,
   res: NextApiResponse,
   authId: string,
-  joinClassroom: (
-    filter: FilterQuery<Classroom>,
-    update: UpdateQuery<any>,
-    options: QueryOptions,
-  ) => Query<any, any, any, any> | Promise<Classroom | null>,
+  joinClassroom: Update<Classroom>,
 ) => {
   const { body } = req;
   const { accessCode } = body;

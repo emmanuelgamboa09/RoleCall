@@ -3,18 +3,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import { Project } from "../../database/models/project";
 import validateProjectPUT from "../../helpers/validation/validateProjectPUT";
+import { FindByIdAndUpdate, FindOne } from "../../types";
 
 export default async (
   req: NextApiRequest,
   res: NextApiResponse,
   authId: string,
-  findClassroom: (
-    filter: FilterQuery<Classroom>,
-  ) => Query<any, any, any, any> | Promise<Classroom | null>,
-  update: (
-    id: string,
-    project: Partial<Project>,
-  ) => Query<any, any, {}, any> | Promise<Project | null>,
+  findClassroom: FindOne<Classroom>,
+  update: FindByIdAndUpdate<Project>,
 ) => {
   const {
     body,

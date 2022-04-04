@@ -3,15 +3,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import { Project } from "../../database/models/project";
 import validateProjectPOST from "../../helpers/validation/validateProjectPOST";
+import { FindOne, Insert } from "../../types";
 
 export default async (
   req: NextApiRequest,
   res: NextApiResponse,
   authId: string,
-  findClassroom: (
-    filter: FilterQuery<Classroom>,
-  ) => Query<any, any, any, any> | Promise<Classroom | null>,
-  save: (project: Project) => Promise<Project>,
+  findClassroom: FindOne<Classroom>,
+  save: Insert<Project>,
 ) => {
   const body: Project = req.body;
   const { error } = validateProjectPOST(body);

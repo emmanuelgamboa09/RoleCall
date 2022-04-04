@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import getProjection from "../../helpers/getProjection";
 import validateSingleClassroomGET from "../../helpers/validation/validateSingleClassroomGET";
+import { FindById } from "../../types";
 
 export type Data = { [P in keyof Classroom]?: Classroom[P] };
 
@@ -10,9 +11,7 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<Data>,
   authId: string,
-  findClassroom: (
-    id: any,
-  ) => Query<any, any, any, any> | Promise<Classroom | null>,
+  findClassroom: FindById<Classroom>,
 ) => {
   const { query } = req;
   const { error } = validateSingleClassroomGET(query);
@@ -24,7 +23,7 @@ export default async (
   const { classId, fields } = query;
 
   try {
-    const classroom: Classroom = await findClassroom(classId);
+    const classroom: Classroom = await findClassroom(classId as string);
     const { instructorId, students } = classroom || {};
     if (!classroom) {
       res.status(404).end("Class doesn't exist");

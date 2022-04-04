@@ -1,3 +1,5 @@
+import { FilterQuery, Query, QueryOptions, UpdateQuery } from "mongoose";
+
 export interface User {
   _id?: string;
   authId: string;
@@ -6,4 +8,34 @@ export interface User {
 
 export interface HTTPBody {
   [key: string]: any;
+}
+
+type QueryResult<Model> = Query<any, any, any, any> | Promise<Model>;
+
+export interface FindById<Model> {
+  (id: string): QueryResult<Model>;
+}
+
+export interface FindOne<Model> {
+  (filter: FilterQuery<Model>): QueryResult<Model>;
+}
+
+export interface FindMany<Model> {
+  (filter: FilterQuery<Model>): QueryResult<Model[]>;
+}
+
+export interface FindByIdAndUpdate<Model> {
+  (id: string, doc: Partial<Model>): QueryResult<Model>;
+}
+
+export interface Update<Model> {
+  (
+    filter: FilterQuery<Model>,
+    update: UpdateQuery<Model>,
+    options?: QueryOptions,
+  ): QueryResult<Model>;
+}
+
+export interface Insert<Model> {
+  (doc: Model): QueryResult<Model>;
 }

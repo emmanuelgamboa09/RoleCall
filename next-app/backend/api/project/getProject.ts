@@ -4,6 +4,7 @@ import { Classroom } from "../../../interfaces/classroom.interface";
 import { Project } from "../../database/models/project";
 import getProjection from "../../helpers/getProjection";
 import validateProjectGET from "../../helpers/validation/validateSingleProjectGET";
+import { FindById } from "../../types";
 
 export type Data = { [P in keyof Project]?: Project[P] };
 
@@ -11,10 +12,8 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<Data>,
   authId: string,
-  findProject: (id: any) => Query<any, any, any, any> | Promise<Project | null>,
-  findClassroom: (
-    id: any,
-  ) => Query<any, any, any, any> | Promise<Classroom | null>,
+  findProject: FindById<Project>,
+  findClassroom: FindById<Classroom>,
 ) => {
   const { query } = req;
   const { error } = validateProjectGET(query);
@@ -25,7 +24,7 @@ export default async (
   const { projectId, fields } = query;
 
   try {
-    const project: Project = await findProject(projectId);
+    const project: Project = await findProject(projectId as string);
     if (!project) return res.status(404).end("Project doesn't exist");
 
     const classroom: Classroom = await findClassroom(project.classroomId);

@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import { Project } from "../../database/models/project";
 import validateProjectsGET from "../../helpers/validation/validateProjectsGET";
+import { FindById, FindMany } from "../../types";
 
 export type Data = Project[];
 
@@ -10,12 +11,8 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<Data>,
   authId: string,
-  findProjects: (
-    filter: FilterQuery<Project>,
-  ) => Query<any, any, any, any> | Promise<Project[]>,
-  findClassroom: (
-    id: any,
-  ) => Query<any, any, any, any> | Promise<Classroom | null>,
+  findProjects: FindMany<Project>,
+  findClassroom: FindById<Classroom>,
 ) => {
   const { query } = req;
 
@@ -30,7 +27,7 @@ export default async (
   };
 
   try {
-    const classroom: Classroom = await findClassroom(classroomId);
+    const classroom: Classroom = await findClassroom(classroomId as string);
     if (!classroom) return res.status(404).end("Classroom doesn't exist");
 
     const { instructorId, students = [] } = classroom;

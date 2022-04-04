@@ -20,7 +20,6 @@ export default async (
   const { error } = validateCreateProjectUser(body);
   if (error) {
     res.status(400).end("Invalid request body");
-    console.log(error);
     return;
   }
 

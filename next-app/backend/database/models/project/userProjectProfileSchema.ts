@@ -5,7 +5,6 @@ export interface UserProjectProfile {
   studentId: string;
   projectBio?: string;
   desiredRoles?: string[];
-  joinedTeam: boolean;
   incomingTeamRequests: string[];
   outgoingTeamRequests: string[];
 }
@@ -14,7 +13,6 @@ export const userProjectProfileSchema = new Schema<UserProjectProfile>({
   studentId: { type: String, required: true },
   projectBio: { type: String, required: false, default: "" },
   desiredRoles: { type: [String], required: false, default: [] },
-  joinedTeam: { type: Boolean, required: true, default: false },
   incomingTeamRequests: { type: [String], required: true, default: [] },
   outgoingTeamRequests: { type: [String], required: true, default: [] },
 });

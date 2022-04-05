@@ -4,14 +4,14 @@ import { UserProjectProfile } from "../../database/models/project/userProjectPro
 
 export type CreateProjectUserBody = {
   projectId: any;
-} & {
-  [key in keyof UserProjectProfile]: any;
-};
-
-const schema: Omit<
-  CreateProjectUserBody,
+} & Omit<
+  {
+    [key in keyof UserProjectProfile]: any;
+  },
   "studentId" | "incomingTeamRequests" | "outgoingTeamRequests"
-> = {
+>;
+
+const schema: CreateProjectUserBody = {
   projectId: Joi.string().required(),
   projectBio: Joi.string()
     .required()

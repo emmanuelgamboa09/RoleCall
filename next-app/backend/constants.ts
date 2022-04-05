@@ -19,9 +19,13 @@ export const PROJECT_TEST_DESCRIPTION = "Test Description";
 export const PROJECT_TEST_ID = "a124aaafaabaaa425aaaaaaa";
 export const PROJECT_TEST_FIELDS = "projectId,title,description";
 
+export const PROJECT_PROFILE_TEST_BIO = "TEST BIO";
+export const PROJECT_PROFILE_TEST_DESIRED_ROLES = ["role1", "role2"];
+
 export const OBJECT_ID_LENGTH = 24;
 
 export const MAX_CLASSROOM_SIZE = 500;
 export const MAX_PROJECT_DESCRIPTION_LENGTH = 512;
+export const MAX_PROJECT_PROFILE_BIO_LENGTH = 1024;
 
 export const CLASS_ACCESS_CODE_LENGTH = 20;

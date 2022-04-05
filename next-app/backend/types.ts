@@ -13,11 +13,11 @@ export interface HTTPBody {
 type QueryResult<Model> = Query<any, any, any, any> | Promise<Model>;
 
 export interface FindById<Model> {
-  (id: string): QueryResult<Model>;
+  (id: string): QueryResult<Model | null>;
 }
 
 export interface FindOne<Model> {
-  (filter: FilterQuery<Model>): QueryResult<Model>;
+  (filter: FilterQuery<Model>): QueryResult<Model | null>;
 }
 
 export interface FindMany<Model> {
@@ -25,7 +25,7 @@ export interface FindMany<Model> {
 }
 
 export interface FindByIdAndUpdate<Model> {
-  (id: string, doc: Partial<Model>): QueryResult<Model>;
+  (id: string, doc: Partial<Model>): QueryResult<Model | null>;
 }
 
 export interface Update<Model> {
@@ -33,7 +33,7 @@ export interface Update<Model> {
     filter: FilterQuery<Model>,
     update: UpdateQuery<Model>,
     options?: QueryOptions,
-  ): QueryResult<Model>;
+  ): QueryResult<Model | null>;
 }
 
 export interface Insert<Model> {

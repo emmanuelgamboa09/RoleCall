@@ -2,11 +2,13 @@ import { FilterQuery } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Classroom } from "../../../interfaces/classroom.interface";
 import { Project } from "../../database/models/project";
+import buildEmbeddedUpdateQuery from "../../helpers/buildEmbeddedUpdateQuery";
 import {
   ProjectUserWriteBody,
+  ProjectUserWriteQuery,
   validateWriteProjectUserBody,
+  validateWriteProjectUserQuery,
 } from "../../helpers/validation/validateWriteProjectUser";
-
 import { FindById, FindOne, Update } from "../../types";
 
 export default async (
@@ -17,14 +19,16 @@ export default async (
   findClassroom: FindOne<Classroom>,
   save: Update<Project>,
 ) => {
-  const { body } = req;
+  const { body, query } = req;
 
-  const { error } = validateWriteProjectUserBody(body);
-  if (error) {
-    return res.status(400).end("Invalid request body");
+  const bodyValidation = validateWriteProjectUserBody(body);
+  const queryValidation = validateWriteProjectUserQuery(query);
+  if (bodyValidation.error || queryValidation.error) {
+    return res.status(400).end("Invalid request input");
   }
 
   const { projectId, ...user } = body as ProjectUserWriteBody;
+  const { profileId } = query as ProjectUserWriteQuery;
 
   try {
     const project: Project = await findProject(projectId);
@@ -37,6 +41,7 @@ export default async (
       students: authId,
     };
     const classroom = await findClassroom(classroomFilter);
+
     if (!classroom) {
       return res.status(400).end("Invalid request");
     }
@@ -44,9 +49,9 @@ export default async (
     const updatedProject: Project = await save(
       {
         _id: projectId,
-        projectUsers: { $not: { $elemMatch: { studentId: authId } } },
+        "projectUsers._id": profileId,
       },
-      { $push: { projectUsers: { ...user, studentId: authId } } },
+      buildEmbeddedUpdateQuery(user),
     );
 
     if (!updatedProject) {

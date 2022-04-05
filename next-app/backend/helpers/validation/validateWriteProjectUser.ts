@@ -2,7 +2,7 @@ import Joi from "joi";
 import { MAX_PROJECT_PROFILE_BIO_LENGTH } from "../../constants";
 import { UserProjectProfile } from "../../database/models/project/userProjectProfileSchema";
 
-export type CreateProjectUserBody = {
+export type ProjectUserWriteBody = {
   projectId: any;
 } & Omit<
   {
@@ -11,7 +11,9 @@ export type CreateProjectUserBody = {
   "studentId" | "incomingTeamRequests" | "outgoingTeamRequests"
 >;
 
-const schema: CreateProjectUserBody = {
+export type ProjectUserWriteQuery = { profileId: any };
+
+const bodySchema: ProjectUserWriteBody = {
   projectId: Joi.string().required(),
   projectBio: Joi.string()
     .required()
@@ -20,6 +22,16 @@ const schema: CreateProjectUserBody = {
   desiredRoles: Joi.array().required().items(Joi.string()),
 };
 
-export default (input: { [key: string]: any }) => {
-  return Joi.object(schema).validate(input);
+const querySchema: ProjectUserWriteQuery = {
+  profileId: Joi.string().required(),
+};
+
+export const validateWriteProjectUserBody = (body: { [key: string]: any }) => {
+  return Joi.object(bodySchema).validate(body);
+};
+
+export const validateWriteProjectUserQuery = (query: {
+  [key: string]: any;
+}) => {
+  return Joi.object(querySchema).validate(query);
 };

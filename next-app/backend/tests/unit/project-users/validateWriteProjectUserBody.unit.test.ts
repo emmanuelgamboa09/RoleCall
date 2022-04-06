@@ -3,7 +3,7 @@ import {
   PROJECT_PROFILE_TEST_DESIRED_ROLES,
   PROJECT_TEST_ID,
 } from "../../../constants";
-import validateCreateProjectUser from "../../../helpers/validation/validateCreateProjectUser";
+import { validateWriteProjectUserBody } from "../../../helpers/validation/validateWriteProjectUser";
 
 test("Validate correct Create Project User body", () => {
   const inputs = [
@@ -14,7 +14,7 @@ test("Validate correct Create Project User body", () => {
     },
   ];
   inputs.forEach((val) => {
-    const { error } = validateCreateProjectUser(val);
+    const { error } = validateWriteProjectUserBody(val);
     expect(error).toBeFalsy();
   });
 });
@@ -48,7 +48,7 @@ test("Validate incorrect Create Project User body", () => {
     },
   ];
   inputs.forEach((val) => {
-    const { error } = validateCreateProjectUser(val);
+    const { error } = validateWriteProjectUserBody(val);
     expect(error).toBeTruthy();
   });
 });

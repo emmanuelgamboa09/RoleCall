@@ -19,6 +19,7 @@ export const PROJECT_TEST_DESCRIPTION = "Test Description";
 export const PROJECT_TEST_ID = "a124aaafaabaaa425aaaaaaa";
 export const PROJECT_TEST_FIELDS = "projectId,title,description";
 
+export const PROJECT_PROFILE_TEST_ID = "a124aaafaabade425aaafbaa";
 export const PROJECT_PROFILE_TEST_BIO = "TEST BIO";
 export const PROJECT_PROFILE_TEST_DESIRED_ROLES = ["role1", "role2"];
 

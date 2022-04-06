@@ -1,19 +1,19 @@
 import Joi from "joi";
 import { MAX_PROJECT_PROFILE_BIO_LENGTH } from "../../constants";
-import { UserProjectProfile } from "../../database/models/project/userProjectProfileSchema";
+import { UserProjectProfile } from "./../../database/models/project/userProjectProfileSchema";
 
 export type ProjectUserWriteBody = {
-  projectId: any;
-} & Omit<
-  {
-    [key in keyof UserProjectProfile]: any;
-  },
-  "studentId" | "incomingTeamRequests" | "outgoingTeamRequests"
->;
+  projectId: string;
+} & {
+  [Field in keyof Pick<
+    UserProjectProfile,
+    "desiredRoles" | "projectBio"
+  >]: UserProjectProfile[Field];
+};
 
 export type ProjectUserWriteQuery = { profileId: any };
 
-const bodySchema: ProjectUserWriteBody = {
+const bodySchema: { [_ in keyof ProjectUserWriteBody]: any } = {
   projectId: Joi.string().required(),
   projectBio: Joi.string()
     .required()

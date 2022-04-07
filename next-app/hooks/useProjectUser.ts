@@ -28,14 +28,18 @@ export default function useProjectUser({
     "message" in projectProfileData.data &&
     projectProfileData.data.message === "not-created"
   );
-  console.log(projectProfileData.data);
-  console.log(created);
 
-  const isUserInvalid =
-    projectProfileData.data &&
-    "message" in projectProfileData.data &&
-    (projectProfileData.data.message === "server-error" ||
-      projectProfileData.data.message === "invalid-request");
+  let isUserInvalid = null;
+  if (projectProfileData.data) {
+    if ("message" in projectProfileData.data) {
+      isUserInvalid =
+        projectProfileData.data.message === "server-error" ||
+        projectProfileData.data.message === "invalid-request" ||
+        projectProfileData.data.message === "not-authorized";
+    } else {
+      isUserInvalid = false;
+    }
+  }
 
   const notAuthorized =
     projectProfileData.data &&

@@ -62,8 +62,6 @@ test("Update project for existing classroom with save operation successful", asy
         projectBio: "bio",
         desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
         studentId: AUTH0_TEST_ID,
-        incomingTeamRequests: [],
-        outgoingTeamRequests: [],
       },
     ],
   };
@@ -112,8 +110,6 @@ test("Update project for existing classroom with save operation successful", asy
     projectBio: "UPDATED BIO",
     desiredRoles: ["a", "b"],
     studentId: AUTH0_TEST_ID,
-    incomingTeamRequests: [],
-    outgoingTeamRequests: [],
   });
 
   await ProjectModel.deleteOne({
@@ -151,8 +147,6 @@ test("Update project user but with invalid body", async () => {
         projectBio: "bio",
         desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
         studentId: AUTH0_TEST_ID,
-        incomingTeamRequests: [],
-        outgoingTeamRequests: [],
       },
     ],
   };
@@ -196,8 +190,6 @@ test("Update project user but with invalid body", async () => {
       projectBio: "bio",
       desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
       studentId: AUTH0_TEST_ID,
-      incomingTeamRequests: [],
-      outgoingTeamRequests: [],
     },
   ]);
 
@@ -286,8 +278,6 @@ test("Update project user but user not enrolled in class", async () => {
         projectBio: "bio",
         desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
         studentId: AUTH0_TEST_ID,
-        incomingTeamRequests: [],
-        outgoingTeamRequests: [],
       },
     ],
   };
@@ -336,8 +326,6 @@ test("Update project user but user not enrolled in class", async () => {
       projectBio: "bio",
       desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
       studentId: AUTH0_TEST_ID,
-      incomingTeamRequests: [],
-      outgoingTeamRequests: [],
     },
   ]);
 

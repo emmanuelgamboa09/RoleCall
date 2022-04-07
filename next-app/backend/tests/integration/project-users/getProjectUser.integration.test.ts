@@ -76,15 +76,11 @@ const existingProject: Project = {
       projectBio: PROJECT_PROFILE_TEST_BIO,
       desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
       studentId: existingStudent.authId,
-      incomingTeamRequests: [],
-      outgoingTeamRequests: [],
     },
     {
       projectBio: PROJECT_PROFILE_TEST_BIO,
       desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
       studentId: existingStudent2.authId,
-      incomingTeamRequests: [],
-      outgoingTeamRequests: [],
     },
   ],
 };

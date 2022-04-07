@@ -1,9 +1,9 @@
 import { Error as MongooseError } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
+import { ClassroomModel } from "../../database/models/classroom";
 import { Project } from "../../database/models/project";
 import { UserProjectProfile } from "../../database/models/project/userProjectProfileSchema";
 import { FindById } from "../../types";
-import { ClassroomModel } from "./../../database/models/classroom";
 import { UserModel } from "./../../database/models/user";
 
 export type Data =
@@ -11,11 +11,18 @@ export type Data =
       UserProjectProfile,
       "_id" | "studentId" | "incomingTeamRequests" | "outgoingTeamRequests"
     >
-  | { message: "not-created" | "server-error" | "invalid-request" };
+  | {
+      message:
+        | "not-created"
+        | "server-error"
+        | "invalid-request"
+        | "not-authorized";
+    };
 
 export default async (
   req: NextApiRequest,
   res: NextApiResponse<Data>,
+  authId: string,
   findProject: FindById<Project>,
 ) => {
   try {
@@ -31,12 +38,6 @@ export default async (
     const project: Project = await findProject(projectId);
     if (!project) throw new Error("Invalid project request");
 
-    const isInstructor = await ClassroomModel.exists({
-      _id: project.classroomId,
-      instructorId: profileId,
-    });
-    if (isInstructor) throw new Error("Instructor can not be a project user");
-
     const user = await UserModel.findOne({ authId: profileId });
     if (!user) throw new Error("Failed to find user");
 
@@ -44,6 +45,21 @@ export default async (
       (user) => user.studentId === profileId,
     );
     if (!profile) return res.status(200).json({ message: "not-created" });
+
+    const isViewerInstructor = await ClassroomModel.exists({
+      _id: project.classroomId,
+      instructorId: authId,
+    });
+
+    const isViewerProjectUser = project.projectUsers.some(
+      (pu) => pu.studentId === authId,
+    );
+
+    console.log(isViewerInstructor, isViewerProjectUser);
+
+    if (!isViewerInstructor && !isViewerProjectUser) {
+      return res.json({ message: "not-authorized" });
+    }
 
     const { desiredRoles, projectBio } = profile;
 

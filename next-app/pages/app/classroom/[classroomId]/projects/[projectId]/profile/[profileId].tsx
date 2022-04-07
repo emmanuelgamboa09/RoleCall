@@ -20,7 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 import React, { ReactElement, useEffect, useState } from "react";
 import { useMutation } from "react-query";
@@ -33,7 +33,9 @@ import useProjectUser from "../../../../../../../hooks/useProjectUser";
 import BaseAppLayout from "../../../../../../../layout/baseapplayout";
 import theme from "../../../../../../../src/theme";
 
-export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
+export const getServerSideProps: GetServerSideProps<{
+  isProfileOwner: boolean;
+}> = withPageAuthRequired({
   async getServerSideProps({ req, res, query }) {
     const session = getSession(req, res);
     const { profileId } = query as RouterQuery;
@@ -43,11 +45,9 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
     }
 
     const user = session.user as UserProfile;
-    if (user.sub !== profileId) {
-      return { notFound: true };
-    }
+    const isProfileOwner = user.sub === profileId;
 
-    return { props: {} };
+    return { props: { isProfileOwner } };
   },
 });
 
@@ -79,7 +79,13 @@ const validationSchema = Yup.object<{ [_ in keyof FormValues]: any }>({
 // TODO: fetch project roles or allow users to manually enter desired roles
 const placeholderRoles = ["frontend", "backend", "devops"];
 
-const ProfilePage = () => {
+export type ProfilePageProps = InferGetServerSidePropsType<
+  typeof getServerSideProps
+>;
+
+const ProfilePage: NextPageWithLayout<ProfilePageProps> = ({
+  isProfileOwner,
+}) => {
   const router = useRouter();
   const { profileId, projectId } = router.query as RouterQuery;
 
@@ -95,6 +101,7 @@ const ProfilePage = () => {
     loading: projectUserLoading,
     data: projectUserData,
     isUserInvalid,
+    notAuthorized: notAuthorizedToViewProjectUser,
     error: projectUserError,
     refetch: refetchProjectUser,
   } = useProjectUser({
@@ -118,6 +125,8 @@ const ProfilePage = () => {
 
   const handleProjectUserRefetch = async () => {
     try {
+      if (!isProfileOwner)
+        throw new Error("Profile does not belong to the logged in user");
       await refetchProjectUser();
       setUpdateSuccessful(true);
     } catch (error) {
@@ -160,6 +169,12 @@ const ProfilePage = () => {
     },
   );
 
+  useEffect(() => {
+    if (notAuthorizedToViewProjectUser) {
+      router.push("/404");
+    }
+  }, [notAuthorizedToViewProjectUser]);
+
   if (project.isLoading || useUserResults.isLoading || projectUserLoading) {
     return <Typography>Loading...</Typography>;
   }
@@ -180,6 +195,8 @@ const ProfilePage = () => {
 
   const handleSubmit = async (values: FormValues) => {
     try {
+      if (!isProfileOwner)
+        throw new Error("Profile does not belong to the logged in user");
       if (!projectId) throw new Error("Missing projectId");
 
       const body: ProjectUserWriteBody = { ...values, projectId };
@@ -202,7 +219,12 @@ const ProfilePage = () => {
         </Typography>
       )}
       <Typography component="h1" fontSize="36px" textTransform="uppercase">
-        {shouldCreateProjectUser ? "Create" : "Update"} Profile
+        {!isProfileOwner
+          ? "View"
+          : shouldCreateProjectUser
+          ? "Create"
+          : "Update"}{" "}
+        Profile
       </Typography>
       <Formik
         initialValues={initialValues}
@@ -211,6 +233,7 @@ const ProfilePage = () => {
         validateOnChange
       >
         {(formik) => {
+          // TODO: Dedicated viewer view of a project profile, instead of simply disabling fields
           return (
             <Form>
               <Stack>
@@ -223,11 +246,12 @@ const ProfilePage = () => {
                   multiline
                   minRows={5}
                   maxRows={5}
+                  disabled={!isProfileOwner}
                 />
                 <Typography color="red" marginLeft="1rem" marginBottom="1rem">
                   {formik.touched.projectBio && formik.errors.projectBio}
                 </Typography>
-                <FormControl sx={{ width: 300 }}>
+                <FormControl sx={{ width: 300 }} disabled={!isProfileOwner}>
                   <InputLabel id="desired-roles">Desired Roles</InputLabel>
                   <Select
                     labelId="desired-roles"
@@ -258,16 +282,18 @@ const ProfilePage = () => {
                     {formik.touched.desiredRoles && formik.errors.desiredRoles}
                   </Typography>
                 </FormControl>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  disabled={updatingProjectUser || creatingProjectUser}
-                >
-                  Save
-                </Button>
+                {isProfileOwner && (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    disabled={updatingProjectUser || creatingProjectUser}
+                  >
+                    Save
+                  </Button>
+                )}
                 <Button
                   variant="outlined"
-                  disabled={shouldCreateProjectUser}
+                  disabled={!isProfileOwner && shouldCreateProjectUser}
                   onClick={router.back}
                   sx={{ marginTop: "1rem" }}
                 >

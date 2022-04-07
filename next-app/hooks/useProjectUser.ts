@@ -37,6 +37,11 @@ export default function useProjectUser({
     (projectProfileData.data.message === "server-error" ||
       projectProfileData.data.message === "invalid-request");
 
+  const notAuthorized =
+    projectProfileData.data &&
+    "message" in projectProfileData.data &&
+    projectProfileData.data.message === "not-authorized";
+
   const userProfileData =
     projectProfileData.data && !("message" in projectProfileData.data)
       ? projectProfileData.data
@@ -47,6 +52,7 @@ export default function useProjectUser({
     loading: projectProfileData.isLoading,
     data: userProfileData,
     isUserInvalid,
+    notAuthorized,
     error: projectProfileData.error,
     refetch: projectProfileData.refetch,
   };

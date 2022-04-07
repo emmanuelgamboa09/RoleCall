@@ -17,8 +17,11 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
 
   switch (method) {
     case "GET": {
-      await getProjectUser(request, response, (id: string) =>
-        ProjectModel.findById(id),
+      await getProjectUser(
+        request,
+        response,
+        getAuthId(request, response)!,
+        (id: string) => ProjectModel.findById(id),
       );
       break;
     }

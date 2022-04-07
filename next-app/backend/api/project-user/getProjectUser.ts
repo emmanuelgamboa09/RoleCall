@@ -65,8 +65,6 @@ export default async (
 
     return res.status(200).json({ desiredRoles, projectBio });
   } catch (e) {
-    console.log(e);
-
     if (e instanceof MongooseError) {
       res.status(500).json({ message: "server-error" });
     }

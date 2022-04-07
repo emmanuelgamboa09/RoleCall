@@ -167,6 +167,61 @@ test("Project users can view fellow project users' profiles", async () => {
   expect(profile as ProfileData).toEqual(expectedResponse);
 });
 
+test("Students not part of a project cannot view the project's user profiles", async () => {
+  const expectedMessage: Message["message"] = "not-authorized";
+
+  const query: GetProjectUserQuery = {
+    profileId: existingStudent.authId,
+    projectId: PROJECT_TEST_ID,
+  };
+
+  const { req, res } = createMocks<
+    NextApiRequest,
+    NextApiResponse<GetProjectUserApiData>
+  >({
+    method: "GET",
+    query,
+  });
+
+  await getProjectUser(req, res, existingStudent3.authId, async (projectId) => {
+    return ProjectModel.findById(projectId);
+  });
+
+  expect(res._getStatusCode()).toBe(403);
+  const profile = res._getJSONData() as GetProjectUserApiData;
+
+  expect((profile as GetProjectUserApiMessage).message).toEqual(
+    expectedMessage,
+  );
+});
+
+test("Students viewing their own non-existent project profile get a 'not-created' message", async () => {
+  const expectedMessage: Message["message"] = "not-created";
+
+  const query: GetProjectUserQuery = {
+    profileId: existingStudent3.authId,
+    projectId: PROJECT_TEST_ID,
+  };
+
+  const { req, res } = createMocks<
+    NextApiRequest,
+    NextApiResponse<GetProjectUserApiData>
+  >({
+    method: "GET",
+    query,
+  });
+
+  await getProjectUser(req, res, existingStudent3.authId, async (projectId) => {
+    return ProjectModel.findById(projectId);
+  });
+
+  expect(res._getStatusCode()).toBe(200);
+  const profile = res._getJSONData() as GetProjectUserApiData;
+  expect((profile as GetProjectUserApiMessage).message).toEqual(
+    expectedMessage,
+  );
+});
+
 test("Instructors can view project users' profiles", async () => {
   const expectedResponse: ProfileData = {
     projectBio: PROJECT_PROFILE_TEST_BIO,
@@ -203,11 +258,11 @@ test("Instructors can view project users' profiles", async () => {
   expect(profile as ProfileData).toEqual(expectedResponse);
 });
 
-test("Students not part of a project cannot view the project's user profiles", async () => {
+test("Instructors do not have a project user profile", async () => {
   const expectedMessage: Message["message"] = "not-authorized";
 
   const query: GetProjectUserQuery = {
-    profileId: existingStudent.authId,
+    profileId: existingInstructor.authId,
     projectId: PROJECT_TEST_ID,
   };
 
@@ -219,40 +274,18 @@ test("Students not part of a project cannot view the project's user profiles", a
     query,
   });
 
-  await getProjectUser(req, res, existingStudent3.authId, async (projectId) => {
-    return ProjectModel.findById(projectId);
-  });
-
-  expect(res._getStatusCode()).toBe(400);
-  const profile = res._getJSONData() as GetProjectUserApiData;
-
-  expect((profile as GetProjectUserApiMessage).message).toEqual(
-    expectedMessage,
+  await getProjectUser(
+    req,
+    res,
+    existingInstructor.authId,
+    async (projectId) => {
+      return ProjectModel.findById(projectId);
+    },
   );
-});
 
-test("Students viewing their own non-existent project profile get a 'not-created' message", async () => {
-  const expectedMessage: Message["message"] = "not-created";
-
-  const query: GetProjectUserQuery = {
-    profileId: existingStudent3.authId,
-    projectId: PROJECT_TEST_ID,
-  };
-
-  const { req, res } = createMocks<
-    NextApiRequest,
-    NextApiResponse<GetProjectUserApiData>
-  >({
-    method: "GET",
-    query,
-  });
-
-  await getProjectUser(req, res, existingStudent3.authId, async (projectId) => {
-    return ProjectModel.findById(projectId);
-  });
-
-  expect(res._getStatusCode()).toBe(200);
+  expect(res._getStatusCode()).toBe(403);
   const profile = res._getJSONData() as GetProjectUserApiData;
+
   expect((profile as GetProjectUserApiMessage).message).toEqual(
     expectedMessage,
   );

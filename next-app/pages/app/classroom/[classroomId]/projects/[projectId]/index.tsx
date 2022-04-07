@@ -47,7 +47,7 @@ const ProjectPage: NextPageWithLayout = () => {
         {title ? title : "Untitled Project"}
       </Typography>
 
-      {!isInvalidProjectUser && user?.sub && (
+      {isInvalidProjectUser !== null && !isInvalidProjectUser && user?.sub && (
         <Link href={`${router.asPath}/profile/${user?.sub}`}>
           <Button variant="contained">My Project Profile</Button>
         </Link>

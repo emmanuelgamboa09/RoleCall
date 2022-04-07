@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ClassroomModel } from "../../database/models/classroom";
 import { Project } from "../../database/models/project";
 import { UserProjectProfile } from "../../database/models/project/userProjectProfileSchema";
-import { FindById } from "../../types";
+import { FindById, User } from "../../types";
 import { UserModel } from "./../../database/models/user";
 
 export type Data = ProfileData | Message;
@@ -43,13 +43,12 @@ export default async (
     const project: Project = await findProject(projectId);
     if (!project) throw new Error("Invalid project request");
 
-    const user = await UserModel.findOne({ authId: profileId });
+    const user: User | null = await UserModel.findOne({ authId: profileId });
     if (!user) throw new Error("Failed to find user");
 
     const profile = project.projectUsers?.find(
       (user) => user.studentId === profileId,
     );
-    if (!profile) return res.status(200).json({ message: "not-created" });
 
     const isViewerInstructor = await ClassroomModel.exists({
       _id: project.classroomId,
@@ -60,10 +59,22 @@ export default async (
       (pu) => pu.studentId === authId,
     );
 
-    console.log(isViewerInstructor, isViewerProjectUser);
+    if (isViewerInstructor && profileId === authId)
+      return res.status(403).json({
+        message: "not-authorized",
+        reason: "Instructors can not have a project user profile",
+      });
+
+    if (!profile)
+      return res
+        .status(200)
+        .json({ message: "not-created", reason: "Missing user profile" });
 
     if (!isViewerInstructor && !isViewerProjectUser) {
-      return res.status(400).json({ message: "not-authorized" });
+      return res.status(403).json({
+        message: "not-authorized",
+        reason: "User is not a project user or instructor in the project",
+      });
     }
 
     const { desiredRoles, projectBio } = profile;

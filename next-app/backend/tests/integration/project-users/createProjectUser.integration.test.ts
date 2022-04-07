@@ -93,8 +93,6 @@ test("Insert project for existing classroom with save operation successful", asy
     studentId: AUTH0_TEST_ID,
     projectBio: PROJECT_PROFILE_TEST_BIO,
     desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
-    incomingTeamRequests: [],
-    outgoingTeamRequests: [],
   });
 
   await ProjectModel.deleteOne({
@@ -189,8 +187,6 @@ test("Insert project user but profile already exists", async () => {
         studentId: AUTH0_TEST_ID,
         projectBio: PROJECT_PROFILE_TEST_BIO,
         desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
-        incomingTeamRequests: [],
-        outgoingTeamRequests: [],
       },
     ],
   };
@@ -233,8 +229,6 @@ test("Insert project user but profile already exists", async () => {
     studentId: AUTH0_TEST_ID,
     projectBio: PROJECT_PROFILE_TEST_BIO,
     desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
-    incomingTeamRequests: [],
-    outgoingTeamRequests: [],
   });
 
   await ProjectModel.deleteOne({

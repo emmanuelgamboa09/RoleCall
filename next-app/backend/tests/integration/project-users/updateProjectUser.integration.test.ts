@@ -25,11 +25,11 @@ const PROJECT_TEST_FORMATION_DEADLINE = new Date(
   Date.now() + 1000 * 60 * 60 * 24,
 );
 
-beforeAll(async () => {
+beforeEach(async () => {
   await dbConnect(DB_TEST_NAME);
 });
 
-afterAll(async () => {
+afterEach(async () => {
   await dropTestDb();
   await dbDisconnect();
 });
@@ -77,7 +77,7 @@ test("Update project for existing classroom with save operation successful", asy
   };
 
   const query = {
-    profileId: PROJECT_PROFILE_TEST_ID,
+    profileId: AUTH0_TEST_ID,
   };
 
   const { req, res } = createMocks({

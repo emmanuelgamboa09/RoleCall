@@ -19,7 +19,7 @@ declare global {
     }
   }
 
-  type NextPageWithLayout = NextPage & {
+  type NextPageWithLayout<T = {}> = NextPage<T> & {
     getLayout?: (page: ReactElement) => ReactNode;
   };
 }

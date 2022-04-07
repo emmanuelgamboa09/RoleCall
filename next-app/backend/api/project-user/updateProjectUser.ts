@@ -49,9 +49,11 @@ export default async (
     const updatedProject: Project = await save(
       {
         _id: projectId,
-        "projectUsers._id": profileId,
+        "projectUsers.studentId": profileId,
       },
-      buildEmbeddedUpdateQuery(user),
+      buildEmbeddedUpdateQuery(
+        user as Parameters<typeof buildEmbeddedUpdateQuery>[0],
+      ),
     );
 
     if (!updatedProject) {

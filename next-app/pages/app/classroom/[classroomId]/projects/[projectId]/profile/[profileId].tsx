@@ -8,12 +8,6 @@ import {
   Alert,
   Box,
   Button,
-  Chip,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
   Snackbar,
   Stack,
   TextField,
@@ -28,6 +22,7 @@ import * as Yup from "yup";
 import { Project } from "../../../../../../../backend/database/models/project";
 import { ProjectUserWriteBody } from "../../../../../../../backend/helpers/validation/validateWriteProjectUser";
 import { User } from "../../../../../../../backend/types";
+import ChipInput from "../../../../../../../components/ChipInput";
 import useProject from "../../../../../../../hooks/useProject";
 import useProjectUser from "../../../../../../../hooks/useProjectUser";
 import BaseAppLayout from "../../../../../../../layout/baseapplayout";
@@ -251,37 +246,22 @@ const ProfilePage: NextPageWithLayout<ProfilePageProps> = ({
                 <Typography color="red" marginLeft="1rem" marginBottom="1rem">
                   {formik.touched.projectBio && formik.errors.projectBio}
                 </Typography>
-                <FormControl sx={{ width: 300 }} disabled={!isProfileOwner}>
-                  <InputLabel id="desired-roles">Desired Roles</InputLabel>
-                  <Select
-                    labelId="desired-roles"
-                    id="desired-roles"
-                    multiple
-                    value={formik.values.desiredRoles}
-                    onChange={({ target: { value } }) => {
-                      const roles =
-                        typeof value === "string" ? value.split(",") : value;
-                      formik.setFieldValue("desiredRoles", roles);
-                    }}
-                    input={<OutlinedInput label="Desired Roles" />}
-                    renderValue={(selected) => (
-                      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                        {selected.map((value, index) => (
-                          <Chip key={index} label={value} />
-                        ))}
-                      </Box>
-                    )}
-                  >
-                    {placeholderRoles.map((role, index) => (
-                      <MenuItem key={index} value={role}>
-                        {role}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <Typography color="red" marginLeft="1rem" marginBottom="1rem">
-                    {formik.touched.desiredRoles && formik.errors.desiredRoles}
-                  </Typography>
-                </FormControl>
+                <ChipInput
+                  boxProps={{
+                    id: "desired-roles",
+                  }}
+                  items={formik.values.desiredRoles || []}
+                  label="Desired Roles"
+                  setItems={(items) =>
+                    formik.setFieldValue("desiredRoles", items)
+                  }
+                  placeholder="Enter desired roles"
+                  variant="filled"
+                />
+                <Typography color="red" marginLeft="1rem" marginBottom="1rem">
+                  {formik.touched.desiredRoles && formik.errors.desiredRoles}
+                </Typography>
+
                 {isProfileOwner && (
                   <Button
                     type="submit"

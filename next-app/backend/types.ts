@@ -13,11 +13,14 @@ export interface HTTPBody {
 type QueryResult<Model> = Query<any, any, any, any> | Promise<Model>;
 
 export interface FindById<Model> {
-  (id: string): QueryResult<Model | null>;
+  (id: string, options?: QueryOptions): QueryResult<Model | null>;
 }
 
 export interface FindOne<Model> {
-  (filter: FilterQuery<Model>): QueryResult<Model | null>;
+  (
+    filter: FilterQuery<Model>,
+    options?: QueryOptions,
+  ): QueryResult<Model | null>;
 }
 
 export interface FindMany<Model> {

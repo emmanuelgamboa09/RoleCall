@@ -79,13 +79,13 @@ test("Insert project for existing classroom with save operation successful", asy
 
   expect(res._getStatusCode()).toBe(200);
 
-  const { projectUsers } = JSON.parse(
+  const { projectUsers, teams } = JSON.parse(
     JSON.stringify(
       await ProjectModel.findOne({
         classroomId: CLASSROOM_TEST_ID,
       }),
     ),
-  );
+  ) as Project;
 
   const { _id, ...user } = projectUsers[0];
 
@@ -94,6 +94,8 @@ test("Insert project for existing classroom with save operation successful", asy
     projectBio: PROJECT_PROFILE_TEST_BIO,
     desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
   });
+
+  expect(teams![0].teamMembers).toEqual([AUTH0_TEST_ID]);
 
   await ProjectModel.deleteOne({
     classroomId: CLASSROOM_TEST_ID,

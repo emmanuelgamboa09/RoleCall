@@ -46,7 +46,12 @@ export default async (
         _id: projectId,
         projectUsers: { $not: { $elemMatch: { studentId: authId } } },
       },
-      { $push: { projectUsers: { ...user, studentId: authId } } },
+      {
+        $push: {
+          projectUsers: { ...user, studentId: authId },
+          teams: { teamMembers: [authId] },
+        },
+      },
     );
 
     if (!updatedProject) {

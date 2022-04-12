@@ -2,9 +2,20 @@ services:
   mongo:
     image: mongo:latest
     restart: always
+    command: mongod --replSet ReplSet
+    hostname: mongodb
     ports:
       - "27017:27017"
     environment:
       - MONGO_INITDB_DATABASE=rolecall
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root_password
+  mongosetup:
+    image: mongo:latest
+    depends_on:
+      - mongo
+    restart: "no"
+    entrypoint:
+      [
+        "bash",
+        "-c",
+        "sleep 10 && mongo --host mongodb:27017 --eval 'rs.initiate()'",
+      ]

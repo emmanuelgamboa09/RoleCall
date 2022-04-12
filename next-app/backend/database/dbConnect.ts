@@ -26,8 +26,7 @@ async function dbConnect(dbName?: string, user?: string, pwd?: string) {
 
   if (!cached.promise) {
     const opts: ConnectOptions = {
-      user: user || process.env.DB_USER,
-      pass: pwd || process.env.DB_PWD,
+      directConnection: true,
       dbName: dbName || process.env.APP_ENV === "test" ? DB_TEST_NAME : DB_NAME,
       serverSelectionTimeoutMS: 10000,
       bufferCommands: false,

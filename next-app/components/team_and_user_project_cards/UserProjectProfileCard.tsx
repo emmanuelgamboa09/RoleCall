@@ -27,6 +27,7 @@ const UserProjectProfileCard: FC<UserProjectProfileCardProps> = ({
       sx={{
         ...sx,
       }}
+      id="userProfileCard"
     >
       <CardContent
         sx={{
@@ -38,7 +39,7 @@ const UserProjectProfileCard: FC<UserProjectProfileCardProps> = ({
       >
         <Typography
           variant="subtitle1"
-          id="projectTitle"
+          id="projectProfileName"
           sx={{
             textAlign: "center",
             pb: 1,
@@ -72,7 +73,7 @@ const UserProjectProfileCard: FC<UserProjectProfileCardProps> = ({
         >
           <Typography
             variant="subtitle2"
-            id="projectTitle"
+            id="projectProfileBio"
             sx={{
               pt: 0.5,
             }}

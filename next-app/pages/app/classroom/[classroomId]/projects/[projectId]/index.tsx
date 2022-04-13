@@ -3,18 +3,27 @@ import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
+import { Project } from "../../../../../../backend/database/models/project";
+import TeamFinderProjectTab from "../../../../../../components/classroom/project/TeamFinderProjectTab";
 import CustomTabs from "../../../../../../components/CustomTabs";
 import useProject from "../../../../../../hooks/useProject";
 import useProjectUser from "../../../../../../hooks/useProjectUser";
 import BaseAppLayout from "../../../../../../layout/baseapplayout";
 import theme from "../../../../../../src/theme";
+import { Socket, connect } from "socket.io-client";
+
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
+import { Refresh } from "@mui/icons-material";
+import useProjectPageSocket from "../../../../../../hooks/useSocket";
 
 const ProjectPage: NextPageWithLayout = () => {
+  let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
   const router = useRouter();
   const { projectId } = router.query as { projectId: string };
-
-  const { data, isLoading, error } = useProject({ projectId });
+  const { data, isLoading, error, refetch } = useProject({
+    projectId,
+  });
   const { user, isLoading: userLoading, error: userError } = useUser();
 
   const {
@@ -25,6 +34,8 @@ const ProjectPage: NextPageWithLayout = () => {
     userId: user?.sub,
   });
 
+  useProjectPageSocket(refetch, projectId);
+
   if (isLoading || userLoading) return <>Loading project page...</>;
 
   if (error || userError) {
@@ -32,7 +43,7 @@ const ProjectPage: NextPageWithLayout = () => {
     return <>Project not found</>;
   }
 
-  const { title, description, minTeamSize, maxTeamSize } = data!;
+  const { title, description } = data!;
 
   if (!user) return null;
 
@@ -57,38 +68,26 @@ const ProjectPage: NextPageWithLayout = () => {
         tabs={{
           "Project Details": {
             content: (
-              <div>
+              <>
                 <Typography component="h2" fontSize="32px">
                   Project Details
                 </Typography>
                 {description && (
-                  <Typography component="body" fontSize="16px">
+                  <Typography component="p" fontSize="16px">
                     {description}
                   </Typography>
                 )}
-              </div>
+              </>
             ),
           },
           "Team Finder": {
-            content: (
-              <div>
-                <Typography component="h2" fontSize="32px">
-                  Team Finder
-                </Typography>
-                {minTeamSize && (
-                  <Typography component="body" fontSize="16px">
-                    Min. Team Size: {minTeamSize}
-                  </Typography>
-                )}
-                {maxTeamSize && (
-                  <Typography component="body" fontSize="16px">
-                    Max. Team Size: {maxTeamSize}
-                  </Typography>
-                )}
-              </div>
+            content: data ? (
+              <TeamFinderProjectTab data={data as Project} />
+            ) : (
+              <></>
             ),
           },
-          "My Team": { content: <div>My Team</div> },
+          "My Team": { content: <>My Team</> },
         }}
       />
     </>

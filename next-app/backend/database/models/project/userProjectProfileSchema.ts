@@ -1,7 +1,7 @@
-import { Schema, Types, models, model } from "mongoose";
+import { Schema, models, model } from "mongoose";
 
 export interface UserProjectProfile {
-  _id?: Types.ObjectId;
+  _id?: string;
   studentId: string;
   projectBio?: string;
   desiredRoles?: string[];

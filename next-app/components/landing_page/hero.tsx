@@ -1,6 +1,5 @@
 import React, { ReactElement, FC } from "react";
 import { Button, Typography } from "@mui/material";
-import theme from "../../src/theme";
 
 interface HeroProps {}
 
@@ -8,7 +7,8 @@ const Hero: FC<HeroProps> = (): ReactElement => {
   return (
     <div
       style={{
-        backgroundColor: theme.palette.secondary.main,
+        backgroundImage: "url('/img/landing_page_img/landing_background.jpg')",
+        backgroundSize: "cover",
       }}
     >
       <div

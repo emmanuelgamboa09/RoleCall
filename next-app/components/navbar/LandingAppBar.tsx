@@ -13,10 +13,12 @@ import theme from "../../src/theme";
 import NavOptions, { NavOption } from "./NavOptions";
 
 const navOptions: Array<NavOption> = [
-  { text: "Login", route: "/api/auth/login", show: "logged-out-only" },
-  { text: "Sign up", route: "/api/auth/login", show: "logged-out-only" },
+  {
+    text: "Login / Register",
+    route: "/api/auth/login",
+    show: "logged-out-only",
+  },
   { text: "Sign out", route: "/api/auth/logout", show: "login-only" },
-  { text: "Learn More", route: "", show: "always" },
 ];
 
 interface LandingAppBarProps {}

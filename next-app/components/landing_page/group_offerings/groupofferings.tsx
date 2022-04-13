@@ -41,10 +41,6 @@ const GroupOfferings: FC<GroupOfferingProps> = () => {
         <Typography variant="h2" align="center" style={{ margin: 20 }}>
           Group App Offerings
         </Typography>
-        <Typography variant="h6" align="center" style={{ marginBottom: 20 }}>
-          Sausage bresaola meatball hamburger ground round pork loin picanha
-          leberkas.
-        </Typography>
       </div>
       <div
         style={{

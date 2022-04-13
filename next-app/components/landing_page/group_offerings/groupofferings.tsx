@@ -20,7 +20,7 @@ const offeringsArray: Array<Offering> = [
   {
     title: "Filtering Project Users",
     message: "Filter project users to help find the best match quickly",
-    imageUrl: "/img/landing_page_img/landing_page_group.jpg",
+    imageUrl: "/img/landing_page_img/filter.jpeg",
   },
 ];
 

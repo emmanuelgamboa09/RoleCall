@@ -20,7 +20,7 @@ async function dbConnect(dbName?: string, user?: string, pwd?: string) {
   }
 
   if (cached.conn) {
-    console.log(":: MONGOOSE - Re-using existing connection");
+    // console.log(":: MONGOOSE - Re-using existing connection");
     return cached.conn;
   }
 
@@ -33,7 +33,7 @@ async function dbConnect(dbName?: string, user?: string, pwd?: string) {
     };
 
     cached.promise = connect(DB_BASE_URI, opts).then((mongoose) => {
-      console.log(":: MONGOOSE - Created new connection");
+      // console.log(":: MONGOOSE - Created new connection");
       return mongoose;
     });
   }
@@ -46,5 +46,5 @@ export default dbConnect;
 export const dbDisconnect = async () => {
   await global.mongooseInst.conn?.disconnect();
   cached = global.mongooseInst = { conn: null, promise: null };
-  console.log(":: MONGOOSE - Disconnected");
+  // console.log(":: MONGOOSE - Disconnected");
 };

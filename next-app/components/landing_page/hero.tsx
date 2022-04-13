@@ -21,10 +21,18 @@ const Hero: FC<HeroProps> = (): ReactElement => {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h1" align="center" sx={{ color: "text.primary" }}>
+        <Typography
+          variant="h1"
+          align="center"
+          sx={{ color: "white", textShadow: "black 1px 1px" }}
+        >
           RoleCall
         </Typography>
-        <Typography variant="h1" align="center" sx={{ color: "text.primary" }}>
+        <Typography
+          variant="h1"
+          align="center"
+          sx={{ color: "white", textShadow: "black 1px 1px" }}
+        >
           Create Groups On The Fly.
         </Typography>
         <div

@@ -1,4 +1,4 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Button, Divider, Paper, Typography } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Project } from "../../../backend/database/models/project";
@@ -6,12 +6,17 @@ import { Team } from "../../../backend/database/models/project/teamSchema";
 import { UserProjectProfile } from "../../../backend/database/models/project/userProjectProfileSchema";
 import { selectMe } from "../../../redux/store";
 import TeamProjectProfileCard from "../../team_and_user_project_cards/TeamProjectProfileCard";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 
 interface TeamFinderProjectTabInterface {
   data: Project;
+  isInstructor: boolean;
 }
 
-const TeamFinderProjectTab: FC<TeamFinderProjectTabInterface> = ({ data }) => {
+const TeamFinderProjectTab: FC<TeamFinderProjectTabInterface> = ({
+  data,
+  isInstructor,
+}) => {
   const me = useSelector(selectMe);
   const { authId: myUserId } = me;
   const {
@@ -71,6 +76,22 @@ const TeamFinderProjectTab: FC<TeamFinderProjectTabInterface> = ({ data }) => {
       <Typography component="h2" fontSize="32px" sx={{ py: 1 }}>
         Team Formation
       </Typography>
+
+      {isInstructor && (
+        <Paper sx={{ padding: "2rem" }}>
+          <Typography component="h2" fontSize="32px">
+            Instructor Menu
+          </Typography>
+          <Button
+            variant="outlined"
+            color="error"
+            endIcon={<AssignmentIndIcon />}
+          >
+            Finalize Groups
+          </Button>
+        </Paper>
+      )}
+
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, py: 1 }}>
         {availableTeams.length > 0 ? (
           availableTeams?.map((team, i) => {

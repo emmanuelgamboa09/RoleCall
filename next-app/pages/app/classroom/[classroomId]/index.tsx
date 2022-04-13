@@ -4,11 +4,11 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
 import { useQuery } from "react-query";
-import { Data as GetClassroomApiData } from "../../../../backend/api/classroom/getClassroom";
 import { Data as GetProjectsApiData } from "../../../../backend/api/project/getProjects";
 import { Data as GetInstructorProfileApiData } from "../../../../backend/api/user/profile/getProfileByAuthId";
 import ClassroomProjectTab from "../../../../components/classroom/project/projecttab";
 import CustomTabs from "../../../../components/CustomTabs";
+import useClassroom from "../../../../hooks/useClassroom";
 import BaseAppLayout from "../../../../layout/baseapplayout";
 import theme from "../../../../src/theme";
 
@@ -21,9 +21,7 @@ const ClassroomPage: NextPageWithLayout = () => {
     isLoading: isClassroomLoading,
     error: hasClassroomError,
     data: classroomData,
-  } = useQuery<GetClassroomApiData>("classroom", () =>
-    fetch(`/api/classrooms/${classroomId}`).then((res) => res.json()),
-  );
+  } = useClassroom({ classroomId });
 
   const {
     isLoading: isInstructorProfileLoading,

@@ -70,6 +70,7 @@ test("Update project for existing classroom with save operation successful", asy
 
   const body: ProjectUserWriteBody = {
     projectId: PROJECT_TEST_ID,
+    name: "",
     projectBio: "UPDATED BIO",
     desiredRoles: ["a", "b"],
   };

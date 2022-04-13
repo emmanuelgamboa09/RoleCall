@@ -9,6 +9,7 @@ test("Validate correct Create Project User body", () => {
   const inputs = [
     {
       projectId: PROJECT_TEST_ID,
+      name: "",
       projectBio: PROJECT_PROFILE_TEST_BIO,
       desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
     },

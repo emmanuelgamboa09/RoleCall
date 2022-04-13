@@ -58,6 +58,7 @@ test("Insert project for existing classroom with save operation successful", asy
 
   const body = {
     projectId: PROJECT_TEST_ID,
+    name: "",
     projectBio: PROJECT_PROFILE_TEST_BIO,
     desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
   };

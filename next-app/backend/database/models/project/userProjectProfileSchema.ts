@@ -1,14 +1,16 @@
-import { Schema, Types, models, model } from "mongoose";
+import { model, models, Schema } from "mongoose";
 
 export interface UserProjectProfile {
-  _id?: Types.ObjectId;
+  _id?: string;
   studentId: string;
+  name?: string;
   projectBio?: string;
   desiredRoles?: string[];
 }
 
 export const userProjectProfileSchema = new Schema<UserProjectProfile>({
   studentId: { type: String, required: true },
+  name: { type: String, required: false, default: "" },
   projectBio: { type: String, required: false, default: "" },
   desiredRoles: { type: [String], required: false, default: [] },
 });

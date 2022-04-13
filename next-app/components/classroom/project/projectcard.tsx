@@ -37,6 +37,7 @@ const ClassroomProjectCard: FC<ProjectCardProps> = ({
     title,
     formationDeadline,
   }: { title: string; formationDeadline: Date } = project;
+  let date = new Date(formationDeadline);
 
   return (
     <ProjectCard
@@ -57,11 +58,11 @@ const ClassroomProjectCard: FC<ProjectCardProps> = ({
         <Typography variant="subtitle1" id="projectTitle">
           {title}
         </Typography>
-        {formationDeadline && (
+        {date && (
           <div>
             <Typography variant="subtitle2">Formation Deadline</Typography>
             <Typography variant="subtitle2" id="projectDate">
-              {formationDeadline.toLocaleString()}
+              {date.toLocaleString()}
             </Typography>
           </div>
         )}
@@ -76,7 +77,11 @@ const ClassroomProjectCard: FC<ProjectCardProps> = ({
           }}
         >
           <Link href={`/app/classroom/${classroomId}/projects/${project._id}`}>
-            <Button variant="contained" size="small">
+            <Button
+              variant="contained"
+              size="small"
+              data-testid="view-project-btn"
+            >
               View
             </Button>
           </Link>

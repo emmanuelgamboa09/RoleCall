@@ -23,11 +23,11 @@ const PROJECT_TEST_FORMATION_DEADLINE = new Date(
   Date.now() + 1000 * 60 * 60 * 24,
 );
 
-beforeAll(async () => {
+beforeEach(async () => {
   await dbConnect(DB_TEST_NAME);
 });
 
-afterAll(async () => {
+afterEach(async () => {
   await dropTestDb();
   await dbDisconnect();
 });
@@ -58,6 +58,7 @@ test("Insert project for existing classroom with save operation successful", asy
 
   const body = {
     projectId: PROJECT_TEST_ID,
+    name: "",
     projectBio: PROJECT_PROFILE_TEST_BIO,
     desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
   };
@@ -91,17 +92,12 @@ test("Insert project for existing classroom with save operation successful", asy
 
   expect(user).toEqual({
     studentId: AUTH0_TEST_ID,
+    name: "",
     projectBio: PROJECT_PROFILE_TEST_BIO,
     desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
   });
 
   expect(teams![0].teamMembers).toEqual([AUTH0_TEST_ID]);
-
-  await ProjectModel.deleteOne({
-    classroomId: CLASSROOM_TEST_ID,
-  });
-
-  await ClassroomModel.deleteOne({ _id: CLASSROOM_TEST_ID });
 });
 
 test("Insert project user but with invalid body", async () => {
@@ -156,12 +152,6 @@ test("Insert project user but with invalid body", async () => {
   );
 
   expect(projectUsers).toEqual([]);
-
-  await ProjectModel.deleteOne({
-    classroomId: CLASSROOM_TEST_ID,
-  });
-
-  await ClassroomModel.deleteOne({ _id: CLASSROOM_TEST_ID });
 });
 
 test("Insert project user but profile already exists", async () => {
@@ -229,15 +219,10 @@ test("Insert project user but profile already exists", async () => {
 
   expect(user).toEqual({
     studentId: AUTH0_TEST_ID,
+    name: "",
     projectBio: PROJECT_PROFILE_TEST_BIO,
     desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
   });
-
-  await ProjectModel.deleteOne({
-    classroomId: CLASSROOM_TEST_ID,
-  });
-
-  await ClassroomModel.deleteOne({ _id: CLASSROOM_TEST_ID });
 });
 
 test("Insert project user but user not enrolled in class", async () => {
@@ -296,12 +281,6 @@ test("Insert project user but user not enrolled in class", async () => {
   );
 
   expect(projectUsers).toEqual([]);
-
-  await ProjectModel.deleteOne({
-    classroomId: CLASSROOM_TEST_ID,
-  });
-
-  await ClassroomModel.deleteOne({ _id: CLASSROOM_TEST_ID });
 });
 
 test("Insert project user but project doesn't exist", async () => {
@@ -344,6 +323,4 @@ test("Insert project user but project doesn't exist", async () => {
   });
 
   expect(project).toBeNull();
-
-  await ClassroomModel.deleteOne({ _id: CLASSROOM_TEST_ID });
 });

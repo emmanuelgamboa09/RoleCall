@@ -104,7 +104,7 @@ const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
+        <List onClick={handleDrawerClose}>
           {drawerOptions.map((drawerOption) => (
             <Link
               href={{ pathname: drawerOption.pathname }}

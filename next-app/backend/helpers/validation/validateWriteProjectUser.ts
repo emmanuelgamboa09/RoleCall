@@ -7,7 +7,7 @@ export type ProjectUserWriteBody = {
 } & {
   [Field in keyof Pick<
     UserProjectProfile,
-    "desiredRoles" | "projectBio"
+    "desiredRoles" | "projectBio" | "name"
   >]: UserProjectProfile[Field];
 };
 
@@ -15,6 +15,7 @@ export type ProjectUserWriteQuery = { profileId: any };
 
 const bodySchema: { [_ in keyof ProjectUserWriteBody]: any } = {
   projectId: Joi.string().required(),
+  name: Joi.string().allow(""),
   projectBio: Joi.string()
     .required()
     .min(1)

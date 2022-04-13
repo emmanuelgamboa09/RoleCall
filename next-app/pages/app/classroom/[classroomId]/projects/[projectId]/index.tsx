@@ -1,14 +1,16 @@
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
 import CustomTabs from "../../../../../../components/CustomTabs";
+import useClassroom from "../../../../../../hooks/useClassroom";
 import useProject from "../../../../../../hooks/useProject";
 import useProjectUser from "../../../../../../hooks/useProjectUser";
 import BaseAppLayout from "../../../../../../layout/baseapplayout";
 import theme from "../../../../../../src/theme";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -25,9 +27,19 @@ const ProjectPage: NextPageWithLayout = () => {
     userId: user?.sub,
   });
 
-  if (isLoading || userLoading) return <>Loading project page...</>;
+  const {
+    isLoading: isClassroomLoading,
+    error: classroomError,
+    data: classroomData,
+  } = useClassroom({
+    classroomId: data?.classroomId!,
+    options: { enabled: !!data?.classroomId },
+  });
 
-  if (error || userError) {
+  if (isLoading || userLoading || isClassroomLoading)
+    return <>Loading project page...</>;
+
+  if (error || userError || classroomError) {
     console.error(error);
     return <>Project not found</>;
   }
@@ -41,13 +53,20 @@ const ProjectPage: NextPageWithLayout = () => {
     return null;
   }
 
+  const isInstructor = classroomData?.instructorId === user.sub;
+
   return (
     <>
       <Typography component="h1" fontSize="48px" marginTop="2rem">
         {title ? title : "Untitled Project"}
       </Typography>
+      {isInstructor && (
+        <Typography component="body" fontSize="16px">
+          Your are the instructor
+        </Typography>
+      )}
 
-      {isInvalidProjectUser !== null && !isInvalidProjectUser && user?.sub && (
+      {!isInstructor && (
         <Link href={`${router.asPath}/profile/${user?.sub}`}>
           <Button variant="contained">My Project Profile</Button>
         </Link>
@@ -61,6 +80,7 @@ const ProjectPage: NextPageWithLayout = () => {
                 <Typography component="h2" fontSize="32px">
                   Project Details
                 </Typography>
+
                 {description && (
                   <Typography component="body" fontSize="16px">
                     {description}
@@ -71,10 +91,26 @@ const ProjectPage: NextPageWithLayout = () => {
           },
           "Team Finder": {
             content: (
-              <div>
+              <Box sx={{ margin: "1rem" }}>
                 <Typography component="h2" fontSize="32px">
                   Team Finder
                 </Typography>
+
+                {isInstructor && (
+                  <Paper sx={{ padding: "2rem", margin: "1rem" }}>
+                    <Typography component="h2" fontSize="32px">
+                      Instructor Menu
+                    </Typography>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      endIcon={<AssignmentIndIcon />}
+                    >
+                      Finalize Groups
+                    </Button>
+                  </Paper>
+                )}
+
                 {minTeamSize && (
                   <Typography component="body" fontSize="16px">
                     Min. Team Size: {minTeamSize}
@@ -85,7 +121,7 @@ const ProjectPage: NextPageWithLayout = () => {
                     Max. Team Size: {maxTeamSize}
                   </Typography>
                 )}
-              </div>
+              </Box>
             ),
           },
           "My Team": { content: <div>My Team</div> },

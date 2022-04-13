@@ -184,10 +184,8 @@ const ProfilePage: NextPageWithLayout<ProfilePageProps> = ({
     return <Typography color="red">Failed to load user</Typography>;
   }
 
-  console.log(projectUserData);
-
   const initialValues: FormValues = {
-    name: projectUserData?.name ?? "",
+    name: projectUserData?.name || useUserResults.user?.nickname || "",
     projectBio: projectUserData?.projectBio ?? "",
     desiredRoles: projectUserData?.desiredRoles ?? [],
   };

@@ -1,6 +1,5 @@
 import React, { ReactElement, FC } from "react";
 import { Button, Typography } from "@mui/material";
-import theme from "../../src/theme";
 
 interface HeroProps {}
 
@@ -8,7 +7,8 @@ const Hero: FC<HeroProps> = (): ReactElement => {
   return (
     <div
       style={{
-        backgroundColor: theme.palette.secondary.main,
+        backgroundImage: "url('/img/landing_page_img/landing_background.jpg')",
+        backgroundSize: "cover",
       }}
     >
       <div
@@ -21,16 +21,19 @@ const Hero: FC<HeroProps> = (): ReactElement => {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h1" align="center" sx={{ color: "text.primary" }}>
-          Create Groups On The Fly.
+        <Typography
+          variant="h1"
+          align="center"
+          sx={{ color: "white", textShadow: "black 1px 1px" }}
+        >
+          RoleCall
         </Typography>
         <Typography
-          variant="h2"
-          sx={{ color: "text.primary", width: "90vw", marginTop: "5vh" }}
+          variant="h1"
           align="center"
+          sx={{ color: "white", textShadow: "black 1px 1px" }}
         >
-          Sausage bresaola meatball hamburger ground round pork loin picanha
-          leberkas tongue landjaeger venison prosciutto buffalo.
+          Create Groups On The Fly.
         </Typography>
         <div
           style={{

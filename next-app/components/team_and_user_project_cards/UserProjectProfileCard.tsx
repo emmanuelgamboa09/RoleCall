@@ -20,7 +20,7 @@ const UserProjectProfileCard: FC<UserProjectProfileCardProps> = ({
   userProfile,
   sx,
 }) => {
-  const { desiredRoles, projectBio } = userProfile;
+  const { desiredRoles, projectBio, name } = userProfile;
 
   return (
     <SmDownCard
@@ -44,7 +44,7 @@ const UserProjectProfileCard: FC<UserProjectProfileCardProps> = ({
             pb: 1,
           }}
         >
-          {"Emmanuel Gamboa"}
+          {name}
         </Typography>
         {desiredRoles && (
           <Box

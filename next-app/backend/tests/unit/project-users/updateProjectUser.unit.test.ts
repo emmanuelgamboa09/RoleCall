@@ -76,6 +76,7 @@ test("Update project user for existing classroom/project with save operation suc
         projectUsers: [
           {
             _id: strToObjectId(PROJECT_PROFILE_TEST_ID),
+            name: "",
             projectBio: "UPDATED BIO",
             desiredRoles: ["a", "b"],
             studentId: AUTH0_TEST_ID,
@@ -90,6 +91,7 @@ test("Update project user for existing classroom/project with save operation suc
   const profile = res._getData();
   expect(profile).toEqual({
     _id: strToObjectId(PROJECT_PROFILE_TEST_ID),
+    name: "",
     projectBio: "UPDATED BIO",
     desiredRoles: ["a", "b"],
     studentId: AUTH0_TEST_ID,
@@ -237,6 +239,7 @@ test("Update project profile but save operation fails", async () => {
 
   const body: ProjectUserWriteBody = {
     projectId: PROJECT_TEST_ID,
+    name: "",
     projectBio: "UPDATED BIO",
     desiredRoles: ["a", "b"],
   };

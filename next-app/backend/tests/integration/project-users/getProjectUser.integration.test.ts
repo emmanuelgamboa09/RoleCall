@@ -103,6 +103,7 @@ afterAll(async () => {
 
 test("Project user can get their own project user data", async () => {
   const expectedResponse: ProfileData = {
+    name: "",
     projectBio: PROJECT_PROFILE_TEST_BIO,
     desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
   };
@@ -134,6 +135,7 @@ test("Project user can get their own project user data", async () => {
 
 test("Project users can view fellow project users' profiles", async () => {
   const expectedResponse: ProfileData = {
+    name: "",
     projectBio: PROJECT_PROFILE_TEST_BIO,
     desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
   };
@@ -220,6 +222,7 @@ test("Students viewing their own non-existent project profile get a 'not-created
 
 test("Instructors can view project users' profiles", async () => {
   const expectedResponse: ProfileData = {
+    name: "",
     projectBio: PROJECT_PROFILE_TEST_BIO,
     desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
   };

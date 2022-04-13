@@ -1,3 +1,4 @@
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import { Box, Button, Divider, Paper, Typography } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -6,7 +7,6 @@ import { Team } from "../../../backend/database/models/project/teamSchema";
 import { UserProjectProfile } from "../../../backend/database/models/project/userProjectProfileSchema";
 import { selectMe } from "../../../redux/store";
 import TeamProjectProfileCard from "../../team_and_user_project_cards/TeamProjectProfileCard";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 
 interface TeamFinderProjectTabInterface {
   data: Project;
@@ -50,6 +50,8 @@ const TeamFinderProjectTab: FC<TeamFinderProjectTabInterface> = ({
   }, [data]);
 
   const displayCard = (teamProfiles: UserProjectProfile[]) => {
+    if (isInstructor) return true;
+
     let response = false;
     try {
       const { teamMembers = [] } = myTeam || ({} as Team);
@@ -98,7 +100,7 @@ const TeamFinderProjectTab: FC<TeamFinderProjectTabInterface> = ({
             const teamProfiles = projectUsers.filter((user) =>
               team?.teamMembers?.includes(user.studentId),
             );
-            if (displayCard(teamProfiles)) return;
+            if (!displayCard(teamProfiles)) return;
             const { incomingTeamRequests = [], _id = "" } = team;
             const requestable = !incomingTeamRequests.includes(myTeamId);
             const joinable = personalIncomingRequest.includes(_id);
@@ -111,6 +113,7 @@ const TeamFinderProjectTab: FC<TeamFinderProjectTabInterface> = ({
                 requestable={requestable}
                 joinable={joinable}
                 projectId={projectId}
+                isInstructor={isInstructor}
               />
             );
           })

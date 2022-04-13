@@ -77,9 +77,8 @@ export default async (
       });
     }
 
-    const { desiredRoles, projectBio } = profile;
-
-    return res.status(200).json({ desiredRoles, projectBio });
+    const { name, projectBio, desiredRoles } = profile;
+    return res.status(200).json({ name, desiredRoles, projectBio });
   } catch (e) {
     if (e instanceof MongooseError) {
       res.status(500).json({

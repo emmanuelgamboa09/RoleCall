@@ -3,7 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ReactElement, useEffect } from "react";
+import { ReactElement } from "react";
 import { Project } from "../../../../../../backend/database/models/project";
 import TeamFinderProjectTab from "../../../../../../components/classroom/project/TeamFinderProjectTab";
 import CustomTabs from "../../../../../../components/CustomTabs";
@@ -11,14 +11,9 @@ import useProject from "../../../../../../hooks/useProject";
 import useProjectUser from "../../../../../../hooks/useProjectUser";
 import BaseAppLayout from "../../../../../../layout/baseapplayout";
 import theme from "../../../../../../src/theme";
-import { Socket, connect } from "socket.io-client";
-
-import { DefaultEventsMap } from "socket.io/dist/typed-events";
-import { Refresh } from "@mui/icons-material";
-import useProjectPageSocket from "../../../../../../hooks/useSocket";
+import useProjectPageSocket from "../../../../../../hooks/useProjectSocket";
 
 const ProjectPage: NextPageWithLayout = () => {
-  let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
   const router = useRouter();
   const { projectId } = router.query as { projectId: string };
   const { data, isLoading, error, refetch } = useProject({

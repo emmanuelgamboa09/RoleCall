@@ -52,17 +52,18 @@ const TeamFinderProjectTab: FC<TeamFinderProjectTabInterface> = ({
   const displayCard = (teamProfiles: UserProjectProfile[]) => {
     if (isInstructor) return true;
 
-    let response = false;
+    let doDisplayToUser = true;
     try {
       const { teamMembers = [] } = myTeam || ({} as Team);
-      response =
+      doDisplayToUser = !(
         teamProfiles.length == 0 ||
         teamProfiles.length >= maxTeamSize ||
-        teamProfiles.length + teamMembers.length > maxTeamSize;
+        teamProfiles.length + teamMembers.length > maxTeamSize
+      );
     } catch (e) {
-      response = false;
+      doDisplayToUser = false;
     }
-    return response;
+    return doDisplayToUser;
   };
 
   return (

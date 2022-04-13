@@ -35,7 +35,10 @@ export default async (
     const result = await runTransaction(projectId, targetTeamId, authId);
     const { socket } = res as NextApiResponseServerIO;
     try {
-      socket?.server?.io?.to("projectRoom:" + projectId).emit("refresh");
+      // Send back result which is the updated project.
+      socket?.server?.io
+        ?.to("projectRoom:" + projectId)
+        .emit("refresh", result);
     } catch (e) {
       //If socket for some reason is unable to happen. Still want the results sent back
     }

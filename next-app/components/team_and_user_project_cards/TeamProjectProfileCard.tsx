@@ -50,7 +50,6 @@ const TeamProjectProfileCard: FC<TeamProjectProfileCardInterface> = ({
   projectId,
 }) => {
   const TeamProjectTabs = getTeamProjectTabs(teamProfiles, sx);
-  const [showRequest, setShowRequest] = useState(requestable);
   const [error, setError] = useState<string | null>(null);
 
   const { mutateAsync: requestTeam, isLoading: requestingTeam } = useMutation(
@@ -63,9 +62,7 @@ const TeamProjectProfileCard: FC<TeamProjectProfileCardInterface> = ({
       });
     },
     {
-      onSuccess: () => {
-        setShowRequest(false);
-      },
+      onSuccess: () => {},
       onError: () => {
         setError(
           "Unable to join team. Please make sure you aren't exceeding group size.",
@@ -102,15 +99,15 @@ const TeamProjectProfileCard: FC<TeamProjectProfileCardInterface> = ({
             <PanToolIcon sx={{ ml: 1 }} />
           </Tooltip>
         )}
-        <Tooltip title={showRequest ? "Request" : "Pending"} placement="left">
+        <Tooltip title={requestable ? "Request" : "Pending"} placement="left">
           <span>
             <IconButton
               sx={{ m: 1 }}
               onClick={onRequest}
               data-testid="team_project_icon_button_action"
-              disabled={requestingTeam || !showRequest}
+              disabled={requestingTeam || !requestable}
             >
-              {showRequest ? <GroupAddIcon /> : <PendingIcon />}
+              {requestable ? <GroupAddIcon /> : <PendingIcon />}
             </IconButton>
           </span>
         </Tooltip>

@@ -11,12 +11,11 @@ import useProject from "../../../../../../hooks/useProject";
 import useProjectUser from "../../../../../../hooks/useProjectUser";
 import BaseAppLayout from "../../../../../../layout/baseapplayout";
 import theme from "../../../../../../src/theme";
-import useProjectPageSocket from "../../../../../../hooks/useProjectSocket";
 
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { projectId } = router.query as { projectId: string };
-  const { data, isLoading, error, refetch } = useProject({
+  const { data, isLoading, error } = useProject({
     projectId,
   });
   const { user, isLoading: userLoading, error: userError } = useUser();
@@ -28,8 +27,6 @@ const ProjectPage: NextPageWithLayout = () => {
     projectId,
     userId: user?.sub,
   });
-
-  useProjectPageSocket(refetch, projectId);
 
   if (isLoading || userLoading) return <>Loading project page...</>;
 
@@ -77,7 +74,10 @@ const ProjectPage: NextPageWithLayout = () => {
           },
           "Team Finder": {
             content: data ? (
-              <TeamFinderProjectTab data={data as Project} />
+              <TeamFinderProjectTab
+                data={data as Project}
+                projectId={projectId}
+              />
             ) : (
               <></>
             ),

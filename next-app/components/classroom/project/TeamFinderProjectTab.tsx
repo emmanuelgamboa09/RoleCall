@@ -4,23 +4,23 @@ import { useSelector } from "react-redux";
 import { Project } from "../../../backend/database/models/project";
 import { Team } from "../../../backend/database/models/project/teamSchema";
 import { UserProjectProfile } from "../../../backend/database/models/project/userProjectProfileSchema";
+import useTeamFinderProjectPageSocket from "../../../hooks/useTeamFinderProjectSocket";
 import { selectMe } from "../../../redux/store";
 import TeamProjectProfileCard from "../../team_and_user_project_cards/TeamProjectProfileCard";
 
 interface TeamFinderProjectTabInterface {
   data: Project;
+  projectId: string;
 }
 
-const TeamFinderProjectTab: FC<TeamFinderProjectTabInterface> = ({ data }) => {
+const TeamFinderProjectTab: FC<TeamFinderProjectTabInterface> = ({
+  data,
+  projectId,
+}) => {
   const me = useSelector(selectMe);
+  useTeamFinderProjectPageSocket(projectId);
   const { authId: myUserId } = me;
-  const {
-    minTeamSize,
-    maxTeamSize,
-    teams = [],
-    projectUsers = [],
-    _id: projectId,
-  } = data;
+  const { minTeamSize, maxTeamSize, teams = [], projectUsers = [] } = data;
   const [availableTeams, setTeams] = useState<Team[]>(
     teams.filter((team) => {
       const { teamMembers = [] } = team;

@@ -1,9 +1,12 @@
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 import { useEffect } from "react";
+import { useQueryClient } from "react-query";
 import { connect, Socket } from "socket.io-client";
 
-const useProjectPageSocket = (refetch: () => void, projectId: string) => {
+const useTeamFinderProjectPageSocket = (projectId: string) => {
   let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
+  const queryClient = useQueryClient();
+
   useEffect((): any => {
     socket = connect({
       path: "/api/socketio",
@@ -13,12 +16,12 @@ const useProjectPageSocket = (refetch: () => void, projectId: string) => {
       socket.emit("joinRoom", "projectRoom:" + projectId);
     });
     // update chat on new message dispatched
-    socket.on("refresh", () => {
-      refetch();
+    socket.on("refresh", (data) => {
+      queryClient.setQueryData("project", data);
     });
     // // socket disconnet onUnmount if exists
     if (socket) return () => socket.disconnect();
   }, []);
 };
 
-export default useProjectPageSocket;
+export default useTeamFinderProjectPageSocket;

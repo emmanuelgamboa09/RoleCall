@@ -77,7 +77,11 @@ const ClassroomProjectCard: FC<ProjectCardProps> = ({
           }}
         >
           <Link href={`/app/classroom/${classroomId}/projects/${project._id}`}>
-            <Button variant="contained" size="small">
+            <Button
+              variant="contained"
+              size="small"
+              data-testid="view-project-btn"
+            >
               View
             </Button>
           </Link>

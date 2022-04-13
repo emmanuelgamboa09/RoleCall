@@ -55,7 +55,8 @@ const TeamProjectProfileCard: FC<TeamProjectProfileCardInterface> = ({
 
   const { mutateAsync: requestTeam, isLoading: requestingTeam } = useMutation(
     async (team: Team) => {
-      return await fetch(`/api/team-requests/${team._id}`, {
+      const { _id } = team;
+      return await fetch(`/api/team-requests/${_id}`, {
         method: "put",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ projectId }),
@@ -94,7 +95,10 @@ const TeamProjectProfileCard: FC<TeamProjectProfileCardInterface> = ({
         }}
       >
         {joinable && (
-          <Tooltip title="This Team Requested You">
+          <Tooltip
+            title="This Team Requested You"
+            data-testid="request_tooltip"
+          >
             <PanToolIcon sx={{ ml: 1 }} />
           </Tooltip>
         )}
@@ -103,6 +107,7 @@ const TeamProjectProfileCard: FC<TeamProjectProfileCardInterface> = ({
             <IconButton
               sx={{ m: 1 }}
               onClick={onRequest}
+              data-testid="team_project_icon_button_action"
               disabled={requestingTeam || !showRequest}
             >
               {showRequest ? <GroupAddIcon /> : <PendingIcon />}

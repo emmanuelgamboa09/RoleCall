@@ -19,7 +19,9 @@ const CustomTabs = ({ tabs, initialTab }: CustomTabsProps) => {
         centered
       >
         {Object.keys(tabs).map((name) => {
-          return <Tab key={name} label={name} value={name} />;
+          return (
+            <Tab key={name} label={name} value={name} data-testid={name} />
+          );
         })}
       </Tabs>
       {tab in tabs && tabs[tab].content}
@@ -41,7 +43,9 @@ export const CustomScrollableTabs = ({ tabs, initialTab }: CustomTabsProps) => {
         aria-label="tabs"
       >
         {Object.keys(tabs).map((name) => {
-          return <Tab key={name} label={name} value={name} />;
+          return (
+            <Tab key={name} label={name} value={name} data-testid={name} />
+          );
         })}
       </Tabs>
       {tab in tabs && tabs[tab].content}

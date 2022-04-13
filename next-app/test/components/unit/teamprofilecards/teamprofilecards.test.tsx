@@ -5,7 +5,6 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 import { Team } from "../../../../backend/database/models/project/teamSchema";
-import TeamProjectProfileCard from "../../../../components/team_and_user_project_cards/TeamProjectProfileCard";
 import UserProjectProfileCard from "../../../../components/team_and_user_project_cards/UserProjectProfileCard";
 
 test("Make sure project card projects proper data", () => {

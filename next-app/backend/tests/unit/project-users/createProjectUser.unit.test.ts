@@ -56,6 +56,7 @@ test("Insert project user for existing classroom/project with save operation suc
           {
             ...body,
             studentId: AUTH0_TEST_ID,
+            name: "",
             incomingTeamRequests: [],
             outgoingTeamRequests: [],
           },
@@ -68,6 +69,7 @@ test("Insert project user for existing classroom/project with save operation suc
   expect(profile).toEqual({
     ...body,
     studentId: AUTH0_TEST_ID,
+    name: "",
     incomingTeamRequests: [],
     outgoingTeamRequests: [],
   });
@@ -141,6 +143,7 @@ test("Insert project profile but save operation fails", async () => {
 
   const body = {
     projectId: AUTH0_TEST_ID,
+    name: "",
     projectBio: PROJECT_PROFILE_TEST_BIO,
     desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
   };

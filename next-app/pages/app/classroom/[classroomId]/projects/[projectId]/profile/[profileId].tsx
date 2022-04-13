@@ -59,6 +59,7 @@ type FormValues = {
 };
 
 const validationSchema = Yup.object<{ [_ in keyof FormValues]: any }>({
+  name: Yup.string().required(),
   projectBio: Yup.string().required(),
   desiredRoles: Yup.array()
     .of(Yup.string())
@@ -183,7 +184,10 @@ const ProfilePage: NextPageWithLayout<ProfilePageProps> = ({
     return <Typography color="red">Failed to load user</Typography>;
   }
 
+  console.log(projectUserData);
+
   const initialValues: FormValues = {
+    name: projectUserData?.name ?? "",
     projectBio: projectUserData?.projectBio ?? "",
     desiredRoles: projectUserData?.desiredRoles ?? [],
   };
@@ -233,6 +237,18 @@ const ProfilePage: NextPageWithLayout<ProfilePageProps> = ({
             <Form>
               <Stack>
                 <TextField
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  label={"My Name"}
+                  id={"name"}
+                  variant="filled"
+                  disabled={!isProfileOwner}
+                />
+                <Typography color="red" marginLeft="1rem" marginBottom="1rem">
+                  {formik.touched.name && formik.errors.name}
+                </Typography>
+
+                <TextField
                   value={formik.values.projectBio}
                   onChange={formik.handleChange}
                   label={"My Project Bio"}
@@ -246,6 +262,7 @@ const ProfilePage: NextPageWithLayout<ProfilePageProps> = ({
                 <Typography color="red" marginLeft="1rem" marginBottom="1rem">
                   {formik.touched.projectBio && formik.errors.projectBio}
                 </Typography>
+
                 <ChipInput
                   boxProps={{
                     id: "desired-roles",

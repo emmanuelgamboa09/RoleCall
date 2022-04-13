@@ -70,6 +70,7 @@ test("Update project for existing classroom with save operation successful", asy
 
   const body: ProjectUserWriteBody = {
     projectId: PROJECT_TEST_ID,
+    name: "",
     projectBio: "UPDATED BIO",
     desiredRoles: ["a", "b"],
   };
@@ -108,6 +109,7 @@ test("Update project for existing classroom with save operation successful", asy
 
   expect(user).toEqual({
     projectBio: "UPDATED BIO",
+    name: "",
     desiredRoles: ["a", "b"],
     studentId: AUTH0_TEST_ID,
   });
@@ -145,6 +147,7 @@ test("Update project user but with invalid body", async () => {
         _id: strToObjectId(PROJECT_PROFILE_TEST_ID),
         projectId: "id",
         projectBio: "bio",
+        name: "",
         desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
         studentId: AUTH0_TEST_ID,
       },
@@ -188,6 +191,7 @@ test("Update project user but with invalid body", async () => {
     {
       _id: PROJECT_PROFILE_TEST_ID,
       projectBio: "bio",
+      name: "",
       desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
       studentId: AUTH0_TEST_ID,
     },
@@ -324,6 +328,7 @@ test("Update project user but user not enrolled in class", async () => {
     {
       _id: PROJECT_PROFILE_TEST_ID,
       projectBio: "bio",
+      name: "",
       desiredRoles: PROJECT_PROFILE_TEST_DESIRED_ROLES,
       studentId: AUTH0_TEST_ID,
     },

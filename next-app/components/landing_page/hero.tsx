@@ -22,15 +22,10 @@ const Hero: FC<HeroProps> = (): ReactElement => {
         }}
       >
         <Typography variant="h1" align="center" sx={{ color: "text.primary" }}>
-          Create Groups On The Fly.
+          RoleCall
         </Typography>
-        <Typography
-          variant="h2"
-          sx={{ color: "text.primary", width: "90vw", marginTop: "5vh" }}
-          align="center"
-        >
-          Sausage bresaola meatball hamburger ground round pork loin picanha
-          leberkas tongue landjaeger venison prosciutto buffalo.
+        <Typography variant="h1" align="center" sx={{ color: "text.primary" }}>
+          Create Groups On The Fly.
         </Typography>
         <div
           style={{

@@ -55,7 +55,7 @@ const LandingAppBar: FC<LandingAppBarProps> = (): ReactElement => {
             alignItems: "left",
           }}
         >
-          LOGO
+          ROLECALL
         </Typography>
         <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
           <IconButton

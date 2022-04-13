@@ -7,18 +7,19 @@ import { Offering } from "./groupofferings.types";
 //Will come back and replace these with features once we figure them out.
 const offeringsArray: Array<Offering> = [
   {
-    title: "First Offering",
-    message: "This is the first offering we have pr push issue",
+    title: "Create Classrooms",
+    message: "Create a Classroom and invite user to begin forming groups",
     imageUrl: "/img/landing_page_img/landing_page_group.jpg",
   },
   {
-    title: "Second Offering",
-    message: "This is the second offering we have",
-    imageUrl: "/img/landing_page_img/landing_page_group.jpg",
+    title: "Instantly Create Groups",
+    message:
+      "At a click of a button, have groups automatically formed and finalized",
+    imageUrl: "/img/landing_page_img/create_groups.jpg",
   },
   {
-    title: "Third Offering",
-    message: "This is the third offering we have",
+    title: "Filtering Project Users",
+    message: "Filter project users to help find the best match quickly",
     imageUrl: "/img/landing_page_img/landing_page_group.jpg",
   },
 ];

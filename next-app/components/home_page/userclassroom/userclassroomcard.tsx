@@ -62,9 +62,10 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "end",
             margin: "0.5rem",
             maxWidth: "200px",
+            gap: 1,
           }}
         >
           <Link href={`/app/classroom/${classroom._id}`}>
@@ -74,9 +75,6 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({
           </Link>
           {taught && (
             <>
-              <Button variant="contained" size="small">
-                Edit
-              </Button>
               {accessCode && (
                 <AlertButton
                   buttonText="Invite"

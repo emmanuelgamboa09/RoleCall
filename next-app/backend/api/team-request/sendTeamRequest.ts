@@ -8,6 +8,7 @@ import {
 } from "../../helpers/validation/validateSendTeamRequest";
 
 import { ApiError } from "../../helpers/throwApiRequestError";
+import { NextApiResponseServerIO } from "../../../pages/api/types";
 
 export default async (
   req: NextApiRequest,
@@ -32,6 +33,15 @@ export default async (
 
   try {
     const result = await runTransaction(projectId, targetTeamId, authId);
+    const { socket } = res as NextApiResponseServerIO;
+    try {
+      // Send back result which is the updated project.
+      socket?.server?.io
+        ?.to("projectRoom:" + projectId)
+        .emit("refresh", result);
+    } catch (e) {
+      //If socket for some reason is unable to happen. Still want the results sent back
+    }
     return res.status(200).send(result);
   } catch (e) {
     const err = e as ApiError;

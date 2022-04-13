@@ -4,17 +4,22 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
+import { Project } from "../../../../../../backend/database/models/project";
+import TeamFinderProjectTab from "../../../../../../components/classroom/project/TeamFinderProjectTab";
 import CustomTabs from "../../../../../../components/CustomTabs";
 import useProject from "../../../../../../hooks/useProject";
 import useProjectUser from "../../../../../../hooks/useProjectUser";
+import useProjectPageSocket from "../../../../../../hooks/useProjectPageSocket";
 import BaseAppLayout from "../../../../../../layout/baseapplayout";
 import theme from "../../../../../../src/theme";
 
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { projectId } = router.query as { projectId: string };
-
-  const { data, isLoading, error } = useProject({ projectId });
+  const { data, isLoading, error } = useProject({
+    projectId,
+  });
+  useProjectPageSocket(projectId);
   const { user, isLoading: userLoading, error: userError } = useUser();
 
   const {
@@ -32,7 +37,7 @@ const ProjectPage: NextPageWithLayout = () => {
     return <>Project not found</>;
   }
 
-  const { title, description, minTeamSize, maxTeamSize } = data!;
+  const { title, description } = data!;
 
   if (!user) return null;
 
@@ -57,38 +62,26 @@ const ProjectPage: NextPageWithLayout = () => {
         tabs={{
           "Project Details": {
             content: (
-              <div>
+              <>
                 <Typography component="h2" fontSize="32px">
                   Project Details
                 </Typography>
                 {description && (
-                  <Typography component="body" fontSize="16px">
+                  <Typography component="p" fontSize="16px">
                     {description}
                   </Typography>
                 )}
-              </div>
+              </>
             ),
           },
           "Team Finder": {
-            content: (
-              <div>
-                <Typography component="h2" fontSize="32px">
-                  Team Finder
-                </Typography>
-                {minTeamSize && (
-                  <Typography component="body" fontSize="16px">
-                    Min. Team Size: {minTeamSize}
-                  </Typography>
-                )}
-                {maxTeamSize && (
-                  <Typography component="body" fontSize="16px">
-                    Max. Team Size: {maxTeamSize}
-                  </Typography>
-                )}
-              </div>
+            content: data ? (
+              <TeamFinderProjectTab data={data as Project} />
+            ) : (
+              <></>
             ),
           },
-          "My Team": { content: <div>My Team</div> },
+          "My Team": { content: <>My Team</> },
         }}
       />
     </>

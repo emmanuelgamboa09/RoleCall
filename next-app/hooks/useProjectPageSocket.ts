@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useQueryClient } from "react-query";
 import { connect, Socket } from "socket.io-client";
 
-const useTeamFinderProjectPageSocket = (projectId: string) => {
+const useProjectPageSocket = (projectId: string) => {
   let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
   const queryClient = useQueryClient();
 
@@ -24,4 +24,4 @@ const useTeamFinderProjectPageSocket = (projectId: string) => {
   }, []);
 };
 
-export default useTeamFinderProjectPageSocket;
+export default useProjectPageSocket;

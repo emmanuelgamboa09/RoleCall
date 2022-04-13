@@ -9,6 +9,7 @@ import TeamFinderProjectTab from "../../../../../../components/classroom/project
 import CustomTabs from "../../../../../../components/CustomTabs";
 import useProject from "../../../../../../hooks/useProject";
 import useProjectUser from "../../../../../../hooks/useProjectUser";
+import useProjectPageSocket from "../../../../../../hooks/useProjectPageSocket";
 import BaseAppLayout from "../../../../../../layout/baseapplayout";
 import theme from "../../../../../../src/theme";
 
@@ -18,6 +19,7 @@ const ProjectPage: NextPageWithLayout = () => {
   const { data, isLoading, error } = useProject({
     projectId,
   });
+  useProjectPageSocket(projectId);
   const { user, isLoading: userLoading, error: userError } = useUser();
 
   const {
@@ -74,10 +76,7 @@ const ProjectPage: NextPageWithLayout = () => {
           },
           "Team Finder": {
             content: data ? (
-              <TeamFinderProjectTab
-                data={data as Project}
-                projectId={projectId}
-              />
+              <TeamFinderProjectTab data={data as Project} />
             ) : (
               <></>
             ),

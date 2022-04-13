@@ -64,9 +64,7 @@ const TeamProjectProfileCard: FC<TeamProjectProfileCardInterface> = ({
     {
       onSuccess: () => {},
       onError: () => {
-        setError(
-          "Unable to join team. Please make sure you aren't exceeding group size.",
-        );
+        setError("Unable to join team.");
       },
     },
   );

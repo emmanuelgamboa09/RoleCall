@@ -84,8 +84,6 @@ const ClassroomPage: NextPageWithLayout = () => {
               />
             ),
           },
-          "Team Finder": { content: <div>Team Finder</div> },
-          "My Team": { content: <div>My Team</div> },
         }}
       />
     </>

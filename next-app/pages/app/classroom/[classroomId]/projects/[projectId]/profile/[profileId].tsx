@@ -72,9 +72,6 @@ const validationSchema = Yup.object<{ [_ in keyof FormValues]: any }>({
     }),
 });
 
-// TODO: fetch project roles or allow users to manually enter desired roles
-const placeholderRoles = ["frontend", "backend", "devops"];
-
 export type ProfilePageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
 >;
@@ -131,39 +128,35 @@ const ProfilePage: NextPageWithLayout<ProfilePageProps> = ({
     }
   };
 
-  const {
-    mutateAsync: updateProjectUser,
-    isLoading: updatingProjectUser,
-  } = useMutation(
-    async (values: ProjectUserWriteBody) => {
-      return await fetch(`/api/project-users/${profileId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-    },
-    {
-      onSuccess: handleProjectUserRefetch,
-      onError: updateFailed,
-    },
-  );
+  const { mutateAsync: updateProjectUser, isLoading: updatingProjectUser } =
+    useMutation(
+      async (values: ProjectUserWriteBody) => {
+        return await fetch(`/api/project-users/${profileId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        });
+      },
+      {
+        onSuccess: handleProjectUserRefetch,
+        onError: updateFailed,
+      },
+    );
 
-  const {
-    mutateAsync: createProjectUser,
-    isLoading: creatingProjectUser,
-  } = useMutation(
-    async (values: ProjectUserWriteBody) => {
-      return await fetch(`/api/project-users`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-    },
-    {
-      onSuccess: handleProjectUserRefetch,
-      onError: updateFailed,
-    },
-  );
+  const { mutateAsync: createProjectUser, isLoading: creatingProjectUser } =
+    useMutation(
+      async (values: ProjectUserWriteBody) => {
+        return await fetch(`/api/project-users`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        });
+      },
+      {
+        onSuccess: handleProjectUserRefetch,
+        onError: updateFailed,
+      },
+    );
 
   useEffect(() => {
     if (notAuthorizedToViewProjectUser) {

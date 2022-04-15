@@ -29,14 +29,11 @@ export default async (
   );
 
   // Remove outgoing requests by targetTeam and userTeam to avoid issues with cyclic requests
-  project.teams?.forEach((team) => {
+  project.teams?.forEach((team: Team) => {
     team.incomingTeamRequests = team.incomingTeamRequests?.filter(
-      (requestingTeam: string) => {
-        return (
-          requestingTeam !== targetTeamId?.toString() &&
-          requestingTeam !== userTeamId?.toString()
-        );
-      },
+      (requestingTeam: string) =>
+        requestingTeam !== targetTeamId?.toString() &&
+        requestingTeam !== userTeamId?.toString(),
     );
   });
 

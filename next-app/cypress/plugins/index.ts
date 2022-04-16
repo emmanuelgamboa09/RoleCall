@@ -1,6 +1,8 @@
 import { HydratedDocument } from "mongoose";
 import dbConnect from "../../backend/database/dbConnect";
 import { User } from "../../backend/types";
+import { Classroom } from "../../interfaces/classroom.interface";
+import getTomorrow from "../../src/util/getTomorrow";
 import {
   AUTH0_SECOND_TEST_ID,
   AUTH0_TEST_ID,
@@ -18,12 +20,10 @@ import {
   TEST_NAME_2,
   TEST_NAME_3,
 } from "./../../backend/constants";
-import { UserModel } from "./../../backend/database/models/user";
 import { ClassroomModel } from "./../../backend/database/models/classroom";
-import { ProjectModel, Project } from "./../../backend/database/models/project";
-import getTomorrow from "../../src/util/getTomorrow";
+import { Project, ProjectModel } from "./../../backend/database/models/project";
+import { UserModel } from "./../../backend/database/models/user";
 import dropTestDb from "./../../backend/util/dropTestDb";
-import { Classroom } from "../../interfaces/classroom.interface";
 
 /// <reference types="cypress" />
 // ***********************************************************
@@ -211,11 +211,78 @@ const pluginConfig: Cypress.PluginConfig = (on, config) => {
         throw error;
       }
     },
+    async initProjectWithTwoProjectUsersAndTestUserAsInstructor() {
+      console.info(
+        "TASK - start initProjectWithTwoProjectUsersAndTestUserAsInstructor",
+      );
+      try {
+        await dbConnect(DB_TEST_NAME, testUser, testPwd);
+
+        // Create test user 1, who will log in as an instructor based on the data created in this task
+        const doc: HydratedDocument<User> = new UserModel({
+          authId: AUTH0_TEST_ID,
+          name: AUTH0_TEST_USER_NAME,
+        });
+        await doc.save();
+
+        const classroomDoc: HydratedDocument<Classroom> = new ClassroomModel({
+          instructorId: AUTH0_TEST_ID,
+          title: CLASSROOM_TEST_TITLE,
+          students: [AUTH0_SECOND_TEST_ID, AUTH0_THIRD_TEST_ID],
+          endDate: getTomorrow(),
+          accessCode: CLASSROOM_TEST_ACCESS_CODE,
+        });
+        const classroom = await classroomDoc.save();
+        const projectDoc: HydratedDocument<Project> = new ProjectModel({
+          classroomId: classroom._id,
+          title: CLASSROOM_TEST_TITLE,
+          formationDeadline: getTomorrow(),
+          description: "TESTING PROJECT",
+          minTeamSize: 1,
+          maxTeamSize: 3,
+          teams: [
+            {
+              teamMembers: [AUTH0_SECOND_TEST_ID],
+              incomingTeamRequests: [],
+            },
+            {
+              teamMembers: [AUTH0_THIRD_TEST_ID],
+              incomingTeamRequests: [],
+            },
+          ],
+
+          projectUsers: [
+            {
+              studentId: AUTH0_SECOND_TEST_ID,
+              name: TEST_NAME_2,
+              projectBio: TEAM_TEST_BIO_ONE,
+              desiredRoles: TEAM_TEST_DISIRED_ROLES,
+            },
+            {
+              studentId: AUTH0_THIRD_TEST_ID,
+              name: TEST_NAME_3,
+              projectBio: TEAM_TEST_BIO_ONE,
+              desiredRoles: TEAM_TEST_DISIRED_ROLES,
+            },
+          ],
+        });
+        await projectDoc.save();
+        console.info(
+          "TASK - initProjectWithTwoProjectUsersAndTestUserAsInstructor success!",
+        );
+        return null;
+      } catch (error) {
+        console.error(
+          "TASK - initProjectWithTwoProjectUsersAndTestUserAsInstructor failed",
+        );
+        console.error(error);
+        throw error;
+      }
+    },
     async initProjectWithPendingRequest() {
       console.info("TASK - start initProjectWithPendingRequest");
       try {
         await dbConnect(DB_TEST_NAME, testUser, testPwd);
-        console.info("TASK - initProjectWithPendingRequest success!");
         const classroomDoc: HydratedDocument<Classroom> = new ClassroomModel({
           instructorId: TEST_INSTRUCTOR_ID,
           title: CLASSROOM_TEST_TITLE,

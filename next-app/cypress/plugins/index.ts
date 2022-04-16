@@ -268,7 +268,9 @@ const pluginConfig: Cypress.PluginConfig = (on, config) => {
         throw error;
       }
     },
-    async initProjectTeamWithMultiplePeople() {
+    async initProjectTeamWithMultiplePeople(
+      includesTestUser1: boolean = false,
+    ) {
       console.info("TASK - start initProjectTeamWithMultiplePeople");
       try {
         await dbConnect(DB_TEST_NAME, testUser, testPwd);
@@ -281,6 +283,32 @@ const pluginConfig: Cypress.PluginConfig = (on, config) => {
           accessCode: CLASSROOM_TEST_ACCESS_CODE,
         });
         const classroom = await classroomDoc.save();
+
+        const teams: Project["teams"] = includesTestUser1
+          ? [
+              {
+                _id: TEAM_TEST_ID_1,
+                teamMembers: [
+                  AUTH0_TEST_ID,
+                  AUTH0_SECOND_TEST_ID,
+                  AUTH0_THIRD_TEST_ID,
+                ],
+                incomingTeamRequests: [],
+              },
+            ]
+          : [
+              {
+                _id: TEAM_TEST_ID_1,
+                teamMembers: [AUTH0_TEST_ID],
+                incomingTeamRequests: [TEAM_TEST_ID_2],
+              },
+              {
+                _id: TEAM_TEST_ID_2,
+                teamMembers: [AUTH0_SECOND_TEST_ID, AUTH0_THIRD_TEST_ID],
+                incomingTeamRequests: [],
+              },
+            ];
+
         const projectDoc: HydratedDocument<Project> = new ProjectModel({
           classroomId: classroom._id,
           title: CLASSROOM_TEST_TITLE,
@@ -288,19 +316,7 @@ const pluginConfig: Cypress.PluginConfig = (on, config) => {
           description: "TESTING PROJECT",
           minTeamSize: 1,
           maxTeamSize: 3,
-          teams: [
-            {
-              _id: TEAM_TEST_ID_1,
-              teamMembers: [AUTH0_TEST_ID],
-              incomingTeamRequests: [TEAM_TEST_ID_2],
-            },
-            {
-              _id: TEAM_TEST_ID_2,
-              teamMembers: [AUTH0_SECOND_TEST_ID, AUTH0_THIRD_TEST_ID],
-              incomingTeamRequests: [],
-            },
-          ],
-
+          teams,
           projectUsers: [
             {
               studentId: AUTH0_TEST_ID,

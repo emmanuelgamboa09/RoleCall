@@ -1,16 +1,18 @@
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
 import { Project } from "../../../../../../backend/database/models/project";
+import MyTeam from "../../../../../../components/classroom/project/MyTeam";
 import TeamFinderProjectTab from "../../../../../../components/classroom/project/TeamFinderProjectTab";
 import CustomTabs from "../../../../../../components/CustomTabs";
 import useClassroom from "../../../../../../hooks/useClassroom";
 import useProject from "../../../../../../hooks/useProject";
-import useProjectUser from "../../../../../../hooks/useProjectUser";
 import useProjectPageSocket from "../../../../../../hooks/useProjectPageSocket";
+import useProjectUser from "../../../../../../hooks/useProjectUser";
+import useTeam from "../../../../../../hooks/useTeam";
 import BaseAppLayout from "../../../../../../layout/baseapplayout";
 import theme from "../../../../../../src/theme";
 
@@ -22,6 +24,13 @@ const ProjectPage: NextPageWithLayout = () => {
   });
   useProjectPageSocket(projectId);
   const { user, isLoading: userLoading, error: userError } = useUser();
+
+  const myTeam = useTeam({
+    projectId,
+    projectUserId: user?.sub!,
+    skip: !user?.sub,
+  });
+  console.log(myTeam);
 
   const {
     shouldCreate: shouldCreateProjectUser,
@@ -101,7 +110,9 @@ const ProjectPage: NextPageWithLayout = () => {
               />
             ),
           },
-          "My Team": { content: <>My Team</> },
+          ...(!isInstructor
+            ? { "My Team": { content: <MyTeam myTeam={myTeam} /> } }
+            : {}),
         }}
       />
     </>

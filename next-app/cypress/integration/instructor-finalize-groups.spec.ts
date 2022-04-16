@@ -1,6 +1,6 @@
 import Pages from "../../constants/Pages.enum";
 
-describe("team-finder-actions", () => {
+describe("Group Finalization", () => {
   before(() => {
     cy.task("dropTestDb")
       .task("initProjectWithTwoProjectUsersAndTestUserAsInstructor")

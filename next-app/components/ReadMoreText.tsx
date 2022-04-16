@@ -40,7 +40,11 @@ const ReadMoreText = ({
         <>
           {content.slice(0, cutoffLength)}...
           <br />
-          <MuiLink href="#" onClick={handleOpen}>
+          <MuiLink
+            href="#"
+            onClick={handleOpen}
+            data-testid={`ReadMore_${title}`}
+          >
             Read More
           </MuiLink>
         </>

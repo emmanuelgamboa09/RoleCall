@@ -1,7 +1,7 @@
 import { TEST_NAME_2, TEST_NAME_3 } from "../../backend/constants";
 import Pages from "../../constants/Pages.enum";
 
-describe("Create and join a classroom while authenticated", () => {
+describe("team-finder-actions", () => {
   beforeEach(() => {
     cy.visit(Pages.Landing);
     cy.task("dropTestDb").task("initTestUserAsStudent").wait(1000);

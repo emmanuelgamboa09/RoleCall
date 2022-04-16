@@ -11,6 +11,7 @@ import {
   PROJECT_TEST_TITLE,
   TEAM_TEST_ID_1,
   TEAM_TEST_ID_2,
+  TEAM_TEST_ID_3,
   TEAM_TEST_MEMBER_1,
   TEAM_TEST_MEMBER_2,
   TEAM_TEST_MEMBER_3,
@@ -563,6 +564,91 @@ test("Send team request successfully", async () => {
       incomingTeamRequests: [TEAM_TEST_ID_1],
     },
   ]);
+
+  await ProjectModel.deleteOne({
+    classroomId: CLASSROOM_TEST_ID,
+  });
+});
+
+test("Send team request with a 3 team cycle", async () => {
+  const existingProject: Project = {
+    _id: PROJECT_TEST_ID,
+    classroomId: CLASSROOM_TEST_ID,
+    title: PROJECT_TEST_TITLE,
+    description: PROJECT_TEST_DESCRIPTION,
+    minTeamSize: 1,
+    maxTeamSize: 4,
+    formationDeadline: PROJECT_TEST_FORMATION_DEADLINE,
+    projectUsers: [
+      { studentId: TEAM_TEST_MEMBER_1 },
+      { studentId: TEAM_TEST_MEMBER_2 },
+      { studentId: TEAM_TEST_MEMBER_3 },
+      { studentId: TEAM_TEST_MEMBER_4 },
+    ],
+    teams: [
+      {
+        _id: TEAM_TEST_ID_1,
+        teamMembers: [TEAM_TEST_MEMBER_1],
+        incomingTeamRequests: [TEAM_TEST_ID_3],
+      },
+      {
+        _id: TEAM_TEST_ID_2,
+        teamMembers: [TEAM_TEST_MEMBER_2, TEAM_TEST_MEMBER_3],
+        incomingTeamRequests: [TEAM_TEST_ID_1],
+      },
+      {
+        _id: TEAM_TEST_ID_3,
+        teamMembers: [TEAM_TEST_MEMBER_4],
+        incomingTeamRequests: [TEAM_TEST_ID_2],
+      },
+    ],
+  };
+  await new ProjectModel(existingProject).save();
+
+  const body = {
+    projectId: PROJECT_TEST_ID,
+  };
+
+  const query = { targetTeamId: TEAM_TEST_ID_3 };
+
+  const { req, res } = createMocks({
+    method: "PUT",
+    body,
+    query,
+  });
+
+  await sendTeamRequest(
+    req,
+    res,
+    TEAM_TEST_MEMBER_1,
+    sendTeamRequestTransaction,
+  );
+
+  expect(res._getStatusCode()).toBe(200);
+
+  const { teams } = JSON.parse(
+    JSON.stringify(
+      await ProjectModel.findOne({
+        classroomId: CLASSROOM_TEST_ID,
+      }),
+    ),
+  ) as Project;
+
+  expect(teams?.length).toBe(2);
+
+  const { teamMembers, incomingTeamRequests, _id } =
+    teams![teams!.findIndex((team) => team._id?.toString() === TEAM_TEST_ID_3)];
+
+  expect(teamMembers?.sort()).toEqual([TEAM_TEST_MEMBER_1, TEAM_TEST_MEMBER_4]);
+  expect(_id?.toString()).toBe(TEAM_TEST_ID_3);
+  expect(incomingTeamRequests?.length).toBe(1);
+  expect(
+    teams?.filter(
+      (team) =>
+        team.incomingTeamRequests?.includes(TEAM_TEST_ID_1) ||
+        team.incomingTeamRequests?.includes(TEAM_TEST_ID_3),
+    ).length,
+  ).toBe(0);
 
   await ProjectModel.deleteOne({
     classroomId: CLASSROOM_TEST_ID,

@@ -22,15 +22,20 @@ export default async (
   targetTeam.incomingTeamRequests = union(
     targetTeam.incomingTeamRequests!,
     userTeam.incomingTeamRequests!,
-  ).filter(
-    (requestingTeam: string) =>
-      requestingTeam !== targetTeamId?.toString() &&
-      requestingTeam !== userTeamId?.toString(),
   );
 
   project.teams = project.teams?.filter(
     (team) => team._id?.toString() !== userTeamId?.toString(),
   );
+
+  // Remove outgoing requests by targetTeam and userTeam to avoid issues with cyclic requests
+  project.teams?.forEach((team: Team) => {
+    team.incomingTeamRequests = team.incomingTeamRequests?.filter(
+      (requestingTeam: string) =>
+        requestingTeam !== targetTeamId?.toString() &&
+        requestingTeam !== userTeamId?.toString(),
+    );
+  });
 
   const mergedTeamsProject: Project = await save(
     {

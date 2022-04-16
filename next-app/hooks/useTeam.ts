@@ -40,7 +40,6 @@ export default function useTeam({
           ).then((res) => res.json() as GetProjectUserData);
         });
         const results = await Promise.all(requests);
-        console.log(results);
         const teamProjectUsers = results.filter(
           (r) => !("message" in r),
         ) as ProfileData[];

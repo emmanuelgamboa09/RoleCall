@@ -30,7 +30,6 @@ const ProjectPage: NextPageWithLayout = () => {
     projectUserId: user?.sub!,
     skip: !user?.sub,
   });
-  console.log(myTeam);
 
   const {
     shouldCreate: shouldCreateProjectUser,

@@ -127,6 +127,8 @@ for (let i = 0; i < 500; i++) {
   });
 }
 
+const TEAM_CONFIG_6: Team[] = [];
+
 test("Correctly finalize teams", () => {
   expect(getDifferential(finalizeTeams(TEAM_CONFIG_1, 2, 4), 2, 4)).toBe(0);
 
@@ -139,4 +141,6 @@ test("Correctly finalize teams", () => {
   expect(
     getDifferential(finalizeTeams(TEAM_CONFIG_5, 5, 7), 5, 7),
   ).toBeLessThan(50);
+
+  expect(finalizeTeams(TEAM_CONFIG_6, 5, 7)).toEqual([]);
 });

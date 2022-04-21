@@ -24,7 +24,6 @@ describe("Group Finalization", () => {
     cy.findByTestId("view-project-btn").click();
     cy.findByTestId("Team Finder").click();
     cy.findByText("Finalize Groups").click();
-
-    // TODO: Test for expected results once finalize groups logic is ready
+    cy.findByText("Groups Finalized").should("exist");
   });
 });

@@ -211,7 +211,13 @@ const pluginConfig: Cypress.PluginConfig = (on, config) => {
         throw error;
       }
     },
-    async initProjectWithTwoProjectUsersAndTestUserAsInstructor() {
+    async initProjectWithTestUserAsInstructor({
+      classroom,
+      project,
+    }: {
+      classroom: Classroom;
+      project: Project;
+    }) {
       console.info(
         "TASK - start initProjectWithTwoProjectUsersAndTestUserAsInstructor",
       );
@@ -225,47 +231,12 @@ const pluginConfig: Cypress.PluginConfig = (on, config) => {
         });
         await doc.save();
 
-        const classroomDoc: HydratedDocument<Classroom> = new ClassroomModel({
-          instructorId: AUTH0_TEST_ID,
-          title: CLASSROOM_TEST_TITLE,
-          students: [AUTH0_SECOND_TEST_ID, AUTH0_THIRD_TEST_ID],
-          endDate: getTomorrow(),
-          accessCode: CLASSROOM_TEST_ACCESS_CODE,
-        });
-        const classroom = await classroomDoc.save();
-        const projectDoc: HydratedDocument<Project> = new ProjectModel({
-          classroomId: classroom._id,
-          title: CLASSROOM_TEST_TITLE,
-          formationDeadline: getTomorrow(),
-          description: "TESTING PROJECT",
-          minTeamSize: 1,
-          maxTeamSize: 3,
-          teams: [
-            {
-              teamMembers: [AUTH0_SECOND_TEST_ID],
-              incomingTeamRequests: [],
-            },
-            {
-              teamMembers: [AUTH0_THIRD_TEST_ID],
-              incomingTeamRequests: [],
-            },
-          ],
+        const classroomDoc: HydratedDocument<Classroom> = new ClassroomModel(
+          classroom,
+        );
+        await classroomDoc.save();
 
-          projectUsers: [
-            {
-              studentId: AUTH0_SECOND_TEST_ID,
-              name: TEST_NAME_2,
-              projectBio: TEAM_TEST_BIO_ONE,
-              desiredRoles: TEAM_TEST_DISIRED_ROLES,
-            },
-            {
-              studentId: AUTH0_THIRD_TEST_ID,
-              name: TEST_NAME_3,
-              projectBio: TEAM_TEST_BIO_ONE,
-              desiredRoles: TEAM_TEST_DISIRED_ROLES,
-            },
-          ],
-        });
+        const projectDoc: HydratedDocument<Project> = new ProjectModel(project);
         await projectDoc.save();
         console.info(
           "TASK - initProjectWithTwoProjectUsersAndTestUserAsInstructor success!",

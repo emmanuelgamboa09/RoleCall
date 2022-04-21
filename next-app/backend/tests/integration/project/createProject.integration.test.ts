@@ -47,6 +47,7 @@ test("Insert project for existing classroom with save operation successful", asy
     description: PROJECT_TEST_DESCRIPTION,
     minTeamSize: 1,
     maxTeamSize: 2,
+    groupsFinalized: false,
     formationDeadline: PROJECT_TEST_FORMATION_DEADLINE.toISOString(),
   };
 
@@ -74,6 +75,59 @@ test("Insert project for existing classroom with save operation successful", asy
     );
 
   expect(project).toEqual(body);
+
+  await ProjectModel.deleteOne({
+    classroomId: CLASSROOM_TEST_ID,
+  });
+
+  await ClassroomModel.deleteOne({ _id: CLASSROOM_TEST_ID });
+});
+
+test("Insert project for existing classroom with save operation successful without passing groupsFinalized", async () => {
+  const classroom = {
+    _id: CLASSROOM_TEST_ID,
+    instructorId: AUTH0_TEST_ID,
+    title: "KIN",
+    students: [],
+    endDate: new Date("2022-07-10"),
+    accessCode: CLASSROOM_TEST_ACCESS_CODE,
+  };
+  const doc = new ClassroomModel(classroom);
+  await doc.save();
+
+  const body = {
+    classroomId: CLASSROOM_TEST_ID,
+    title: PROJECT_TEST_TITLE,
+    description: PROJECT_TEST_DESCRIPTION,
+    minTeamSize: 1,
+    maxTeamSize: 2,
+    formationDeadline: PROJECT_TEST_FORMATION_DEADLINE.toISOString(),
+  };
+
+  const { req, res } = createMocks({
+    method: "POST",
+    body,
+  });
+
+  await createProject(
+    req,
+    res,
+    AUTH0_TEST_ID,
+    (filter: FilterQuery<Classroom>) => ClassroomModel.findOne(filter),
+    (project: Project) => new ProjectModel(project).save(),
+  );
+
+  expect(res._getStatusCode()).toBe(200);
+  const { __v, _id, projectUsers, suggestedRoles, teams, ...project } =
+    JSON.parse(
+      JSON.stringify(
+        await ProjectModel.findOne({
+          classroomId: CLASSROOM_TEST_ID,
+        }),
+      ),
+    );
+
+  expect(project).toEqual({ ...body, groupsFinalized: false });
 
   await ProjectModel.deleteOne({
     classroomId: CLASSROOM_TEST_ID,

@@ -17,6 +17,7 @@ export interface Project {
   minTeamSize: number;
   maxTeamSize: number;
   suggestedRoles?: string[];
+  groupsFinalized?: boolean;
   // attachments: string[]
   // swipes: any[]
 }
@@ -35,6 +36,7 @@ const projectSchema = new Schema<Project>({
   minTeamSize: { type: Number, required: true },
   maxTeamSize: { type: Number, required: true },
   suggestedRoles: { type: [String], required: false, default: [] },
+  groupsFinalized: { type: Boolean, required: false, default: false },
 });
 
 export const ProjectModel =

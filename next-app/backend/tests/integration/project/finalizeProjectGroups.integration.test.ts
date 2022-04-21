@@ -101,7 +101,7 @@ describe("Finalize Project Groups Integration Test", () => {
     await createProject();
 
     const { req, res } = createMocks({
-      method: "POST",
+      method: "PUT",
       query: {
         projectId: PROJECT_TEST_ID,
       },
@@ -130,7 +130,7 @@ describe("Finalize Project Groups Integration Test", () => {
 
   test("Tries to finalize groups but query is incorrect", async () => {
     const { req, res } = createMocks({
-      method: "POST",
+      method: "PUT",
     });
 
     await finalizeProjectGroups(
@@ -152,7 +152,7 @@ describe("Finalize Project Groups Integration Test", () => {
     await createClassroom();
     await createProject();
     const { req, res } = createMocks({
-      method: "POST",
+      method: "PUT",
       query: {
         projectId: PROJECT_TEST_ID,
       },
@@ -182,7 +182,7 @@ describe("Finalize Project Groups Integration Test", () => {
   test("Try to finalize group projects, but rejected since project doesn't exist", async () => {
     await createClassroom();
     const { req, res } = createMocks({
-      method: "POST",
+      method: "PUT",
       query: {
         projectId: PROJECT_TEST_ID,
       },
@@ -211,7 +211,7 @@ describe("Finalize Project Groups Integration Test", () => {
   test("Try to finalize group projects, but rejected since classroom doesn't exist", async () => {
     await createProject();
     const { req, res } = createMocks({
-      method: "POST",
+      method: "PUT",
       query: {
         projectId: PROJECT_TEST_ID,
       },
@@ -243,7 +243,7 @@ describe("Finalize Project Groups Integration Test", () => {
     await createProject(true);
 
     const { req, res } = createMocks({
-      method: "POST",
+      method: "PUT",
       query: {
         projectId: PROJECT_TEST_ID,
       },

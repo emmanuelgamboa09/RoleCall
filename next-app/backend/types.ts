@@ -39,6 +39,10 @@ export interface Update<Model> {
   ): QueryResult<Model | null>;
 }
 
+export interface Save<Model> {
+  (document: Model): QueryResult<Model | null>;
+}
+
 export interface Insert<Model> {
   (doc: Model): QueryResult<Model>;
 }

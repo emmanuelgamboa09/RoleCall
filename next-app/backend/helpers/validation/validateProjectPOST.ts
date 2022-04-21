@@ -10,6 +10,7 @@ const schema = {
   description: Joi.string().max(MAX_PROJECT_DESCRIPTION_LENGTH).allow(""),
   minTeamSize: Joi.number().min(1).max(MAX_CLASSROOM_SIZE).required(),
   maxTeamSize: Joi.number().min(1).max(MAX_CLASSROOM_SIZE).required(),
+  groupsFinalized: Joi.boolean(),
   formationDeadline: Joi.date()
     .greater(new Date(Date.now() + 1000 * 60))
     .required(),

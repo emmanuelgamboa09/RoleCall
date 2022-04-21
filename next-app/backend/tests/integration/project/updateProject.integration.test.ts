@@ -86,7 +86,7 @@ test("Update project for existing classroom with update operation successful", a
   const { __v, _id, projectUsers, suggestedRoles, teams, ...project } =
     JSON.parse(JSON.stringify(await ProjectModel.findById(PROJECT_TEST_ID)));
 
-  expect(project).toEqual(body);
+  expect(project).toEqual({ ...body, groupsFinalized: false });
 
   await ProjectModel.deleteOne({
     _id: PROJECT_TEST_ID,
@@ -114,6 +114,7 @@ test("Update project but with invalid body", async () => {
     description: PROJECT_TEST_DESCRIPTION,
     minTeamSize: 1,
     maxTeamSize: 2,
+    groupsFinalized: false,
     formationDeadline: PROJECT_TEST_FORMATION_DEADLINE.toISOString(),
   };
 
@@ -174,6 +175,7 @@ test("Update project but with missing query param", async () => {
     description: PROJECT_TEST_DESCRIPTION,
     minTeamSize: 1,
     maxTeamSize: 2,
+    groupsFinalized: false,
     formationDeadline: PROJECT_TEST_FORMATION_DEADLINE.toISOString(),
   };
 
@@ -232,6 +234,7 @@ test("Update project but can't locate valid classroom", async () => {
     description: PROJECT_TEST_DESCRIPTION,
     minTeamSize: 1,
     maxTeamSize: 2,
+    groupsFinalized: false,
     formationDeadline: PROJECT_TEST_FORMATION_DEADLINE.toISOString(),
   };
 
@@ -295,6 +298,7 @@ test("Update project that doesn't exist", async () => {
     description: "Updated Description",
     minTeamSize: 3,
     maxTeamSize: 5,
+    groupsFinalized: false,
     formationDeadline: new Date(
       PROJECT_TEST_FORMATION_DEADLINE.getTime() + 1000 * 60 * 60,
     ).toISOString(),

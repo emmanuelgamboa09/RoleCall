@@ -1,5 +1,4 @@
 import { createMocks } from "node-mocks-http";
-import getClassroom from "../../../api/classroom/getClassroom";
 import getProject from "../../../api/project/getProject";
 import {
   AUTH0_TEST_ID,
@@ -80,6 +79,7 @@ test("Get single project while authenticated, connected DB, and retrieve operati
     title: PROJECT_TEST_TITLE,
     description: PROJECT_TEST_DESCRIPTION,
     formationDeadline: date.toISOString(),
+    groupsFinalized: false,
     minTeamSize: 1,
     maxTeamSize: 3,
     suggestedRoles: [],

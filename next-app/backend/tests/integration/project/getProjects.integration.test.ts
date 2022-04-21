@@ -94,6 +94,7 @@ test("Get projects while authenticated, connected DB, and retrieve operation suc
       formationDeadline: date.toISOString(),
       minTeamSize: 1,
       maxTeamSize: 3,
+      groupsFinalized: false,
       suggestedRoles: [],
     },
     {
@@ -105,6 +106,7 @@ test("Get projects while authenticated, connected DB, and retrieve operation suc
       formationDeadline: date.toISOString(),
       minTeamSize: 1,
       maxTeamSize: 3,
+      groupsFinalized: false,
       suggestedRoles: [],
     },
   ];

@@ -1,6 +1,7 @@
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import { Box, Button, Divider, Paper, Typography } from "@mui/material";
 import { FC, useEffect, useState } from "react";
+import { useMutation } from "react-query";
 import { useSelector } from "react-redux";
 import { Project } from "../../../backend/database/models/project";
 import { Team } from "../../../backend/database/models/project/teamSchema";
@@ -85,13 +86,12 @@ const TeamFinderProjectTab: FC<TeamFinderProjectTabInterface> = ({
           <Typography component="h2" fontSize="32px">
             Instructor Menu
           </Typography>
-          <Button
-            variant="outlined"
-            color="error"
-            endIcon={<AssignmentIndIcon />}
-          >
-            Finalize Groups
-          </Button>
+          {projectId && (
+            <FinalizeGroupsButton
+              projectId={projectId}
+              groupsFinalized={Boolean(data.groupsFinalized)}
+            />
+          )}
         </Paper>
       )}
 
@@ -131,3 +131,53 @@ style.cardStyle = { width: 277, minHeight: 200 };
 style.dialogStyle = { minHeight: 200 };
 
 export default TeamFinderProjectTab;
+
+type FinalizeGroupsButtonProps = {
+  projectId: string;
+  groupsFinalized: boolean;
+};
+
+const FinalizeGroupsButton = ({
+  projectId,
+  groupsFinalized,
+}: FinalizeGroupsButtonProps) => {
+  const { mutate: finalizeGroups, isLoading } = useMutation(
+    () => {
+      return fetch(`/api/projects/${projectId}/finalize-groups`, {
+        method: "PUT",
+      });
+    },
+    {
+      onError(error) {
+        console.error(error);
+      },
+      async onSuccess(result) {
+        console.log(await result.text());
+      },
+    },
+  );
+
+  const handleClick = () => {
+    if (groupsFinalized) {
+      console.error("Groups have already been finalized");
+      return;
+    }
+    finalizeGroups();
+  };
+
+  return (
+    <Button
+      variant="outlined"
+      color="error"
+      endIcon={<AssignmentIndIcon />}
+      disabled={groupsFinalized}
+      onClick={handleClick}
+    >
+      {isLoading
+        ? "Finalizing Groups..."
+        : groupsFinalized
+        ? "Groups Finalized"
+        : "Finalize Groups"}
+    </Button>
+  );
+};

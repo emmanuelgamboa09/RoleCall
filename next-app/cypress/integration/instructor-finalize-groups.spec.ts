@@ -1,9 +1,13 @@
 import Pages from "../../constants/Pages.enum";
+import { TEST_CLASSROOM, TEST_PROJECT } from "../fixtures/projectOfManyTeams";
 
 describe("Group Finalization", () => {
   before(() => {
     cy.task("dropTestDb")
-      .task("initProjectWithTwoProjectUsersAndTestUserAsInstructor")
+      .task("initProjectWithTestUserAsInstructor", {
+        classroom: TEST_CLASSROOM,
+        project: TEST_PROJECT,
+      })
       .wait(1000);
     cy.clearAuth0Cookies().login();
     cy.visit(Pages.Landing);
@@ -20,7 +24,6 @@ describe("Group Finalization", () => {
     cy.findByTestId("view-project-btn").click();
     cy.findByTestId("Team Finder").click();
     cy.findByText("Finalize Groups").click();
-
-    // TODO: Test for expected results once finalize groups logic is ready
+    cy.findByText("Groups Finalized").should("exist");
   });
 });

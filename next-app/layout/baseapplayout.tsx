@@ -27,18 +27,9 @@ interface homeDrawerOptionInterface {
   pathname: string;
 }
 
-// Will refactor how this is implementented in a later pr
-const leftOptons: Array<homeDrawerOptionInterface> = [
-  { text: "Home", Icon: HomeIcon, pathname: "/app" },
-];
-
-const rightOptions: Array<homeDrawerOptionInterface> = [
-  { text: "Logout", Icon: LogoutIcon, pathname: "/api/auth/logout" },
-];
-
 const options: Array<homeDrawerOptionInterface> = [
-  ...leftOptons,
-  ...rightOptions,
+  { text: "Home", Icon: HomeIcon, pathname: "/app" },
+  { text: "Logout", Icon: LogoutIcon, pathname: "/api/auth/logout" },
 ];
 
 type HomeLayoutProps = {

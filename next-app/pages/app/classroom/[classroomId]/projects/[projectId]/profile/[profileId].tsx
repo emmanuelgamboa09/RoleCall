@@ -23,6 +23,7 @@ import { Project } from "../../../../../../../backend/database/models/project";
 import { ProjectUserWriteBody } from "../../../../../../../backend/helpers/validation/validateWriteProjectUser";
 import { User } from "../../../../../../../backend/types";
 import ChipInput from "../../../../../../../components/ChipInput";
+import LoadingPage from "../../../../../../../components/LoadingPage";
 import useProject from "../../../../../../../hooks/useProject";
 import useProjectUser from "../../../../../../../hooks/useProjectUser";
 import BaseAppLayout from "../../../../../../../layout/baseapplayout";
@@ -165,7 +166,7 @@ const ProfilePage: NextPageWithLayout<ProfilePageProps> = ({
   }, [notAuthorizedToViewProjectUser]);
 
   if (project.isLoading || useUserResults.isLoading || projectUserLoading) {
-    return <Typography>Loading...</Typography>;
+    return <LoadingPage />;
   }
 
   if (

@@ -1,30 +1,25 @@
-import React, { ReactNode, useState } from "react";
+import { ReactNode, useState, MouseEvent } from "react";
 import Link from "next/link";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import AppBar from "../components/navbar/HomeAppBar";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { SvgIconTypeMap } from "@mui/material";
+import {
+  Button,
+  Container,
+  Menu,
+  MenuItem,
+  SvgIconTypeMap,
+} from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { FC } from "react";
 import theme from "../src/theme";
 import OnboardingDialog from "../components/onboarding/onboardingdialog";
 import useOnboardUserChecker from "../hooks/useOnboardUserChecker";
-
-const drawerWidth = 240;
 
 interface homeDrawerOptionInterface {
   text: string;
@@ -33,19 +28,18 @@ interface homeDrawerOptionInterface {
 }
 
 // Will refactor how this is implementented in a later pr
-const drawerOptions: Array<homeDrawerOptionInterface> = [
+const leftOptons: Array<homeDrawerOptionInterface> = [
   { text: "Home", Icon: HomeIcon, pathname: "/app" },
+];
+
+const rightOptions: Array<homeDrawerOptionInterface> = [
   { text: "Logout", Icon: LogoutIcon, pathname: "/api/auth/logout" },
 ];
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
-}));
+const options: Array<homeDrawerOptionInterface> = [
+  ...leftOptons,
+  ...rightOptions,
+];
 
 type HomeLayoutProps = {
   children: ReactNode;
@@ -53,80 +47,103 @@ type HomeLayoutProps = {
 };
 
 const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
-  const [open, setOpen] = useState(false);
   const onboardUser = useOnboardUserChecker();
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            {title}
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List onClick={handleDrawerClose}>
-          {drawerOptions.map((drawerOption) => (
-            <Link
-              href={{ pathname: drawerOption.pathname }}
-              key={drawerOption.text}
+    <Box>
+      <AppBar position="static">
+        <Container maxWidth={false}>
+          <Toolbar disableGutters>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
             >
-              <ListItem button>
-                <ListItemIcon>
-                  <drawerOption.Icon />
-                </ListItemIcon>
-                <ListItemText primary={drawerOption.text} />
-              </ListItem>
-            </Link>
-          ))}
-        </List>
-        <Divider />
-      </Drawer>
-      <Box
-        width={"100vw"}
-        px={2}
-        sx={{ backgroundColor: theme.palette.secondary.main }}
-      >
-        <DrawerHeader />
+              ROLECALL
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              {options.map((drawerOption) => (
+                <Link
+                  href={{ pathname: drawerOption.pathname }}
+                  key={drawerOption.text}
+                >
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    {drawerOption.text}
+                  </Button>
+                </Link>
+              ))}
+            </Box>
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                {options.map((drawerOption) => (
+                  <Link
+                    href={{ pathname: drawerOption.pathname }}
+                    key={drawerOption.text}
+                  >
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">
+                        {drawerOption.text}
+                      </Typography>
+                    </MenuItem>
+                  </Link>
+                ))}
+              </Menu>
+            </Box>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: { xs: "flex-end" },
+              }}
+            >
+              <Typography variant="h6" noWrap component="div">
+                {title}
+              </Typography>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <Box px={2} sx={{ backgroundColor: theme.palette.secondary.main }}>
         {children}
       </Box>
       {onboardUser && <OnboardingDialog />}

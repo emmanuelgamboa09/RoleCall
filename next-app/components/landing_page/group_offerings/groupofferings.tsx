@@ -32,6 +32,7 @@ interface GroupOfferingProps {}
 const GroupOfferings: FC<GroupOfferingProps> = () => {
   return (
     <div
+      id="group_offerings"
       style={{
         marginInline: "5vw",
         marginBottom: "5vh",

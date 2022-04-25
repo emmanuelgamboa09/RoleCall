@@ -62,7 +62,7 @@ const UserClassroomCard: FC<UserClassroomCardProp> = ({
         <Box
           sx={{
             display: "flex",
-            justifyContent: "end",
+            justifyContent: "flex-start",
             margin: "0.5rem",
             maxWidth: "200px",
             gap: 1,

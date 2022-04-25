@@ -1,9 +1,20 @@
 import React, { ReactElement, FC } from "react";
 import { Button, Typography } from "@mui/material";
+import { scroller } from "react-scroll";
+import { useRouter } from "next/router";
 
 interface HeroProps {}
 
 const Hero: FC<HeroProps> = (): ReactElement => {
+  const router = useRouter();
+
+  const scrollToOffering = () => {
+    scroller.scrollTo("group_offerings", {
+      duration: 1000,
+      smooth: true,
+    });
+  };
+
   return (
     <div
       style={{
@@ -43,10 +54,20 @@ const Hero: FC<HeroProps> = (): ReactElement => {
             flexWrap: "wrap",
           }}
         >
-          <Button size="large" variant="contained" style={{ margin: 10 }}>
+          <Button
+            onClick={() => router.push("/api/auth/login")}
+            size="large"
+            variant="contained"
+            style={{ margin: 10 }}
+          >
             Get Started
           </Button>
-          <Button size="large" variant="contained" style={{ margin: 10 }}>
+          <Button
+            onClick={scrollToOffering}
+            size="large"
+            variant="contained"
+            style={{ margin: 10 }}
+          >
             Learn More
           </Button>
         </div>

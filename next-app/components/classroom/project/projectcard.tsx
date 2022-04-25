@@ -70,9 +70,8 @@ const ClassroomProjectCard: FC<ProjectCardProps> = ({
         <Box
           sx={{
             display: "flex",
-            justifyContent: "flex-end",
+            justifyContent: "flex-start",
             gap: "0.5rem",
-            margin: "0.5rem",
             maxWidth: "200px",
           }}
         >

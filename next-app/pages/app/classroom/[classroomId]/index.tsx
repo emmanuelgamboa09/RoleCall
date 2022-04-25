@@ -8,6 +8,7 @@ import { Data as GetProjectsApiData } from "../../../../backend/api/project/getP
 import { Data as GetInstructorProfileApiData } from "../../../../backend/api/user/profile/getProfileByAuthId";
 import ClassroomProjectTab from "../../../../components/classroom/project/projecttab";
 import CustomTabs from "../../../../components/CustomTabs";
+import Loading from "../../../../components/Loading";
 import useClassroom from "../../../../hooks/useClassroom";
 import BaseAppLayout from "../../../../layout/baseapplayout";
 import theme from "../../../../src/theme";
@@ -45,7 +46,7 @@ const ClassroomPage: NextPageWithLayout = () => {
     }).then((res) => res.json()),
   );
 
-  if (isClassroomLoading || isInstructorProfileLoading) return <>Loading...</>;
+  if (isClassroomLoading || isInstructorProfileLoading) return <Loading />;
 
   if (
     hasClassroomError ||
@@ -59,7 +60,7 @@ const ClassroomPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <Typography component="h1" variant="h3" marginTop="2rem">
+      <Typography component="h1" variant="h3" pt={2.5}>
         {classroomData.title || "Untitled Classroom"}
       </Typography>
 

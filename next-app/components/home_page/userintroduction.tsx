@@ -29,11 +29,6 @@ const UserIntroduction: FC<UserIntroductionProps> = () => {
             Hello {me && me.name}
           </Typography>
         }
-        secondary={
-          <Typography variant="subtitle2">
-            You have 42 notifications across 7 groups
-          </Typography>
-        }
       />
     </ListItem>
   );

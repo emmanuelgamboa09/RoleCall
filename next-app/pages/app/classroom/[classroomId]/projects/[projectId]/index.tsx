@@ -8,6 +8,7 @@ import { Project } from "../../../../../../backend/database/models/project";
 import MyTeam from "../../../../../../components/classroom/project/MyTeam";
 import TeamFinderProjectTab from "../../../../../../components/classroom/project/TeamFinderProjectTab";
 import CustomTabs from "../../../../../../components/CustomTabs";
+import Loading from "../../../../../../components/Loading";
 import useClassroom from "../../../../../../hooks/useClassroom";
 import useProject from "../../../../../../hooks/useProject";
 import useProjectPageSocket from "../../../../../../hooks/useProjectPageSocket";
@@ -48,8 +49,7 @@ const ProjectPage: NextPageWithLayout = () => {
     options: { enabled: !!data?.classroomId },
   });
 
-  if (isLoading || userLoading || isClassroomLoading)
-    return <>Loading project page...</>;
+  if (isLoading || userLoading || isClassroomLoading) return <Loading />;
 
   if (error || userError || classroomError) {
     console.error(error);
@@ -69,13 +69,11 @@ const ProjectPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <Typography component="h1" fontSize="48px" marginTop="2rem">
+      <Typography variant="h3" pt={2}>
         {title ? title : "Untitled Project"}
       </Typography>
       {isInstructor && (
-        <Typography component="body" fontSize="16px">
-          Your are the instructor
-        </Typography>
+        <Typography variant="h6">Your are the instructor</Typography>
       )}
 
       {!isInstructor && (

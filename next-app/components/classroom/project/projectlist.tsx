@@ -1,7 +1,15 @@
 import { Box, Typography } from "@mui/material";
-import { FC } from "react";
+import { CSSProperties, FC } from "react";
 import { Project } from "../../../backend/database/models/project";
 import ClassroomProjectCard from "./projectcard";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+
+const centerStyle: CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  textAlign: "center",
+};
 
 interface ClassroomProjectListProps {
   projects: Project[];
@@ -19,6 +27,7 @@ const ClassroomProjectList: FC<ClassroomProjectListProps> = ({
       <div
         style={{
           minHeight: "25vh",
+          ...(projects.length ? {} : centerStyle),
         }}
       >
         <Box
@@ -38,7 +47,15 @@ const ClassroomProjectList: FC<ClassroomProjectListProps> = ({
               />
             ))
           ) : (
-            <div style={{ maxWidth: 400 }}>
+            <div
+              style={{
+                maxWidth: 400,
+                marginTop: "10vh",
+              }}
+            >
+              <AppRegistrationIcon
+                sx={{ fontSize: "800%" }}
+              ></AppRegistrationIcon>
               <Typography variant="h6">No Projects Available</Typography>
             </div>
           )}

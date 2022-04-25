@@ -7,7 +7,6 @@ import { useQuery } from "react-query";
 import { Data as GetProjectsApiData } from "../../../../backend/api/project/getProjects";
 import { Data as GetInstructorProfileApiData } from "../../../../backend/api/user/profile/getProfileByAuthId";
 import ClassroomProjectTab from "../../../../components/classroom/project/projecttab";
-import CustomTabs from "../../../../components/CustomTabs";
 import Loading from "../../../../components/Loading";
 import useClassroom from "../../../../hooks/useClassroom";
 import BaseAppLayout from "../../../../layout/baseapplayout";
@@ -68,24 +67,16 @@ const ClassroomPage: NextPageWithLayout = () => {
         Instructor: {instructorProfileData?.profile.name}
       </Typography>
 
-      <CustomTabs
-        tabs={{
-          Project: {
-            content: (
-              <ClassroomProjectTab
-                classroomId={classroomId}
-                projectListQuery={projectListQuery}
-                isInstructor={
-                  !!(
-                    classroomData?.instructorId &&
-                    user?.sub &&
-                    user.sub === classroomData.instructorId
-                  )
-                }
-              />
-            ),
-          },
-        }}
+      <ClassroomProjectTab
+        classroomId={classroomId}
+        projectListQuery={projectListQuery}
+        isInstructor={
+          !!(
+            classroomData?.instructorId &&
+            user?.sub &&
+            user.sub === classroomData.instructorId
+          )
+        }
       />
     </>
   );

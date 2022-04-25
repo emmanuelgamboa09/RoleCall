@@ -18,7 +18,7 @@ const ClassroomProjectTab: FC<ClassroomProjectTabProps> = ({
 
   return (
     <>
-      <div>
+      <div style={{ marginTop: "5vh" }}>
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           Projects
         </Typography>

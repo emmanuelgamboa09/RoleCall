@@ -2,9 +2,9 @@ import { Box, CircularProgress } from "@mui/material";
 import { FC } from "react";
 import theme from "../src/theme";
 
-interface LoadingPageProps {}
+interface LoadingProps {}
 
-const LoadingPage: FC<LoadingPageProps> = () => {
+const Loading: FC<LoadingProps> = () => {
   return (
     <Box
       sx={{
@@ -20,4 +20,4 @@ const LoadingPage: FC<LoadingPageProps> = () => {
   );
 };
 
-export default LoadingPage;
+export default Loading;

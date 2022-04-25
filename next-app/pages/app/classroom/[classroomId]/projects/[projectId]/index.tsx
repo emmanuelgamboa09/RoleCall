@@ -8,7 +8,7 @@ import { Project } from "../../../../../../backend/database/models/project";
 import MyTeam from "../../../../../../components/classroom/project/MyTeam";
 import TeamFinderProjectTab from "../../../../../../components/classroom/project/TeamFinderProjectTab";
 import CustomTabs from "../../../../../../components/CustomTabs";
-import LoadingPage from "../../../../../../components/LoadingPage";
+import Loading from "../../../../../../components/Loading";
 import useClassroom from "../../../../../../hooks/useClassroom";
 import useProject from "../../../../../../hooks/useProject";
 import useProjectPageSocket from "../../../../../../hooks/useProjectPageSocket";
@@ -49,7 +49,7 @@ const ProjectPage: NextPageWithLayout = () => {
     options: { enabled: !!data?.classroomId },
   });
 
-  if (isLoading || userLoading || isClassroomLoading) return <LoadingPage />;
+  if (isLoading || userLoading || isClassroomLoading) return <Loading />;
 
   if (error || userError || classroomError) {
     console.error(error);

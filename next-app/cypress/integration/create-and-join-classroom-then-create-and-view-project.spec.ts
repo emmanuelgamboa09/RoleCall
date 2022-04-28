@@ -32,7 +32,7 @@ describe("Create and join a classroom while authenticated", () => {
 
   it("should be able to enter a classroom", () => {
     cy.findByText("View").click();
-    cy.wait(2000).findByText(classroomTestName).should("exist");
+    cy.wait(2000).findAllByText(classroomTestName).should("exist");
   });
 
   it("should be able to create a project", () => {
@@ -45,6 +45,6 @@ describe("Create and join a classroom while authenticated", () => {
     cy.get("#create-project-btn").click().wait(2000);
 
     cy.findByText("View").click().wait(2000);
-    cy.findByText("My First Project").should("exist");
+    cy.findAllByText("My First Project").should("exist");
   });
 });

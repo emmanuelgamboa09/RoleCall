@@ -141,7 +141,7 @@ const FinalizeGroupsButton = ({
   projectId,
   groupsFinalized,
 }: FinalizeGroupsButtonProps) => {
-  const { mutate: finalizeGroups, isLoading } = useMutation(
+  const { mutate: finalizeGroups, isLoading: finalizingGroups } = useMutation(
     () => {
       return fetch(`/api/projects/${projectId}/finalize-groups`, {
         method: "PUT",
@@ -150,9 +150,6 @@ const FinalizeGroupsButton = ({
     {
       onError(error) {
         console.error(error);
-      },
-      async onSuccess(result) {
-        console.log(await result.text());
       },
     },
   );
@@ -170,10 +167,10 @@ const FinalizeGroupsButton = ({
       variant="outlined"
       color="error"
       endIcon={<AssignmentIndIcon />}
-      disabled={groupsFinalized}
+      disabled={finalizingGroups || groupsFinalized}
       onClick={handleClick}
     >
-      {isLoading
+      {finalizingGroups
         ? "Finalizing Groups..."
         : groupsFinalized
         ? "Groups Finalized"

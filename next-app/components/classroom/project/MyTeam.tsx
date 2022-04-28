@@ -10,10 +10,10 @@ export type MyTeamProps = {
 const MyTeam = ({ myTeam: { teamProjectUsers } }: MyTeamProps) => {
   return (
     <Box>
-      <Typography component="h2" fontSize="32px">
-        My Team
-      </Typography>
-      <Stack sx={{ flexDirection: { xs: "column", sm: "row" }, gap: "1rem" }}>
+      <Typography variant="h3">My Team</Typography>
+      <Stack
+        sx={{ flexDirection: { xs: "column", sm: "row" }, gap: "1rem", pt: 1 }}
+      >
         {teamProjectUsers.map(
           (
             { name = "MISSING_NAME", desiredRoles = [], projectBio = "" },

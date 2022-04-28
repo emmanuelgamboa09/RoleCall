@@ -69,7 +69,7 @@ const ProjectPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <Typography variant="h3" pt={2}>
+      <Typography variant="h2" pt={2}>
         {title ? title : "Untitled Project"}
       </Typography>
       {isInstructor && (
@@ -87,14 +87,9 @@ const ProjectPage: NextPageWithLayout = () => {
           "Project Details": {
             content: (
               <>
-                <Typography component="h2" fontSize="32px">
-                  Project Details
-                </Typography>
-
+                <Typography variant="h3">Project Details</Typography>
                 {description && (
-                  <Typography component="p" fontSize="16px">
-                    {description}
-                  </Typography>
+                  <Typography variant="h6">{description}</Typography>
                 )}
               </>
             ),
@@ -111,6 +106,7 @@ const ProjectPage: NextPageWithLayout = () => {
             ? { "My Team": { content: <MyTeam myTeam={myTeam} /> } }
             : {}),
         }}
+        tabsSxProp={{ my: 1 }}
       />
     </>
   );

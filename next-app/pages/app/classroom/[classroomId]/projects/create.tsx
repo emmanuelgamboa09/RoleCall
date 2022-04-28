@@ -1,5 +1,5 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { Grid } from "@mui/material";
+import { Box, Grid, Stack } from "@mui/material";
 import { GetServerSideProps } from "next";
 import type { ReactElement } from "react";
 import ProjectForm from "../../../../../components/createProject/ProjectForm";
@@ -24,19 +24,15 @@ const CreateProjectPage: NextPageWithLayout = () => {
   }
 
   return (
-    <Grid
-      container
-      spacing={0}
+    <Stack
       direction="column"
       alignItems="center"
-      justifyContent="center"
-      textAlign="center"
+      width="100%"
+      paddingTop="2rem"
     >
-      <Grid item xs={3}>
-        <ProjectForm />
-        <ServerErrorSnackBar />
-      </Grid>
-    </Grid>
+      <ProjectForm />
+      <ServerErrorSnackBar />
+    </Stack>
   );
 };
 

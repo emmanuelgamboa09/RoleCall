@@ -1,4 +1,4 @@
-import { Box, TextField } from "@mui/material";
+import { Box, Stack, TextField } from "@mui/material";
 import { FC, useState } from "react";
 import getTomorrow from "../../src/util/getTomorrow";
 import FormationDeadlinePicker from "./FormationDeadlinePicker";
@@ -54,50 +54,57 @@ const ProjectForm: FC<ProjectFormProps> = () => {
   };
 
   return (
-    <Box
+    <Stack
       component="form"
+      gap={"2rem"}
       sx={{
-        "& .MuiTextField-root": { m: 1, width: "25ch" },
-        marginTop: "5vh",
+        minHeight: "100vh",
+        maxWidth: "650px",
+        padding: "1rem",
+        width: "100%",
       }}
       noValidate
       autoComplete="off"
-      minHeight={"100vh"}
     >
-      <TextField
-        required
-        label="Title"
-        onChange={(e) => onInputChange("title", e.target.value)}
-        error={fieldHasError("title")}
-        style={{ marginBottom: "6vh" }}
-        value={form.title}
-        data-testid="input-title"
-      />
+      <Box sx={{ width: "100%" }}>
+        <TextField
+          required
+          label="Title"
+          onChange={(e) => onInputChange("title", e.target.value)}
+          error={fieldHasError("title")}
+          style={{ width: "100%" }}
+          value={form.title}
+          data-testid="input-title"
+        />
+      </Box>
 
-      <div>
+      <Box sx={{ width: "100%" }}>
         <TextField
           id="-multiline-static"
           label="Project Description"
           multiline
           rows={6}
-          style={{ marginBottom: "6vh", width: "30vw" }}
+          sx={{ width: "100%" }}
           onChange={(e) => onInputChange("description", e.target.value)}
           error={fieldHasError("description")}
           value={form.description}
           data-testid="input-description"
         />
-      </div>
+      </Box>
 
-      <div style={{ display: "flex", marginBottom: "6vh" }}>
+      <Stack
+        gap="1rem"
+        sx={{ flexDirection: { xs: "column", md: "row" }, marginBottom: "2rm" }}
+      >
         <TextField
           required
           label="Min. Team Size"
           onChange={(e) => onInputChange("minTeamSize", e.target.value)}
           onKeyDown={onNumericInputChange}
           error={fieldHasError("minTeamSize")}
-          style={{ flex: 1 }}
           value={form.minTeamSize}
           data-testid="input-min-team-size"
+          sx={{ flex: 1 }}
         />
         <TextField
           required
@@ -107,20 +114,17 @@ const ProjectForm: FC<ProjectFormProps> = () => {
           error={fieldHasError("maxTeamSize")}
           value={form.maxTeamSize}
           data-testid="input-max-team-size"
+          sx={{ flex: 1 }}
         />
-      </div>
+      </Stack>
 
       <FormationDeadlinePicker
-        style={{ marginBottom: "6vh" }}
         onInputChange={onInputChange}
         value={form.formationDeadline}
-      ></FormationDeadlinePicker>
+      />
 
-      <SubmitButton
-        form={form}
-        setValidationErrors={setValidationErrors}
-      ></SubmitButton>
-    </Box>
+      <SubmitButton form={form} setValidationErrors={setValidationErrors} />
+    </Stack>
   );
 };
 

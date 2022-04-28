@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Footer from "../components/Footer";
 import GroupOfferings from "../components/landing_page/group_offerings/groupofferings";
 import Hero from "../components/landing_page/hero";
 import Loading from "../components/Loading";
@@ -18,6 +19,7 @@ const LandingPage: NextPage = () => {
       <LandingAppBar />
       <Hero />
       <GroupOfferings />
+      <Footer />
     </>
   );
 };

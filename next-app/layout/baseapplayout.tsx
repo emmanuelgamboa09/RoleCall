@@ -1,25 +1,25 @@
-import { ReactNode, useState, MouseEvent } from "react";
-import Link from "next/link";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import AppBar from "../components/navbar/HomeAppBar";
-import HomeIcon from "@mui/icons-material/Home";
+import { useUser } from "@auth0/nextjs-auth0";
 import LogoutIcon from "@mui/icons-material/Logout";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
-  Button,
   Container,
+  Link as MuiLink,
   Menu,
   MenuItem,
   SvgIconTypeMap,
 } from "@mui/material";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
-import { FC } from "react";
-import theme from "../src/theme";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Link from "next/link";
+import { FC, MouseEvent, ReactNode, useState } from "react";
+import AppBreadcrumbs from "../components/AppBreadcrumbs";
+import AppBar from "../components/navbar/HomeAppBar";
 import OnboardingDialog from "../components/onboarding/onboardingdialog";
 import useOnboardUserChecker from "../hooks/useOnboardUserChecker";
+import theme from "../src/theme";
 
 interface homeDrawerOptionInterface {
   text: string;
@@ -28,7 +28,6 @@ interface homeDrawerOptionInterface {
 }
 
 const options: Array<homeDrawerOptionInterface> = [
-  { text: "Home", Icon: HomeIcon, pathname: "/app" },
   { text: "Logout", Icon: LogoutIcon, pathname: "/api/auth/logout" },
 ];
 
@@ -38,6 +37,7 @@ type HomeLayoutProps = {
 };
 
 const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
+  const { user } = useUser();
   const onboardUser = useOnboardUserChecker();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
@@ -48,6 +48,16 @@ const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const username = user?.name ? (
+    <Typography
+      fontSize="16px"
+      component="text"
+      sx={{ padding: "1rem", opacity: 0.75 }}
+    >
+      {user?.name}
+    </Typography>
+  ) : null;
 
   return (
     <Box>
@@ -62,18 +72,25 @@ const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
             >
               ROLECALL
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", md: "flex" },
+                alignItems: "center",
+              }}
+            >
+              {username}
               {options.map((drawerOption) => (
                 <Link
                   href={{ pathname: drawerOption.pathname }}
                   key={drawerOption.text}
                 >
-                  <Button
+                  <MuiLink
                     onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
+                    sx={{ my: 2, color: "white", cursor: "pointer" }}
                   >
                     {drawerOption.text}
-                  </Button>
+                  </MuiLink>
                 </Link>
               ))}
             </Box>
@@ -106,6 +123,7 @@ const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
                   display: { xs: "block", md: "none" },
                 }}
               >
+                {username}
                 {options.map((drawerOption) => (
                   <Link
                     href={{ pathname: drawerOption.pathname }}
@@ -125,8 +143,11 @@ const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
                 flexGrow: 1,
                 display: "flex",
                 justifyContent: { xs: "flex-end" },
+                alignItems: "center",
+                gap: "1rem",
               }}
             >
+              <AppBreadcrumbs />
               <Typography variant="h6" noWrap component="div">
                 {title}
               </Typography>

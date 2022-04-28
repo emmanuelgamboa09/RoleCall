@@ -76,6 +76,7 @@ export const TEST_CLASSROOM: Classroom = {
 };
 
 export const TEST_PROJECT: Project = {
+  _id: new Types.ObjectId().toString(),
   classroomId: TEST_CLASSROOM._id,
   title: "TEST PROJECT",
   formationDeadline: getTomorrow(),

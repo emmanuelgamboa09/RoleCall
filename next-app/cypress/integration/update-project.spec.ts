@@ -27,6 +27,6 @@ describe("Update a project that has already been created", () => {
       .type("Updated Description");
     cy.get("#update-project-btn").click().wait(1500);
     cy.findByText("View").click().wait(1500);
-    cy.findByText("Updated Title").should("exist");
+    cy.findAllByText("Updated Title").should("exist");
   });
 });

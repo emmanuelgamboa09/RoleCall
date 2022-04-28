@@ -20,6 +20,7 @@ import { FC } from "react";
 import theme from "../src/theme";
 import OnboardingDialog from "../components/onboarding/onboardingdialog";
 import useOnboardUserChecker from "../hooks/useOnboardUserChecker";
+import { useUser } from "@auth0/nextjs-auth0";
 
 interface homeDrawerOptionInterface {
   text: string;
@@ -38,6 +39,7 @@ type HomeLayoutProps = {
 };
 
 const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
+  const { user } = useUser();
   const onboardUser = useOnboardUserChecker();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
@@ -125,8 +127,15 @@ const BaseAppLayout: FC<HomeLayoutProps> = ({ children, title }) => {
                 flexGrow: 1,
                 display: "flex",
                 justifyContent: { xs: "flex-end" },
+                alignItems: "center",
+                gap: "1rem",
               }}
             >
+              {user?.name && (
+                <Typography fontSize="16px" component="text">
+                  User: {user?.name}
+                </Typography>
+              )}
               <Typography variant="h6" noWrap component="div">
                 {title}
               </Typography>

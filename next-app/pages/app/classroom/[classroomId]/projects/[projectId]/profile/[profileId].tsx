@@ -203,7 +203,7 @@ const ProfilePage: NextPageWithLayout<ProfilePageProps> = ({
   };
 
   return (
-    <Box margin="2rem">
+    <Box paddingY={2}>
       {project.data?.title && (
         <Typography component="sub" fontSize="16px">
           {project.data?.title}

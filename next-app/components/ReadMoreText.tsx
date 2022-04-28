@@ -35,7 +35,7 @@ const ReadMoreText = ({
   };
 
   return (
-    <Typography component="body" fontSize="16px">
+    <Typography variant="body1">
       {content.length > cutoffLength ? (
         <>
           {content.slice(0, cutoffLength)}...

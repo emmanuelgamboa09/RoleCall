@@ -1,4 +1,4 @@
-import { Tab, Tabs } from "@mui/material";
+import { SxProps, Tab, Tabs, Theme } from "@mui/material";
 import { useState } from "react";
 
 export type CustomTabs = { [name: string]: { content: JSX.Element } };
@@ -6,9 +6,10 @@ export type CustomTabs = { [name: string]: { content: JSX.Element } };
 export interface CustomTabsProps {
   tabs: CustomTabs;
   initialTab?: string;
+  tabsSxProp?: SxProps<Theme> | undefined;
 }
 
-const CustomTabs = ({ tabs, initialTab }: CustomTabsProps) => {
+const CustomTabs = ({ tabs, initialTab, tabsSxProp }: CustomTabsProps) => {
   const [tab, setTab] = useState<string>(initialTab ?? Object.keys(tabs)[0]);
   return (
     <>
@@ -17,6 +18,7 @@ const CustomTabs = ({ tabs, initialTab }: CustomTabsProps) => {
         onChange={(_, newValue) => setTab(newValue)}
         aria-label="tabs"
         centered
+        sx={tabsSxProp}
       >
         {Object.keys(tabs).map((name) => {
           return (
@@ -29,7 +31,11 @@ const CustomTabs = ({ tabs, initialTab }: CustomTabsProps) => {
   );
 };
 
-export const CustomScrollableTabs = ({ tabs, initialTab }: CustomTabsProps) => {
+export const CustomScrollableTabs = ({
+  tabs,
+  initialTab,
+  tabsSxProp,
+}: CustomTabsProps) => {
   const [tab, setTab] = useState<string>(initialTab ?? Object.keys(tabs)[0]);
 
   return (
@@ -41,6 +47,7 @@ export const CustomScrollableTabs = ({ tabs, initialTab }: CustomTabsProps) => {
         allowScrollButtonsMobile
         onChange={(_, newValue) => setTab(newValue)}
         aria-label="tabs"
+        sx={tabsSxProp}
       >
         {Object.keys(tabs).map((name) => {
           return (

@@ -6,7 +6,7 @@ import isValidDate from "../../src/util/isValidDate";
 import { FC } from "react";
 
 interface FormationDeadlinePickerProps {
-  style: React.CSSProperties;
+  style?: React.CSSProperties;
   onInputChange: (key: string, value: string) => void;
   value: string;
 }
@@ -20,7 +20,9 @@ const FormationDeadlinePicker: FC<FormationDeadlinePickerProps> = ({
     <div style={style}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DateTimePicker
-          renderInput={(params) => <TextField {...params} required />}
+          renderInput={(params) => (
+            <TextField {...params} required sx={{ width: "100%" }} />
+          )}
           label="Deadline to form team"
           value={value}
           onChange={(date) => {

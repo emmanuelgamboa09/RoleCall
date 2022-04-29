@@ -73,7 +73,7 @@ const ProjectPage: NextPageWithLayout = () => {
         {title ? title : "Untitled Project"}
       </Typography>
       {isInstructor && (
-        <Typography variant="h6">Your are the instructor</Typography>
+        <Typography variant="h6">You are the instructor</Typography>
       )}
 
       {!isInstructor && (

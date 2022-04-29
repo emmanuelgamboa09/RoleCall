@@ -52,7 +52,7 @@ while (remainingUsers.length > MAX_TEAM_SIZE) {
     teamMembers: [],
   };
 
-  const numStartMembers = (x % MAX_TEAM_SIZE) + MIN_TEAM_SIZE;
+  const numStartMembers = (x % MAX_TEAM_SIZE) + 1;
   for (let i = 0; i < numStartMembers; i++) {
     const user = remainingUsers.pop();
     team.teamMembers.push(user.studentId);

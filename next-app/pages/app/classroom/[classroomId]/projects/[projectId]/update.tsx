@@ -1,5 +1,5 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { CircularProgress, Grid } from "@mui/material";
+import { CircularProgress, Grid, Stack, Box } from "@mui/material";
 import { GetServerSideProps } from "next";
 import type { ReactElement } from "react";
 import ServerErrorSnackBar from "../../../../../../components/misc/snackbars/ServerErrorSnackBar";
@@ -50,22 +50,18 @@ const UpdateProjectPage: NextPageWithLayout = () => {
   }
 
   return (
-    <Grid
-      container
-      spacing={0}
+    <Stack
       direction="column"
       alignItems="center"
-      justifyContent="center"
-      textAlign="center"
+      width="100%"
+      paddingTop="2rem"
     >
-      <Grid item xs={3}>
-        <UpdateProjectForm
-          project={projectData as Project}
-          classroomId={classroomId}
-        />
-        <ServerErrorSnackBar />
-      </Grid>
-    </Grid>
+      <UpdateProjectForm
+        project={projectData as Project}
+        classroomId={classroomId}
+      />
+      <ServerErrorSnackBar />
+    </Stack>
   );
 };
 

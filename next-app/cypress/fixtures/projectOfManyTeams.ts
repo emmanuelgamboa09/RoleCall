@@ -14,7 +14,7 @@ import { Classroom } from "../../interfaces/classroom.interface";
 import getTomorrow from "../../src/util/getTomorrow";
 
 const NUM_TEST_USERS = MAX_CLASSROOM_SIZE - 1; // -1 to account for the instructor
-const MIN_TEAM_SIZE = 1;
+const MIN_TEAM_SIZE = 2;
 const MAX_TEAM_SIZE = 3;
 
 const TEST_ROLES = ["frontend", "backend", "devops"];

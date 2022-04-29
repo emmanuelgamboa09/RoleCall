@@ -1,6 +1,6 @@
 import { LocalizationProvider, DateTimePicker } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import { Box, TextField } from "@mui/material";
+import { Box, Stack, TextField } from "@mui/material";
 import { FC, useState } from "react";
 import { Project } from "../../backend/database/models/project";
 import UpdateProjectSubmitButton from "./UpdateProjectSubmitButton";
@@ -23,38 +23,47 @@ const UpdateProjectForm: FC<UpdateProjectFormInterface> = ({
   );
 
   return (
-    <Box
+    <Stack
       component="form"
+      gap={"2rem"}
       sx={{
-        "& .MuiTextField-root": { m: 1, width: "25ch" },
-        marginTop: "5vh",
         minHeight: "100vh",
+        maxWidth: "650px",
+        padding: "1rem",
+        width: "100%",
+        marginTop: "5vh",
       }}
+      noValidate
+      autoComplete="off"
     >
-      <TextField
-        required
-        label="Title"
-        onChange={(e) => setTitle(e.target.value)}
-        style={{ marginBottom: "6vh" }}
-        value={title}
-        data-testid="input-title"
-      />
-      <div>
+      <Box sx={{ width: "100%" }}>
+        <TextField
+          required
+          label="Title"
+          onChange={(e) => setTitle(e.target.value)}
+          style={{ marginBottom: "6vh", width: "100%" }}
+          value={title}
+          data-testid="input-title"
+        />
+      </Box>
+      <Box sx={{ width: "100%" }}>
         <TextField
           id="-multiline-static"
           label="Project Description"
           onChange={(e) => setDescription(e.target.value)}
           multiline
           rows={6}
-          style={{ marginBottom: "6vh", minWidth: "25vw" }}
+          style={{ marginBottom: "6vh", minWidth: "25vw", width: "100%" }}
           value={description}
           data-testid="input-description"
         />
-      </div>
+      </Box>
       <div style={{ marginBottom: "6vh" }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DateTimePicker
-            renderInput={(params) => <TextField {...params} required />}
+            renderInput={(params) => (
+              <TextField {...params} required sx={{ width: "100%" }} />
+            )}
             label="Deadline to form team"
             value={formationDeadline}
             onChange={(date) => {
@@ -71,7 +80,7 @@ const UpdateProjectForm: FC<UpdateProjectFormInterface> = ({
         description={description}
         formationDeadline={formationDeadline}
       />
-    </Box>
+    </Stack>
   );
 };
 

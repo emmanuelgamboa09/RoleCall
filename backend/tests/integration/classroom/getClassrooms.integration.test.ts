@@ -12,6 +12,14 @@ import dbConnect, { dbDisconnect } from "../../../database/dbConnect";
 import zip from "../../../util/zip";
 import dropTestDb from "../../../util/dropTestDb";
 
+let FUTURE_DATE: any = new Date();
+FUTURE_DATE.setDate(FUTURE_DATE.getDate() + 1);
+FUTURE_DATE = FUTURE_DATE.toISOString();
+
+let PAST_DATE: any = new Date();
+PAST_DATE.setDate(PAST_DATE.getDate() - 1);
+PAST_DATE = PAST_DATE.toISOString();
+
 beforeAll(async () => {
   await dbConnect(DB_TEST_NAME);
 });
@@ -27,7 +35,7 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
       instructorId: "abc",
       title: "CS",
       students: [],
-      endDate: new Date(),
+      endDate: PAST_DATE,
       accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
 
@@ -35,21 +43,21 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
       instructorId: AUTH0_TEST_ID,
       title: "KIN",
       students: [],
-      endDate: new Date("2022-07-10"),
+      endDate: FUTURE_DATE,
       accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
     {
       instructorId: AUTH0_TEST_ID,
       title: "MATH",
       students: [],
-      endDate: new Date("2022-01-01"),
+      endDate: PAST_DATE,
       accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
     {
       instructorId: AUTH0_TEST_ID,
       title: "PHYS",
       students: [],
-      endDate: new Date("2022-05-05"),
+      endDate: FUTURE_DATE,
       accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
   ];
@@ -80,14 +88,14 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
       instructorId: AUTH0_TEST_ID,
       title: "KIN",
       students: [],
-      endDate: new Date("2022-07-10").toISOString(),
+      endDate: FUTURE_DATE,
       accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
     {
       instructorId: AUTH0_TEST_ID,
       title: "PHYS",
       students: [],
-      endDate: new Date("2022-05-05").toISOString(),
+      endDate: FUTURE_DATE,
       accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
   ];
@@ -111,15 +119,12 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
 });
 
 test("Get classrooms while authenticated, connected DB, and retrieve operation successful", async () => {
-  const date = new Date();
-  date.setDate(date.getDate() + 1);
-
   const classrooms = [
     {
       instructorId: "abc",
       title: "CS",
       students: [AUTH0_TEST_ID],
-      endDate: date,
+      endDate: FUTURE_DATE,
       accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
 
@@ -127,21 +132,21 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
       instructorId: AUTH0_TEST_ID,
       title: "KIN",
       students: [],
-      endDate: new Date(),
+      endDate: PAST_DATE,
       accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
     {
       instructorId: AUTH0_TEST_ID,
       title: "MATH",
       students: [],
-      endDate: date,
+      endDate: PAST_DATE,
       accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
     {
       instructorId: AUTH0_TEST_ID,
       title: "PHYS",
       students: [],
-      endDate: date,
+      endDate: PAST_DATE,
       accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
   ];
@@ -164,12 +169,13 @@ test("Get classrooms while authenticated, connected DB, and retrieve operation s
 
   expect(res._getStatusCode()).toBe(200);
   const results = JSON.parse(res._getData()).classrooms;
+
   const expected = [
     {
       instructorId: "abc",
       title: "CS",
       students: [AUTH0_TEST_ID],
-      endDate: date.toISOString(),
+      endDate: FUTURE_DATE,
       accessCode: CLASSROOM_TEST_ACCESS_CODE,
     },
   ];
